@@ -1,0 +1,51 @@
+table.dataTable tr.odd td.sorting_1 {
+  background-color: rgba(66,139,202, 0.35);
+}
+
+table.dataTable tr.even td.sorting_1 {
+  background-color: rgba(66,139,202, 0.1);
+}
+
+table.dataTable tr.odd td.sorting_2 {
+  background-color: rgba(66,139,202, 0.2);
+}
+
+table.dataTable tr.even td.sorting_2 {
+  background-color: rgba(66,139,202, 0.05);
+}
+
+table.dataTable tr.odd td.sorting_3 {
+  background-color: rgba(66,139,202, 0.1);
+}
+
+table.dataTable tr.even td.sorting_3 {
+  background-color: rgba(66,139,202, 0.01);
+}
+
+.hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt, .hiddenFirst, .hiddenLast {
+  display: none;
+}
+
+.well {
+  background-color: rgba(66,139,202, 0.35) !important;
+}
+
+label.valid {
+  margin: 0px !important;
+  padding: 0px !important;
+  display: none !important;
+}
+
+label.error {
+  font-weight: bold;
+  color: red;
+  margin-top: 2px;
+}
+
+.well h2 {
+  margin-top: 0px;
+}
+
+.list-group-item.active:hover, .list-group-item.active:focus {
+  background-color: #155183 !important;
+}
