@@ -49,3 +49,7 @@ label.error {
 .list-group-item.active:hover, .list-group-item.active:focus {
   background-color: #155183 !important;
 }
+
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+background-color: #ececec;
+}
