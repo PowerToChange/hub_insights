@@ -92,10 +92,13 @@
         }
       });
 
-      $('#inputWitness').focus(function() {
-        $('#inputDate').datepicker('hide');
+      $('#inputWitness').keyup(function(e) {
+        var code = e.keyCode || e.which;
+        if (code == '9') {
+          $('#inputDate').datepicker('hide');
+          $('#inputWitness').focus();
+        }
       });
-
 
       $("#myModal .selectpicker").on('change', function(ev) {
         if($('#inputCampus').valid()){
