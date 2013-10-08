@@ -135,16 +135,20 @@
     <div class="col-md-9" >
       <?php
         if($decInfo){
+          $decType = "Added";
+          if($_POST["inputCID"]){
+            $decType = "Edited";
+          }
           if($decInfo == 1){
             ?>
             <div class="alert alert-success alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <strong>Success!</strong> Indicated decision added or edited.
+              <strong>Success!</strong> Indicated Decision <?php echo $decType; ?>.
             </div>
           <?php } else { ?>
             <div class="alert alert-danger alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <strong>Error!</strong> Failed to add or edit indicated decision. Please inform CC Team. Error message: "<?php echo $decInfo; ?>"
+              <strong>Error!</strong> Failed to submit indicated decision. Please inform CC Team. Error message: "<?php echo $decInfo; ?>"
             </div>
           <?php
           }
