@@ -72,9 +72,6 @@
           },
           inputIntegrated: {
             required: true
-          },
-          inputStory: {
-            required: true
           }
         },
         highlight: function(element) {
@@ -107,10 +104,10 @@
       });
 
       $("#modalBtn").click(function() {
+        $('#idForm')[0].reset();
         $("#inputCampus").selectpicker('val', $('#selectCampus').val());
         $("#inputMethod").selectpicker('val', 1);
         $("#inputIntegrated").selectpicker('val', 0);
-        $('#idForm')[0].reset(); 
         $('#myModal h4').text('Add Indicated Decision');
         $("#idForm").validate().resetForm();
         $("#idForm").validate().reset();
@@ -257,7 +254,7 @@
             <div class="form-group">
               <label for="inputStory" class="col-lg-3 control-label">Story</label>
               <div class="col-lg-9">
-                <textarea class="form-control" id="inputStory" name="inputStory" rows="3"></textarea>
+                <textarea class="form-control" id="inputStory" name="inputStory" rows="3" placeholder="Optional"></textarea>
               </div>
             </div>
         </div>
