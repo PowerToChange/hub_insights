@@ -13,6 +13,7 @@
   $thisFile = "idbymethod.php";
   $idBMActive = "active";
   $tableConfig = "'aaSorting': [],\n'iDisplayLength': 25,\n";
+  $tableSorting = "'aoColumns': [null,null,{ 'sType': 'percent' },null,null],\n";
   include 'header.php';
 ?>
 

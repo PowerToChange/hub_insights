@@ -47,6 +47,7 @@
       $(document).ready(function() {
         $('.datatable').dataTable({
           <?php echo $tableConfig; ?>
+          <?php echo $tableSorting; ?>
           "sPaginationType": "bs_normal"
         }); 
         $('.datatable').each(function(){
