@@ -1,5 +1,6 @@
 <?php
   include 'config/dbconstants.php';
+  include 'config/columnnames.php';
 
   function getDates($params){
     $dates = array();
@@ -32,16 +33,16 @@
     $decisions = array();
     $idQuery = "select civicrm_activity.id as 'ID', DATE(civicrm_activity.activity_date_time) as 'DATE', a.`display_name` as 'BELIEVER', 
       a.first_name as 'B_FIRST', a.last_name as 'B_LAST', a.id as 'BELIEVER_ID',
-      civicrm_value_rejoiceable_16.witnesses_171 as 'WITNESS', civicrm_value_rejoiceable_16.method_163 as 'METHOD',
+      " . REJOICEABLE . R_WITNESS . " as 'WITNESS', " . REJOICEABLE . R_METHOD . " as 'METHOD',
       civicrm_activity.details as 'STORY', civicrm_activity.engagement_level as 'INTEGRATED',
       b.display_name as 'CAMPUS', b.id as 'CAMPUS_ID' from civicrm_activity
-      inner join civicrm_value_rejoiceable_16 on civicrm_activity.id = civicrm_value_rejoiceable_16.entity_id
+      inner join " . REJOICEABLE . " on civicrm_activity.id = " . REJOICEABLE . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
       where" . $campus . " civicrm_activity.activity_date_time between ? and ? and
-      activity_type_id = 47 and civicrm_value_rejoiceable_16.rejoiceable_143 = 4;";
+      activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4;";
     if ($idStmt = $mysqli->prepare($idQuery)){
       if($campus){
         $idStmt->bind_param("iss", $params["selectCampus"], $dates["start"], $dates["end"]);
@@ -72,19 +73,19 @@
     $dates = getDates($params);
 
     $byMethod = array();
-    $idQuery = "select civicrm_value_rejoiceable_16.method_163 as 'METHOD', count(*) as 'TOTAL',
+    $idQuery = "select " . REJOICEABLE . R_METHOD . " as 'METHOD', count(*) as 'TOTAL',
       count(CASE civicrm_activity.engagement_level WHEN 10 then 1 ELSE NULL END) as 'P2C',
       count(CASE civicrm_activity.engagement_level WHEN 8 then 1 ELSE NULL END) as 'OTHER',
       count(CASE civicrm_activity.engagement_level WHEN 0 then 1 ELSE NULL END) as 'NOT' from civicrm_activity
-      inner join civicrm_value_rejoiceable_16 on civicrm_activity.id = civicrm_value_rejoiceable_16.entity_id
+      inner join " . REJOICEABLE . " on civicrm_activity.id = " . REJOICEABLE . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
       where" . $campus . " civicrm_activity.activity_date_time between ? and ? and 
-      activity_type_id = 47 and civicrm_value_rejoiceable_16.rejoiceable_143 = 4
-      and civicrm_value_rejoiceable_16.method_163 is not null 
-      group by civicrm_value_rejoiceable_16.method_163;";
+      activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4
+      and " . REJOICEABLE . R_METHOD . " is not null
+      group by " . REJOICEABLE . R_METHOD . ";";
     if ($idStmt = $mysqli->prepare($idQuery)){
       if($campus){
         $idStmt->bind_param("iss", $params["selectCampus"], $dates["start"], $dates["end"]);
@@ -113,13 +114,13 @@
       count(CASE civicrm_activity.engagement_level WHEN 10 then 1 ELSE NULL END) as 'P2C',
       count(CASE civicrm_activity.engagement_level WHEN 8 then 1 ELSE NULL END) as 'OTHER',
       count(CASE civicrm_activity.engagement_level WHEN 0 then 1 ELSE NULL END) as 'NOT' from civicrm_activity
-      inner join civicrm_value_rejoiceable_16 on civicrm_activity.id = civicrm_value_rejoiceable_16.entity_id
+      inner join " . REJOICEABLE . " on civicrm_activity.id = " . REJOICEABLE . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
       where civicrm_activity.activity_date_time between ? and ? and 
-      activity_type_id = 47 and civicrm_value_rejoiceable_16.rejoiceable_143 = 4
+      activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4
       group by b.id;";
     if ($idStmt = $mysqli->prepare($idQuery)){
       $idStmt->bind_param("ss", $dates["start"], $dates["end"]);

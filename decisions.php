@@ -107,7 +107,7 @@
       });
 
       $("#modalBtn").click(function() {
-        $("#inputCampus").selectpicker('val', 0);
+        $("#inputCampus").selectpicker('val', $('#selectCampus').val());
         $("#inputMethod").selectpicker('val', 1);
         $("#inputIntegrated").selectpicker('val', 0);
         $('#idForm')[0].reset(); 
