@@ -11,6 +11,7 @@
 
   $title = "Indicated Decisions - By Method";
   $thisFile = "idbymethod.php";
+  $idBMActive = "active";
   $tableConfig = "'aaSorting': [],\n'iDisplayLength': 25,\n";
   include 'header.php';
 ?>

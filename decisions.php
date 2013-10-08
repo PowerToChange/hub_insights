@@ -18,6 +18,12 @@
 
   $title = "Indicated Decisions";
   $thisFile = "decisions.php";
+  if($_POST["hiddenAdd"] == "true"){
+    $idAddActive = "active";
+  }
+  else {
+    $idBNActive = "active";
+  }
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
   include 'header.php';
 ?>
@@ -111,6 +117,10 @@
         $("div .has-error").removeClass("has-error");
         $("div .has-success").removeClass("has-success");
       });
+
+      if($('#hiddenAdd').val() == "true"){
+        $('#modalBtn').click();
+      }
 
     });
     </script>

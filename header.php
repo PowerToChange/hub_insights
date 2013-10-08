@@ -54,10 +54,6 @@
           $('#rangeForm')[0].submit();
         });
       
-        if($('#hiddenAdd').val() == "true"){
-          $('#modalBtn').click();
-        }
-      
         $('#idBigPicture').click(function() {
           $('#rangeForm').attr("action", "idbigpicture.php");
           $('#rangeForm')[0].submit();
@@ -174,10 +170,10 @@
                 </h4>
               </div>
               <div id="collapseOne" class="list-group panel-collapse collapse in">
-                  <a id="idAdd" href="javascript:{}" class="list-group-item active">Add/Edit Decisions</a>
-                  <a id="idBigPicture" href="javascript:{}" class="list-group-item">Big Picture</a>
-                  <a id="idByMethod" href="javascript:{}" class="list-group-item">By Method</a>
-                  <a id="idByName" href="javascript:{}" class="list-group-item">By Name</a>
+                  <a id="idAdd" href="javascript:{}" class="list-group-item <?php echo $idAddActive; ?>">Add/Edit Decisions</a>
+                  <a id="idBigPicture" href="javascript:{}" class="list-group-item <?php echo $idBPActive; ?>">Big Picture</a>
+                  <a id="idByMethod" href="javascript:{}" class="list-group-item <?php echo $idBMActive; ?>">By Method</a>
+                  <a id="idByName" href="javascript:{}" class="list-group-item <?php echo $idBNActive; ?>">By Name</a>
               </div>
             </div>
             <!-- <div class="panel panel-default">

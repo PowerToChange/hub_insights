@@ -5,6 +5,7 @@
 
   $title = "Indicated Decisions - Big Picture";
   $thisFile = "idbigpicture.php";
+  $idBPActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'asc' ]],\n";
   include 'header.php';
 ?>
