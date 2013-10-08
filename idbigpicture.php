@@ -7,6 +7,8 @@
   $thisFile = "idbigpicture.php";
   $idBPActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'asc' ]],\n";
+  $tableSorting = "'aoColumns': [null,{'sType':'numeric', 'asSorting':['desc','asc']},
+    {'sType':'numeric', 'asSorting':['desc','asc']},{'sType':'numeric', 'asSorting':['desc','asc']}],\n";
   include 'header.php';
 ?>
 

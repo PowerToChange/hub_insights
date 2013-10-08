@@ -25,6 +25,7 @@
     $idBNActive = "active";
   }
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
+  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0 ] }],\n";
   include 'header.php';
 ?>
 
