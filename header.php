@@ -1,3 +1,11 @@
+<?php
+  if($_POST["selectCampus"]){
+    setcookie("campus", $_POST["selectCampus"], time()+60*60*24*30, COOKIE_PATH, COOKIE_DOMAIN);
+  }
+  elseif($_POST["selectSubmitted"]){
+    setcookie("campus", "", time()-3600, COOKIE_PATH, COOKIE_DOMAIN);
+  }
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -89,6 +97,9 @@
             echo "var selectEnd = moment('" . $_POST["hiddenEnd"] . "', 'YYYY-MM-DD');\n";
             echo "$('#selectCampus').selectpicker('val', '" . $_POST["selectCampus"] . "');\n";
           }
+          elseif($_COOKIE["campus"]){
+            echo "$('#selectCampus').selectpicker('val', '" . $_COOKIE["campus"] . "');\n";
+          }
         ?>
             
         $('#reportrange').daterangepicker({
@@ -132,7 +143,7 @@
 
       <div class="col-md-3 col-sm-12">
         <div class="well">
-          <h2>Sidebar</h2>
+          <h2>Insights</h2>
 
           <div class="well well-sm">
           <form id="rangeForm" role="form" action="<?php echo $thisFile; ?>" method="post">

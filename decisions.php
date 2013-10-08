@@ -116,6 +116,7 @@
         $("#idForm").validate().reset();
         $("div .has-error").removeClass("has-error");
         $("div .has-success").removeClass("has-success");
+        $("#inputDate").val(moment().format('YYYY-MM-DD'));
       });
 
       if($('#hiddenAdd').val() == "true"){

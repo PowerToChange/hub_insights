@@ -22,12 +22,29 @@
     return $dates;
   }
 
+  function getCampus($params){
+    $campus = array();
+    if($params["selectSubmitted"]){
+      $campus["query"] = ($params["selectCampus"] ? " b.id = ? and" : "");
+      $campus["id"] = ($params["selectCampus"] ?: "");
+    }
+    elseif($_COOKIE["campus"]){
+      $campus["query"] = " b.id = ? and";
+      $campus["id"] = $_COOKIE["campus"];
+    }
+    else{
+      $campus["query"] = "";
+      $campus["id"] = "";
+    }
+    return $campus;
+  }
+
   function getDecisions($params){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
-    $campus = ($params["selectCampus"] ? " b.id = ? and" : "");
+    $campus = getCampus($params);
     $dates = getDates($params);
 
     $decisions = array();
@@ -41,11 +58,11 @@
       inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
-      where" . $campus . " civicrm_activity.activity_date_time between ? and ? and
+      where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ? and
       activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4;";
     if ($idStmt = $mysqli->prepare($idQuery)){
-      if($campus){
-        $idStmt->bind_param("iss", $params["selectCampus"], $dates["start"], $dates["end"]);
+      if($campus["query"]){
+        $idStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
       }
       else{
         $idStmt->bind_param("ss", $dates["start"], $dates["end"]);
@@ -69,7 +86,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
-    $campus = ($params["selectCampus"] ? " b.id = ? and" : "");
+    $campus = getCampus($params);
     $dates = getDates($params);
 
     $byMethod = array();
@@ -82,13 +99,13 @@
       inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
-      where" . $campus . " civicrm_activity.activity_date_time between ? and ? and 
+      where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ? and
       activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4
       and " . REJOICEABLE . R_METHOD . " is not null
       group by " . REJOICEABLE . R_METHOD . ";";
     if ($idStmt = $mysqli->prepare($idQuery)){
-      if($campus){
-        $idStmt->bind_param("iss", $params["selectCampus"], $dates["start"], $dates["end"]);
+      if($campus["query"]){
+        $idStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
       }
       else{
         $idStmt->bind_param("ss", $dates["start"], $dates["end"]);
