@@ -87,9 +87,15 @@
         "format": "yyyy-mm-dd"
       }).on('changeDate', function(ev) {
         if($('#inputDate').valid()){
-          $ ('#inputDate').removeClass('has-error').addClass('has-success');   
+          $('#inputDate').removeClass('has-error').addClass('has-success');
+          $('#inputDate').datepicker('hide');
         }
       });
+
+      $('#inputWitness').focus(function() {
+        $('#inputDate').datepicker('hide');
+      });
+
 
       $("#myModal .selectpicker").on('change', function(ev) {
         if($('#inputCampus').valid()){
@@ -135,7 +141,7 @@
           <?php } else { ?>
             <div class="alert alert-danger alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <strong>Error!</strong> Failed to add or edit indicated decision. Please inform CC Team.
+              <strong>Error!</strong> Failed to add or edit indicated decision. Please inform CC Team. Error message: "<?php echo $decInfo; ?>"
             </div>
           <?php
           }

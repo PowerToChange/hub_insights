@@ -53,7 +53,7 @@
 
     $contact = civicrm_call("Contact", "create", $conParams);
     $sends[] = $contact;
-    if ($contact["is_error"] == 1) { $succeeded = 2; return $succeeded; }
+    if ($contact["is_error"] == 1) { $succeeded = $contact["error_message"]; return $succeeded; }
     $id = $contact["id"];
     //var_dump($contact);
     
@@ -64,7 +64,6 @@
       "activity_type_id" => 47, // rejoiceable
       "subject" => 'Indicated Decision',
       "status_id" => 2,  // completed
-      "details" => $form["inputStory"],
       "activity_date_time" => $form["inputDate"],
       "engagement_level" => $form["inputIntegrated"],
       "custom_143" => "4",
@@ -74,11 +73,14 @@
     if($form["inputID"]){
       $decisionParams["id"] = $form["inputID"];
     }
+    if($form["inputStory"]){
+      $decisionParams["details"] = $form["inputStory"];
+    }
     //$sends[] = $decisionParams;
 
     $decisionReturn = civicrm_call("Activity", "create", $decisionParams);
     $sends[] = $decisionReturn;
-    if ($decisionReturn["is_error"] == 1) { $succeeded = 2; return $succeeded; }
+    if ($decisionReturn["is_error"] == 1) { $succeeded = $decisionReturn["error_message"]; return $succeeded; }
     //var_dump($surveyReturn);
 
     return $succeeded;
