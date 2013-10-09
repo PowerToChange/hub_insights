@@ -53,3 +53,35 @@ label.error {
 .table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
 background-color: #ececec;
 }
+
+html, body {
+    height: 100%;
+}
+#wrap {
+    height: auto !important;
+    margin: 0 auto -60px;
+    min-height: 100%;
+}
+#push, #footer {
+    height: 60px;
+}
+#footer {
+    background-color: #EEEEEE;
+}
+
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.muted {
+    color: #777777;
+}
+
+.container .credit {
+    margin: 20px 0;
+}

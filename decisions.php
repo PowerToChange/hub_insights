@@ -126,6 +126,10 @@
         $("#inputDate").val(moment().format('YYYY-MM-DD'));
       });
 
+      $('#myModal').on('shown.bs.modal', function () {
+        $('#inputFirst').focus();
+      });
+
       if($('#hiddenAdd').val() == "true"){
         $('#modalBtn').click();
       }
@@ -155,46 +159,45 @@
           }
         }
       ?>
-        <div class="text-center">
-          <a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-success btn-large">Add Indicated Decision</a>
-        </div>
-
-        <table id="datatable" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>New Believer</th>
-              <th>Witness</th>
-              <th>Method</th>
-              <th>Story</th>
-              <th>Integrated?</th>
-              <th>Campus</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              $decisions = getDecisions($_POST);
-              foreach($decisions as $dec){
-                echo "<tr><td class=\"fDate\">" . $dec["DATE"] . "</td>";
-                echo "<td class=\"fNew\">" . $dec["BELIEVER"] . "<span class=\"hiddenFirst\">" . $dec["B_FIRST"] . "</span>
-                  <span class=\"hiddenLast\">" . $dec["B_LAST"] . "</span></td>";
-                echo "<td class=\"fWitness\">" . $dec["WITNESS"] . "</td>";
-                echo "<td class=\"fMethod\">" . $method[$dec["METHOD"]] . "<span class=\"hiddenMethod\">" . $dec["METHOD"] . "</span></td>";
-                echo "<td class=\"fStory\">" . $dec["STORY"] . "</td>";
-                echo "<td class=\"fIntegrated\">" . $integrated[$dec["INTEGRATED"]] . "<span class=\"hiddenInt\">" . $dec["INTEGRATED"] . "</span></td>";
-                echo "<td class=\"fCampus\">" . $dec["CAMPUS"] . "<span class=\"hiddenCampus\">" . $dec["CAMPUS_ID"] . "</span></td>";
-                echo "<td><span class=\"hiddenID\">" . $dec["ID"] . "</span><span class=\"hiddenCID\">" . $dec["BELIEVER_ID"] . "</span>";
-                echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editID\">Edit</a></td></tr>";
-              }
-            ?>
-          </tbody>
-          <tfoot>
-          </tfoot>
-        </table>
+      <div class="text-center">
+        <a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-success btn-large">Add Indicated Decision</a>
       </div>
+
+      <table id="datatable" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>New Believer</th>
+            <th>Witness</th>
+            <th>Method</th>
+            <th>Story</th>
+            <th>Integrated?</th>
+            <th>Campus</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            $decisions = getDecisions($_POST);
+            foreach($decisions as $dec){
+              echo "<tr><td class=\"fDate\">" . $dec["DATE"] . "</td>";
+              echo "<td class=\"fNew\">" . $dec["BELIEVER"] . "<span class=\"hiddenFirst\">" . $dec["B_FIRST"] . "</span>
+                <span class=\"hiddenLast\">" . $dec["B_LAST"] . "</span></td>";
+              echo "<td class=\"fWitness\">" . $dec["WITNESS"] . "</td>";
+              echo "<td class=\"fMethod\">" . $method[$dec["METHOD"]] . "<span class=\"hiddenMethod\">" . $dec["METHOD"] . "</span></td>";
+              echo "<td class=\"fStory\">" . $dec["STORY"] . "</td>";
+              echo "<td class=\"fIntegrated\">" . $integrated[$dec["INTEGRATED"]] . "<span class=\"hiddenInt\">" . $dec["INTEGRATED"] . "</span></td>";
+              echo "<td class=\"fCampus\">" . $dec["CAMPUS"] . "<span class=\"hiddenCampus\">" . $dec["CAMPUS_ID"] . "</span></td>";
+              echo "<td><span class=\"hiddenID\">" . $dec["ID"] . "</span><span class=\"hiddenCID\">" . $dec["BELIEVER_ID"] . "</span>";
+              echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editID\">Edit</a></td></tr>";
+            }
+          ?>
+        </tbody>
+        <tfoot>
+        </tfoot>
+      </table>
     </div>
-  </div>
+  <?php include 'footer.php'; ?>
 
   <!-- Modal -->
   <div class="modal" id="myModal">

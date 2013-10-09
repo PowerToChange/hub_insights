@@ -140,6 +140,7 @@
   </head>
 
   <body>
+    <div id="wrap">
     <div class="jumbotron">
       <h1><?php echo $title; ?></h1>
       <div class="pull-right">
