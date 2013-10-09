@@ -22,11 +22,11 @@
       <table id="datatable" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
         <thead>
           <tr>
-            <th>Method</th>
+            <th rel="tooltip" title="How this person came to know Christ">Method</th>
             <th>Number of Decisions</th>
             <th>Percentage of Total</th>
-            <th>Number Integrated with P2C</th>
-            <th>Number Integrated Elsewhere</th>
+            <th rel="tooltip" title="The number that got involved with P2C after making a decision">Number Integrated with P2C</th>
+            <th rel="tooltip" title="The number that got involved with another Christian ministry after making a decision">Number Integrated Elsewhere</th>
           </tr>
         </thead>
         <tbody>

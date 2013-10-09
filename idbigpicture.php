@@ -23,8 +23,8 @@
           <tr>
             <th>Campus</th>
             <th>Number of Decisions</th>
-            <th>Number Integrated with P2C</th>
-            <th>Number Integrated Elsewhere</th>
+            <th rel="tooltip" title="The number that got involved with P2C after making a decision">Number Integrated with P2C</th>
+            <th rel="tooltip" title="The number that got involved with another Christian ministry after making a decision">Number Integrated Elsewhere</th>
           </tr>
         </thead>
         <tbody>

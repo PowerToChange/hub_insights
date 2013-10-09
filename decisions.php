@@ -169,9 +169,9 @@
             <th>Date</th>
             <th>New Believer</th>
             <th>Witness</th>
-            <th>Method</th>
+            <th rel="tooltip" title="How this person came to know Christ">Method</th>
             <th>Story</th>
-            <th>Integrated?</th>
+            <th rel="tooltip" title="Whether they are involved in a Christian community">Integrated?</th>
             <th>Campus</th>
             <th>Edit</th>
           </tr>
@@ -245,7 +245,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="inputMethod" class="col-lg-3 control-label">Method</label>
+              <label rel="tooltip" title="How this person came to know Christ" for="inputMethod" class="col-lg-3 control-label">Method</label>
               <div class="col-lg-9">
                 <select class="selectpicker" data-width="100%" id="inputMethod" name="inputMethod">
                   <?php
@@ -257,7 +257,8 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="inputIntegrated" class="col-lg-3 control-label">Integrated Believer</label>
+              <label rel="tooltip" title="Whether they are involved in a Christian community"
+                for="inputIntegrated" class="col-lg-3 control-label">Integrated Believer</label>
               <div class="col-lg-9">
                 <select class="selectpicker" data-width="100%" id="inputIntegrated" name="inputIntegrated">
                   <?php

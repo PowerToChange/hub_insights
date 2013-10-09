@@ -85,3 +85,15 @@ html, body {
 .container .credit {
     margin: 20px 0;
 }
+
+.tooltip-inner {
+  background-color: #ED9C28;
+}
+
+.tooltip.top .tooltip-arrow {
+  border-top-color: #ED9C28;
+}
+
+.tooltip {
+  z-index: 2000 !important;
+}

@@ -135,6 +135,17 @@
         $('#reportrange span').html(selectStart.format('MMMM D, YYYY') + ' - ' + selectEnd.format('MMMM D, YYYY'));
         $('#hiddenStart').val(selectStart.format('YYYY-MM-DD'));
         $('#hiddenEnd').val(selectEnd.format('YYYY-MM-DD'));
+
+        $('[rel=tooltip]').tooltip({container: 'body'});
+
+        $('#filterWell').popover({'container': 'body', trigger: 'manual'});
+        $('#navDecision').popover({'container': 'body', trigger: 'manual'});
+        $('#insightsInfo').on('click', function(){
+          $('#filterWell').popover('toggle');
+          $('#navDecision').popover('toggle');
+        });
+
+
       });
     </script>
   </head>
@@ -157,9 +168,13 @@
 
       <div class="col-md-3 col-sm-12">
         <div class="well">
-          <h2>Insights</h2>
+          <div class="container">
+            <h2 class="pull-left">Insights</h2>
+            <span id="insightsInfo" class="glyphicon glyphicon-question-sign" style="font-size:18px; margin-left:10px" rel="tooltip" title="Click for Help"></span>
+          </div>
 
-          <div class="well well-sm">
+          <div class="well well-sm" id="filterWell" data-toggle="popover" data-original-title="Filter Results" 
+            data-content="Filters what is displayed to the right. You must press 'Update Display' or a navigation link below to save filter changes.">
           <form id="rangeForm" role="form" action="<?php echo $thisFile; ?>" method="post">
             <select class="selectpicker" data-width="100%" data-size="10" id="selectCampus" name="selectCampus">
               <option selected="selected" value="0">All Campuses</option>
@@ -187,7 +202,8 @@
 
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
-              <div class="panel-heading">
+              <div class="panel-heading" id="navDecision" data-toggle="popover" data-original-title="Site Navigation" 
+                data-content="Dropdown menu to access insight reports and input.">
                 <h4 class="panel-title">
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseOne" href="#collapseOne">
                     Indicated Decisions
