@@ -18,7 +18,7 @@
 
   $title = "Indicated Decisions";
   $thisFile = "decisions.php";
-  if($_POST["hiddenAdd"] == "true"){
+  if($_POST["hiddenAdd"] == "true" || $_GET["add"] == "true"){
     $idAddActive = "active";
   }
   else {

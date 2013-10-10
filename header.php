@@ -187,7 +187,8 @@
             </select>
             <input type="hidden" id="hiddenStart" name="hiddenStart">
             <input type="hidden" id="hiddenEnd" name="hiddenEnd">
-            <input type="hidden" id="hiddenAdd" name="hiddenAdd" value="<?php echo ($_POST["hiddenAdd"] == "true" ? "true" : "false"); ?>">
+            <input type="hidden" id="hiddenAdd" name="hiddenAdd"
+              value="<?php echo (($_POST["hiddenAdd"] == "true" || $_GET["add"] == "true") ? "true" : "false"); ?>">
             <input type="hidden" name="selectSubmitted" value="true">
           </form>
 
