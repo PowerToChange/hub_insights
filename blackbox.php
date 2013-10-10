@@ -66,9 +66,9 @@
       "status_id" => 2,  // completed
       "activity_date_time" => $form["inputDate"],
       "engagement_level" => $form["inputIntegrated"],
-      "custom_143" => "4",
-      "custom_163" => $form["inputMethod"],
-      "custom_171" => $form["inputWitness"]
+      API_TYPE => "4",
+      API_METHOD => $form["inputMethod"],
+      API_WITNESS => $form["inputWitness"]
     );
     if($form["inputID"]){
       $decisionParams["id"] = $form["inputID"];
