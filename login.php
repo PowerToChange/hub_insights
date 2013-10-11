@@ -7,7 +7,7 @@
 
   //PERMISSIONS CHECK
   $testIds = array(); $isStaff = false; $validUser = false;
-  $url ="https://pulse.powertochange.com/api/ministry_involvements?guid=" . $user["ssoGuid"] . "&api_key=" . PULSE_API_KEY;
+  $url ="https://pulse.p2c.com/api/ministry_involvements?guid=" . $user["ssoGuid"] . "&api_key=" . PULSE_API_KEY;
   $xml = simplexml_load_file($url);
   $civicrm_id = (string) $xml['civicrm_id'];
   foreach ($xml->ministry_involvement as $minInfo) {
