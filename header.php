@@ -96,6 +96,11 @@
           $('#rangeForm')[0].submit();
         });
 
+        $('#evType').click(function() {
+          $('#rangeForm').attr("action", "eventtype.php");
+          $('#rangeForm')[0].submit();
+        });
+
         $('#monAdd').click(function() {
           $('#rangeForm').attr("action", "monthlystats.php");
           $('#rangeForm')[0].submit();
@@ -223,7 +228,7 @@
 
         <?php
           $idOpen = "in"; $msOpen = "";
-          if($evAddActive || $monAddActive || $msBPActive || $msBCActive){
+          if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive){
             $idOpen = ""; $msOpen = "in";
           }
         ?>
@@ -254,6 +259,7 @@
               </div>
               <div id="collapseTwo" class="list-group panel-collapse collapse <?php echo $msOpen; ?>">
                 <a id="evAdd" href="javascript:{}" class="list-group-item <?php echo $evAddActive; ?>">Add/Edit Event Stats</a>
+                <a id="evType" href="javascript:{}" class="list-group-item <?php echo $evTypeActive; ?>">Event Stats By Type</a>
                 <!-- <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
                 <a id="msBigPicture" href="javascript:{}" class="list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Big Picture</a>
                 <a id="msByCampus" href="javascript:{}" class="list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - By Campus</a> -->

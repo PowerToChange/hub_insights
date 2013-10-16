@@ -39,6 +39,8 @@
     return $campus;
   }
 
+//****************************************************************************************************************
+
   function getDecisions($params){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
@@ -150,7 +152,7 @@
     return $bigPicture;
   }
 
-  //*****************************************************************************************************
+//****************************************************************************************************************
 
   function getEvents($params){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
@@ -189,6 +191,41 @@
     }
     return $events;
   }
+
+  function getEventsByType($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $byType = array();
+    $evQuery = "select " . EVENT . E_TYPE . " as 'TYPE', sum(" . EVENT . E_TOTAL . ") as 'TOTAL',
+      sum(" . EVENT . E_NON . ") as 'NONCHRISTIAN' from civicrm_activity
+      inner join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ?
+      and " . EVENT . E_TYPE . " is not null and activity_type_id = 53
+      group by " . EVENT . E_TYPE . ";";
+    if ($evStmt = $mysqli->prepare($evQuery)){
+      if($campus["query"]){
+        $evStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $evStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $evStmt->execute();
+      $evStmt->bind_result($type_bind, $total_bind, $nonchristian_bind);
+      while ($evStmt->fetch()) {
+        $byType[$type_bind] = array("TOTAL" => $total_bind, "NONCHRISTIAN" => $nonchristian_bind);
+      }
+    }
+    return $byType;
+  }
+
+//****************************************************************************************************************
 
   function getMonthly(){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
