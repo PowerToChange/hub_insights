@@ -84,11 +84,11 @@
         }
       });
 
-      $('#inputType').keyup(function(e) {
+      $('#inputTotal').keyup(function(e) {
         var code = e.keyCode || e.which;
         if (code == '9') {
           $('#inputDate').datepicker('hide');
-          $('#inputType').focus();
+          $('#inputTotal').focus();
         }
       });
 
@@ -114,7 +114,7 @@
       });
 
       $('#myModal').on('shown.bs.modal', function () {
-        $('#inputFirst').focus();
+        $('#inputName').focus();
       });
 
       if($('#hiddenAdd').val() == "true"){
@@ -202,6 +202,18 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="inputType" class="col-lg-3 control-label">Type of Event</label>
+              <div class="col-lg-9">
+                <select class="selectpicker" data-width="100%" id="inputType" name="inputType">
+                  <?php
+                    foreach($eventType as $id => $label){
+                      echo "<option value=\"" . $id . "\">" . $label . "</option>";
+                    }
+                  ?>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
               <label for="inputCampus" class="col-lg-3 control-label">Campus</label>
               <div class="col-lg-9">
                 <select class="selectpicker" data-width="100%" data-size="10" id="inputCampus" name="inputCampus">
@@ -219,18 +231,6 @@
               <label for="inputDate" class="col-lg-3 control-label">Date</label>
               <div class="col-lg-9">
                 <input type="text" class="form-control" id="inputDate" name="inputDate" placeholder="YYYY-MM-DD">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputType" class="col-lg-3 control-label">Type of Event</label>
-              <div class="col-lg-9">
-                <select class="selectpicker" data-width="100%" id="inputType" name="inputType">
-                  <?php
-                    foreach($eventType as $id => $label){
-                      echo "<option value=\"" . $id . "\">" . $label . "</option>";
-                    }
-                  ?>
-                </select>
               </div>
             </div>
             <div class="form-group">
