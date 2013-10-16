@@ -79,9 +79,40 @@
     //$sends[] = $decisionParams;
 
     $decisionReturn = civicrm_call("Activity", "create", $decisionParams);
-    $sends[] = $decisionReturn;
+    //$sends[] = $decisionReturn;
     if ($decisionReturn["is_error"] == 1) { $succeeded = $decisionReturn["error_message"]; return $succeeded; }
     //var_dump($surveyReturn);
+
+    return $succeeded;
+  }
+
+  function add_event($form) {
+    global $sends;
+    global $civicrm_id;
+    $succeeded = 1;
+
+    $eventParams = array(
+      "source_contact_id" => $civicrm_id,
+      "target_contact_id" => $form["inputCampus"],
+      "activity_type_id" => 53, // event
+      "subject" => $form["inputName"],
+      "status_id" => 2,  // completed
+      "activity_date_time" => $form["inputDate"],
+      API_EV_TYPE => $form["inputType"],
+      API_EV_TOTAL => $form["inputTotal"],
+      API_EV_NON => $form["inputNon"]
+    );
+    if($form["inputID"]){
+      $eventParams["id"] = $form["inputID"];
+    }
+    if($form["inputStory"]){
+      $eventParams["details"] = $form["inputStory"];
+    }
+    //$sends[] = $eventParams;
+
+    $eventReturn = civicrm_call("Activity", "create", $eventParams);
+    //$sends[] = $eventReturn;
+    if ($eventReturn["is_error"] == 1) { $succeeded = $eventReturn["error_message"]; return $succeeded; }
 
     return $succeeded;
   }

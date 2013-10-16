@@ -152,24 +152,39 @@
 
   //*****************************************************************************************************
 
-  function getEvents(){
+  function getEvents($params){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
     $events = array();
-    $eventQuery = "select civicrm_activity.id as 'ID', civicrm_activity.activity_date_time as 'DATE', 
-      civicrm_activity.subject as 'NAME', civicrm_value_outreach_event_24.type_of_event_164 as 'TYPE',
-      civicrm_value_outreach_event_24.total_attendance_165 as 'TOTAL', civicrm_activity.details as 'STORY',
-      civicrm_value_outreach_event_24.non_christian_attendance_166 as 'NONCHRISTIAN',
-      a.display_name as 'CAMPUS' from civicrm_activity
-      inner join civicrm_value_outreach_event_24 on civicrm_activity.id = civicrm_value_outreach_event_24.entity_id
+    $evQuery = "select civicrm_activity.id as 'ID', DATE(civicrm_activity.activity_date_time) as 'DATE',
+      civicrm_activity.subject as 'NAME', " . EVENT . E_TYPE. " as 'TYPE', " . EVENT . E_TOTAL . " as 'TOTAL',
+      civicrm_activity.details as 'STORY', " . EVENT . E_NON . " as 'NONCHRISTIAN',
+      a.display_name as 'CAMPUS', a.id as 'CAMPUS_ID' from civicrm_activity
+      inner join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
-      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
-      where activity_date_time > '2013-08-01' and activity_type_id = 53;";
-    if ($result = $mysqli->query($eventQuery)) {
-      while ($row = mysqli_fetch_assoc($result)) {
-        $events[] = $row;
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ? and activity_type_id = 53;";
+    if ($evStmt = $mysqli->prepare($evQuery)){
+      if($campus["query"]){
+        $evStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $evStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $evStmt->execute();
+      $evStmt->bind_result($id_bind, $date_bind, $name_bind, $type_bind, $total_bind,
+        $story_bind, $nonchristian_bind, $campus_bind, $cid_bind);
+      $i = 0;
+      while ($evStmt->fetch()) {
+        $events[$i] = array("ID" => $id_bind, "DATE" => $date_bind, "NAME" => $name_bind,
+          "TYPE" => $type_bind, "TOTAL" => $total_bind, "NONCHRISTIAN" => $nonchristian_bind,
+          "STORY" => $story_bind, "CAMPUS" => $campus_bind, "CAMPUS_ID" => $cid_bind);
+        $i++;
       }
     }
     return $events;

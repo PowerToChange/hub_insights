@@ -90,6 +90,26 @@
           $('#hiddenAdd').val("false");
           $('#rangeForm')[0].submit();
         });
+
+        $('#evAdd').click(function() {
+          $('#rangeForm').attr("action", "eventstats.php");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#monAdd').click(function() {
+          $('#rangeForm').attr("action", "monthlystats.php");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#monBigPicture').click(function() {
+          $('#rangeForm').attr("action", "bigpicture.php");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#monByCampus').click(function() {
+          $('#rangeForm').attr("action", "bycampus.php");
+          $('#rangeForm')[0].submit();
+        });
       
         var startThis = moment().month(8).startOf('month');
         var endThis = moment().month(7).add('years',1).endOf('month');
@@ -201,42 +221,44 @@
 
         </div>
 
+        <?php
+          $idOpen = "in"; $msOpen = "";
+          if($evAddActive || $monAddActive || $msBPActive || $msBCActive){
+            $idOpen = ""; $msOpen = "in";
+          }
+        ?>
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
               <div class="panel-heading" id="navDecision" data-toggle="popover" data-original-title="Site Navigation" 
                 data-content="Dropdown menu to access insight reports and input.">
                 <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseOne" href="#collapseOne">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                     Indicated Decisions
                   </a>
                 </h4>
               </div>
-              <div id="collapseOne" class="list-group panel-collapse collapse in">
+              <div id="collapseOne" class="list-group panel-collapse collapse <?php echo $idOpen; ?>">
                   <a id="idAdd" href="javascript:{}" class="list-group-item <?php echo $idAddActive; ?>">Add/Edit Decisions</a>
                   <a id="idBigPicture" href="javascript:{}" class="list-group-item <?php echo $idBPActive; ?>">Big Picture</a>
                   <a id="idByMethod" href="javascript:{}" class="list-group-item <?php echo $idBMActive; ?>">By Method</a>
                   <a id="idByName" href="javascript:{}" class="list-group-item <?php echo $idBNActive; ?>">By Name</a>
               </div>
             </div>
-            <!-- <div class="panel panel-default">
+            <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#collapseTwo" href="#collapseTwo">
-                    Reports
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                    Movement Snapshots
                   </a>
                 </h4>
               </div>
-              <div id="collapseTwo" class="list-group panel-collapse collapse">
-                <a href="javascript:{}" class="list-group-item active">Indicated Decisions</a>
-                <a href="javascript:{}" class="list-group-item">Big Picture</a>
-                <a id="byMethod" href="javascript:{}" class="list-group-item">By Method</a>
-                <a href="javascript:{}" class="list-group-item">By Name</a>
-                <a href="javascript:{}" class="list-group-item active">Monthly Reports</a>
-                <a href="javascript:{}" class="list-group-item">Big Picture</a>
-                <a href="javascript:{}" class="list-group-item">By Campus</a>
-                <a href="javascript:{}" class="list-group-item">Event Stats</a>
+              <div id="collapseTwo" class="list-group panel-collapse collapse <?php echo $msOpen; ?>">
+                <a id="evAdd" href="javascript:{}" class="list-group-item <?php echo $evAddActive; ?>">Add/Edit Event Stats</a>
+                <!-- <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
+                <a id="msBigPicture" href="javascript:{}" class="list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Big Picture</a>
+                <a id="msByCampus" href="javascript:{}" class="list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - By Campus</a> -->
               </div>
-            </div> -->
+            </div>
         </div>
 
 

@@ -22,7 +22,7 @@ table.dataTable tr.even td.sorting_3 {
   background-color: rgba(66,139,202, 0.01);
 }
 
-.hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt, .hiddenFirst, .hiddenLast {
+.hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt, .hiddenFirst, .hiddenLast, .hiddenType {
   display: none;
 }
 
