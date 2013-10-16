@@ -166,10 +166,10 @@
     $evQuery = "select civicrm_activity.id as 'ID', DATE(civicrm_activity.activity_date_time) as 'DATE',
       civicrm_activity.subject as 'NAME', " . EVENT . E_TYPE. " as 'TYPE', " . EVENT . E_TOTAL . " as 'TOTAL',
       civicrm_activity.details as 'STORY', " . EVENT . E_NON . " as 'NONCHRISTIAN',
-      a.display_name as 'CAMPUS', a.id as 'CAMPUS_ID' from civicrm_activity
+      b.display_name as 'CAMPUS', b.id as 'CAMPUS_ID' from civicrm_activity
       inner join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
-      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
       where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ? and activity_type_id = 53;";
     if ($evStmt = $mysqli->prepare($evQuery)){
       if($campus["query"]){
@@ -205,7 +205,7 @@
       sum(" . EVENT . E_NON . ") as 'NONCHRISTIAN' from civicrm_activity
       inner join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
-      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
       where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ?
       and " . EVENT . E_TYPE . " is not null and activity_type_id = 53
       group by " . EVENT . E_TYPE . ";";
