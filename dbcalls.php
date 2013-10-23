@@ -325,6 +325,77 @@
     return $bigPicture;
   }
 
+  function getMSByCampus($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $byCampus = array();
+    $surveyQuery = "select YEAR(civicrm_activity.activity_date_time) as 'YEAR', MONTH(civicrm_activity.activity_date_time) as 'MONTH', count(*) as 'SURVEY',
+      count(CASE WHEN civicrm_activity.engagement_level >= 5 AND civicrm_activity.engagement_level <= 10 then 1 ELSE NULL END) as 'RESULT' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact b on civicrm_relationship.contact_id_b = b.id
+      where" . $campus["query"] . " activity_type_id = 32 and civicrm_activity.activity_date_time between ? and ?
+      group by YEAR(civicrm_activity.activity_date_time), MONTH(civicrm_activity.activity_date_time);";
+    if ($surveyStmt = $mysqli->prepare($surveyQuery)){
+      if($campus["query"]){
+        $surveyStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $surveyStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $surveyStmt->execute();
+      $surveyStmt->bind_result($year_bind, $month_bind, $survey_bind, $result_bind);
+      while ($surveyStmt->fetch()) {
+        $date = $year_bind . "-" . $month_bind;
+        $byCampus[$date] = array("SURVEY" => $survey_bind, "RESULT" => $result_bind);
+      }
+    }
+
+    $msQuery = "select YEAR(civicrm_activity.activity_date_time) as 'YEAR', MONTH(civicrm_activity.activity_date_time) as 'MONTH', 
+      sum(civicrm_value_outreach_event_24.total_attendance_165) as 'TOTAL',
+      sum(civicrm_value_outreach_event_24.non_christian_attendance_166) as 'NONCHRISTIAN',
+      sum(civicrm_value_monthly_report_school_25.unrecorded_engagements_167) as 'UNREC',
+      sum(civicrm_value_monthly_report_school_25.growing_disciples_168) as 'GROWING',
+      sum(civicrm_value_monthly_report_school_25.ministering_disciples_169) as 'MINISTERING',
+      sum(civicrm_value_monthly_report_school_25.multiplying_disciples_170) as 'MULTIPLYING'
+      from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
+      left join civicrm_value_outreach_event_24 on civicrm_activity.id = civicrm_value_outreach_event_24.entity_id
+      left join civicrm_value_monthly_report_school_25 on civicrm_activity.id = civicrm_value_monthly_report_school_25.entity_id
+      where" . $campus["query"] . " b.contact_sub_type = 'School' and civicrm_activity.activity_date_time between ? and ?
+      group by YEAR(civicrm_activity.activity_date_time), MONTH(civicrm_activity.activity_date_time)";
+    if ($msStmt = $mysqli->prepare($msQuery)){
+      if($campus["query"]){
+        $msStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $msStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $msStmt->execute();
+      $msStmt->bind_result($year_bind, $month_bind, $total_bind, $event_bind, $unrec_bind, $grow_bind, $min_bind, $mult_bind);
+      while ($msStmt->fetch()) {
+        $date = $year_bind . "-" . $month_bind;
+        if(is_array($byCampus[$date])){
+          $byCampus[$date] = array_merge($byCampus[$date], array("TOTAL" => $total_bind, "EVENT" => $event_bind,
+            "UNREC" => $unrec_bind, "GROW" => $grow_bind, "MIN" => $min_bind, "MULT" => $mult_bind));
+        }
+        else {
+          $byCampus[$date] = array("TOTAL" => $total_bind, "EVENT" => $event_bind,
+            "UNREC" => $unrec_bind, "GROW" => $grow_bind, "MIN" => $min_bind, "MULT" => $mult_bind);
+        }
+      }
+    }
+
+    return $byCampus;
+  }
+
 //****************************************************************************************************************
 
   function getSchools(){
