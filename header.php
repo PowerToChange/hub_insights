@@ -44,7 +44,13 @@
           return ((a < b) ? 1 : ((a > b) ? -1 : 0));
         }
       });
+
+      $(window).load(function(){
+        $('#selectCampus').selectpicker('show');
+      });
+
       $(document).ready(function() {
+
         $('.datatable').dataTable({
           <?php echo $tableConfig; ?>
           <?php echo $tableSorting; ?>
@@ -106,13 +112,13 @@
           $('#rangeForm')[0].submit();
         });
 
-        $('#monBigPicture').click(function() {
-          $('#rangeForm').attr("action", "bigpicture.php");
+        $('#msBigPicture').click(function() {
+          $('#rangeForm').attr("action", "monbigpicture.php");
           $('#rangeForm')[0].submit();
         });
 
-        $('#monByCampus').click(function() {
-          $('#rangeForm').attr("action", "bycampus.php");
+        $('#msByCampus').click(function() {
+          $('#rangeForm').attr("action", "monbycampus.php");
           $('#rangeForm')[0].submit();
         });
       
@@ -210,6 +216,9 @@
                 }
               ?>
             </select>
+            <script type="text/javascript">
+              $('#selectCampus').selectpicker('hide');
+            </script>
             <input type="hidden" id="hiddenStart" name="hiddenStart">
             <input type="hidden" id="hiddenEnd" name="hiddenEnd">
             <input type="hidden" id="hiddenAdd" name="hiddenAdd"
@@ -260,9 +269,9 @@
               <div id="collapseTwo" class="list-group panel-collapse collapse <?php echo $msOpen; ?>">
                 <a id="evAdd" href="javascript:{}" class="list-group-item <?php echo $evAddActive; ?>">Add/Edit Event Stats</a>
                 <a id="evType" href="javascript:{}" class="list-group-item <?php echo $evTypeActive; ?>">Event Stats By Type</a>
-                <!-- <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
+                <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
                 <a id="msBigPicture" href="javascript:{}" class="list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Big Picture</a>
-                <a id="msByCampus" href="javascript:{}" class="list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - By Campus</a> -->
+                <!-- <a id="msByCampus" href="javascript:{}" class="list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - By Campus</a> -->
               </div>
             </div>
         </div>

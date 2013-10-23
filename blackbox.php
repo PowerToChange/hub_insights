@@ -94,7 +94,7 @@
     $eventParams = array(
       "source_contact_id" => $civicrm_id,
       "target_contact_id" => $form["inputCampus"],
-      "activity_type_id" => 53, // event
+      "activity_type_id" => API_EV_ID, // event
       "subject" => $form["inputName"],
       "status_id" => 2,  // completed
       "activity_date_time" => $form["inputDate"],
@@ -116,4 +116,35 @@
 
     return $succeeded;
   }
+
+  function add_monthly($form) {
+    global $sends;
+    global $civicrm_id;
+    $succeeded = 1;
+
+    $monParams = array(
+      "source_contact_id" => $civicrm_id,
+      "target_contact_id" => $form["inputCampus"],
+      "activity_type_id" => API_MON_ID, // event
+      "subject" => "Monthly Report",
+      "status_id" => 2,  // completed
+      "activity_date_time" => $form["inputDate"],
+      API_MON_UNREC => $form["inputUnRec"],
+      API_MON_GROW => $form["inputGrow"],
+      API_MON_MIN => $form["inputMin"],
+      API_MON_MULT => $form["inputMult"]
+    );
+    if($form["inputID"]){
+      $monParams["id"] = $form["inputID"];
+    }
+    //$sends[] = $monParams;
+
+    $monReturn = civicrm_call("Activity", "create", $monParams);
+    //$sends[] = $monReturn;
+    if ($monReturn["is_error"] == 1) { $succeeded = $monReturn["error_message"]; return $succeeded; }
+
+    return $succeeded;
+  }
+
+
 ?>

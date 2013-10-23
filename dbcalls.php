@@ -227,29 +227,105 @@
 
 //****************************************************************************************************************
 
-  function getMonthly(){
+  function getMonthly($params){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
     $reports = array();
-    $repQuery = "select civicrm_activity.id as 'ID', civicrm_activity.activity_date_time as 'DATE', 
+    $repQuery = "select civicrm_activity.id as 'ID', DATE(civicrm_activity.activity_date_time) as 'DATE',
       civicrm_value_monthly_report_school_25.unrecorded_engagements_167 as 'UNRECORDED',
       civicrm_value_monthly_report_school_25.growing_disciples_168 as 'GROWING',
       civicrm_value_monthly_report_school_25.ministering_disciples_169 as 'MINISTERING',
       civicrm_value_monthly_report_school_25.multiplying_disciples_170 as 'MULTIPLYING',
-      a.display_name as 'CAMPUS' from civicrm_activity
+      b.display_name as 'CAMPUS', b.id as 'CAMPUS_ID' from civicrm_activity
       inner join civicrm_value_monthly_report_school_25 on civicrm_activity.id = civicrm_value_monthly_report_school_25.entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
-      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
-      where activity_date_time > '2013-08-01' and activity_type_id = 54;";
-    if ($result = $mysqli->query($repQuery)) {
-      while ($row = mysqli_fetch_assoc($result)) {
-        $reports[] = $row;
+      inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
+      where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ?
+      and activity_type_id = 54;";
+    if ($repStmt = $mysqli->prepare($repQuery)){
+      if($campus["query"]){
+        $repStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $repStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $repStmt->execute();
+      $repStmt->bind_result($id_bind, $date_bind, $unrec_bind, $grow_bind, $min_bind,
+        $mult_bind, $campus_bind, $cid_bind);
+      $i = 0;
+      while ($repStmt->fetch()) {
+        $reports[$i] = array("ID" => $id_bind, "DATE" => $date_bind, "UNRECORDED" => $unrec_bind,
+          "GROWING" => $grow_bind, "MINISTERING" => $min_bind,
+          "MULTIPLYING" => $mult_bind, "CAMPUS" => $campus_bind, "CAMPUS_ID" => $cid_bind);
+        $i++;
       }
     }
+
     return $reports;
   }
+
+  function getMSBigPicture($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $dates = getDates($params);
+
+    $bigPicture = array();
+    $surveyQuery = "select school.id as 'CAMPUS_ID', count(*) as 'SURVEY',
+      count(CASE WHEN civicrm_activity.engagement_level >= 5 AND civicrm_activity.engagement_level <= 10 then 1 ELSE NULL END) as 'RESULT' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact school on civicrm_relationship.`contact_id_b` = school.id
+      inner join civicrm_value_school_info_10 on civicrm_value_school_info_10.entity_id = school.id
+      where activity_type_id = 32 and civicrm_activity.activity_date_time between ? and ?
+      and civicrm_value_school_info_10.do_we_have_a_ministry_presence_h_73 = 'Yes'
+      group by school.id;";
+    if ($surveyStmt = $mysqli->prepare($surveyQuery)){
+      $surveyStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      $surveyStmt->execute();
+      $surveyStmt->bind_result($id_bind, $survey_bind, $result_bind);
+      while ($surveyStmt->fetch()) {
+        $bigPicture[$id_bind] = array("SURVEY" => $survey_bind, "RESULT" => $result_bind);
+      }
+    }
+
+    $msQuery = "select b.id as 'ID', sum(civicrm_value_outreach_event_24.total_attendance_165) as 'TOTAL',
+      sum(civicrm_value_outreach_event_24.non_christian_attendance_166) as 'NONCHRISTIAN',
+      sum(civicrm_value_monthly_report_school_25.unrecorded_engagements_167) as 'UNREC'
+      from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
+      inner join civicrm_value_school_info_10 on civicrm_value_school_info_10.entity_id = b.id
+      left join civicrm_value_outreach_event_24 on civicrm_activity.id = civicrm_value_outreach_event_24.entity_id
+      left join civicrm_value_monthly_report_school_25 on civicrm_activity.id = civicrm_value_monthly_report_school_25.entity_id
+      where b.contact_sub_type = 'School' and civicrm_activity.activity_date_time between ? and ?
+      and civicrm_value_school_info_10.do_we_have_a_ministry_presence_h_73 = 'Yes'
+      group by b.id";
+    if ($msStmt = $mysqli->prepare($msQuery)){
+      $msStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      $msStmt->execute();
+      $msStmt->bind_result($id_bind, $total_bind, $event_bind, $unrec_bind);
+      while ($msStmt->fetch()) {
+        if(is_array($bigPicture[$id_bind])){
+          $bigPicture[$id_bind] = array_merge($bigPicture[$id_bind], array("TOTAL" => $total_bind, "EVENT" => $event_bind, "UNREC" => $unrec_bind));
+        }
+        else {
+          $bigPicture[$id_bind] = array("TOTAL" => $total_bind, "EVENT" => $event_bind, "UNREC" => $unrec_bind);
+        }
+      }
+    }
+
+    return $bigPicture;
+  }
+
+//****************************************************************************************************************
 
   function getSchools(){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);

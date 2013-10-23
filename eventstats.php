@@ -16,7 +16,7 @@
   $thisFile = "eventstats.php";
   $evAddActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
-  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0 ] }],\n";
+  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 4, 5 ] }],\n";
   include 'header.php';
 ?>
 
@@ -140,7 +140,7 @@
           <?php } else { ?>
             <div class="alert alert-danger alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <strong>Error!</strong> Failed to submit Event Stats. Please inform CC Team. Error message: "<?php echo $decInfo; ?>"
+              <strong>Error!</strong> Failed to submit Event Stats. Please inform CC Team. Error message: "<?php echo $evInfo; ?>"
             </div>
           <?php
           }
