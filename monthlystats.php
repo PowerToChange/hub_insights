@@ -19,10 +19,16 @@
 
     <script type="text/javascript">
     $(document).ready(function() {
+      $.ajaxSetup({  
+        cache: false  
+      });
+
       $("#datatable tbody").on( "click", ".editMON", function() {
         var edit = $(this);
         var modal = $('#myModal');
         var parent = edit.closest('tr');
+        modal.find('#inputID').val(parent.find('.hiddenID').text());
+        modal.find('#inputEdited').val("true");
         modal.find('#inputCampus').selectpicker('val', parent.find('.hiddenCampus').text());
         modal.find('#inputUnRec').val(parent.find(".fUnRec").text());
         modal.find('#inputGrow').val(parent.find('.fGrow').text());
@@ -30,7 +36,6 @@
         modal.find('#inputMult').val(parent.find('.fMult').text());
         var tableDate = parent.find(".fDate").text();
         modal.find('#inputDate').val(tableDate);
-        modal.find('#inputID').val(parent.find('.hiddenID').text());
         modal.find('h4').text('Edit Monthly Stats - ' + moment(tableDate).format('MMMM YYYY'));
         $("#monForm").validate().resetForm();
         $("#monForm").validate().reset();
@@ -38,6 +43,7 @@
         $("div .has-success").removeClass("has-success");
         modal.find('#inputCampus').prop('disabled',true);
         modal.find('#inputCampus').selectpicker('refresh');
+        $('#monthWarn').hide();
       });
 
       $('#monForm').validate({
@@ -73,13 +79,37 @@
       });
 
       $("#myModal .selectpicker").on('change', function(ev) {
-        if($('#inputCampus').valid()){
-          $ ('#inputCampus').removeClass('has-error').addClass('has-success');   
+        $("#monForm").validate().element("#inputCampus");
+
+        if($("#inputID").val() == ""){
+          $.getJSON(
+            "ajax/monthcheck.php", 
+            {cid: $("#inputCampus").val()},  
+            function(json){
+              if(json.cid != "false"){
+                $("#inputUnRec").val(json.cid);
+                $("#monForm").validate().element("#inputUnRec");
+                $("#inputGrow").val(json.grow);
+                $("#monForm").validate().element("#inputGrow");
+                $("#inputMin").val(json.min);
+                $("#monForm").validate().element("#inputMin");
+                $("#inputMult").val(json.mult);
+                $("#monForm").validate().element("#inputMult");
+                $("#monthWarn").show();
+              }
+              else {
+                $('#monthWarn').hide();
+              }
+            }
+          );
         }
+ 
       });
 
       $("#modalBtn").click(function() {
         $('#monForm')[0].reset();
+        $('#inputID').removeAttr("value");
+        $('#inputEdited').val("");
         $("#inputCampus").selectpicker('val', $('#selectCampus').val());
         $('#myModal h4').text('Add Monthly Stats - ' + moment().format('MMMM YYYY'));
         $("#monForm").validate().resetForm();
@@ -125,7 +155,10 @@
         }
       ?>
       <div class="text-center">
-        <a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-success btn-large">Add Monthly Stats</a>
+        <a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-success btn-large"></a>
+        <script type="text/javascript">
+          $("#modalBtn").html("Add Monthly Stats - " + moment().format('MMMM YYYY'));
+        </script>
       </div>
 
       <table id="datatable" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
@@ -170,6 +203,10 @@
           <h4 class="modal-title">Add Monthly Stats</h4>
         </div>
         <div class="modal-body">
+          <div id="monthWarn" class="alert alert-warning hiddenWarning">
+            <button type="button" class="close" onclick="$('#monthWarn').hide()" aria-hidden="true">&times;</button>
+            <strong>Warning!</strong> Monthly Data entered for this campus already. Now blah blah blah
+          </div>
           <form class="form-horizontal" id="monForm" role="form" action="monthlystats.php" method="post">
             <div class="form-group">
               <label for="inputCampus" class="col-lg-3 control-label">Campus</label>
@@ -215,6 +252,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" id="inputID" name="inputID">
+          <input type="hidden" id="inputEdited" name="inputEdited">
           <input type="hidden" id="inputDate" name="inputDate">
           <input type="hidden" name="monSubmitted" value="true">
           <button type="submit" class="btn btn-success">Submit</button>

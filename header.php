@@ -216,9 +216,6 @@
                 }
               ?>
             </select>
-            <script type="text/javascript">
-              $('#selectCampus').selectpicker('hide');
-            </script>
             <input type="hidden" id="hiddenStart" name="hiddenStart">
             <input type="hidden" id="hiddenEnd" name="hiddenEnd">
             <input type="hidden" id="hiddenAdd" name="hiddenAdd"
