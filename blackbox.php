@@ -61,14 +61,14 @@
       "source_contact_id" => $civicrm_id,
       "target_contact_id" => $id,
       "assignee_contact_id" => $form["inputCampus"],
-      "activity_type_id" => 47, // rejoiceable
+      "activity_type_id" => API_D_ID, // rejoiceable
       "subject" => 'Indicated Decision',
       "status_id" => 2,  // completed
       "activity_date_time" => $form["inputDate"],
       "engagement_level" => $form["inputIntegrated"],
-      API_TYPE => "4",
-      API_METHOD => $form["inputMethod"],
-      API_WITNESS => $form["inputWitness"]
+      API_D_TYPE => "4",
+      API_D_METHOD => $form["inputMethod"],
+      API_D_WITNESS => $form["inputWitness"]
     );
     if($form["inputID"]){
       $decisionParams["id"] = $form["inputID"];
