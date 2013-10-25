@@ -61,7 +61,7 @@
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
       where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ? and
-      activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4;";
+      activity_type_id = " . R_ID . " and " . REJOICEABLE . R_TYPE . " = 4;";
     if ($idStmt = $mysqli->prepare($idQuery)){
       if($campus["query"]){
         $idStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
@@ -102,7 +102,7 @@
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
       where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ? and
-      activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4
+      activity_type_id = " . R_ID . " and " . REJOICEABLE . R_TYPE . " = 4
       and " . REJOICEABLE . R_METHOD . " is not null
       group by " . REJOICEABLE . R_METHOD . ";";
     if ($idStmt = $mysqli->prepare($idQuery)){
@@ -139,7 +139,7 @@
       left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
       left join civicrm_contact b on civicrm_activity_assignment.assignee_contact_id = b.id
       where civicrm_activity.activity_date_time between ? and ? and 
-      activity_type_id = 47 and " . REJOICEABLE . R_TYPE . " = 4
+      activity_type_id = " . R_ID . " and " . REJOICEABLE . R_TYPE . " = 4
       group by b.id;";
     if ($idStmt = $mysqli->prepare($idQuery)){
       $idStmt->bind_param("ss", $dates["start"], $dates["end"]);
@@ -170,7 +170,8 @@
       inner join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
-      where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ? and activity_type_id = 53;";
+      where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ?
+      and activity_type_id = " . E_ID . ";";
     if ($evStmt = $mysqli->prepare($evQuery)){
       if($campus["query"]){
         $evStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
@@ -207,7 +208,7 @@
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
       where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ?
-      and " . EVENT . E_TYPE . " is not null and activity_type_id = 53
+      and " . EVENT . E_TYPE . " is not null and activity_type_id = " . E_ID . "
       group by " . EVENT . E_TYPE . ";";
     if ($evStmt = $mysqli->prepare($evQuery)){
       if($campus["query"]){
@@ -237,16 +238,14 @@
 
     $reports = array();
     $repQuery = "select civicrm_activity.id as 'ID', DATE(civicrm_activity.activity_date_time) as 'DATE',
-      civicrm_value_monthly_report_school_25.unrecorded_engagements_167 as 'UNRECORDED',
-      civicrm_value_monthly_report_school_25.growing_disciples_168 as 'GROWING',
-      civicrm_value_monthly_report_school_25.ministering_disciples_169 as 'MINISTERING',
-      civicrm_value_monthly_report_school_25.multiplying_disciples_170 as 'MULTIPLYING',
-      b.display_name as 'CAMPUS', b.id as 'CAMPUS_ID' from civicrm_activity
-      inner join civicrm_value_monthly_report_school_25 on civicrm_activity.id = civicrm_value_monthly_report_school_25.entity_id
+      " . MONTH . M_UNREC . " as 'UNRECORDED', " . MONTH . M_GROW . " as 'GROWING',
+      " . MONTH . M_MIN . " as 'MINISTERING', " . MONTH . M_MULT . " as 'MULTIPLYING',
+      " . MONTH . M_AUTO . " as 'AUTOGEN', b.display_name as 'CAMPUS', b.id as 'CAMPUS_ID' from civicrm_activity
+      inner join " . MONTH . " on civicrm_activity.id = " . MONTH . ".entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
       where" . $campus["query"] . " civicrm_activity.activity_date_time between ? and ?
-      and activity_type_id = 54;";
+      and activity_type_id = " . M_ID . ";";
     if ($repStmt = $mysqli->prepare($repQuery)){
       if($campus["query"]){
         $repStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
@@ -256,12 +255,12 @@
       }
       $repStmt->execute();
       $repStmt->bind_result($id_bind, $date_bind, $unrec_bind, $grow_bind, $min_bind,
-        $mult_bind, $campus_bind, $cid_bind);
+        $mult_bind, $auto_bind, $campus_bind, $cid_bind);
       $i = 0;
       while ($repStmt->fetch()) {
         $reports[$i] = array("ID" => $id_bind, "DATE" => $date_bind, "UNRECORDED" => $unrec_bind,
-          "GROWING" => $grow_bind, "MINISTERING" => $min_bind,
-          "MULTIPLYING" => $mult_bind, "CAMPUS" => $campus_bind, "CAMPUS_ID" => $cid_bind);
+          "GROWING" => $grow_bind, "MINISTERING" => $min_bind, "MULTIPLYING" => $mult_bind,
+          "AUTOGEN" => $auto_bind, "CAMPUS" => $campus_bind, "CAMPUS_ID" => $cid_bind);
         $i++;
       }
     }
@@ -297,14 +296,13 @@
     }
 
     $msQuery = "select b.id as 'ID', sum(civicrm_value_outreach_event_24.total_attendance_165) as 'TOTAL',
-      sum(civicrm_value_outreach_event_24.non_christian_attendance_166) as 'NONCHRISTIAN',
-      sum(civicrm_value_monthly_report_school_25.unrecorded_engagements_167) as 'UNREC'
+      sum(" . EVENT . E_NON . ") as 'NONCHRISTIAN', sum(" . MONTH . M_UNREC . ") as 'UNREC'
       from civicrm_activity
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
       inner join civicrm_value_school_info_10 on civicrm_value_school_info_10.entity_id = b.id
-      left join civicrm_value_outreach_event_24 on civicrm_activity.id = civicrm_value_outreach_event_24.entity_id
-      left join civicrm_value_monthly_report_school_25 on civicrm_activity.id = civicrm_value_monthly_report_school_25.entity_id
+      left join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
+      left join " . MONTH . " on civicrm_activity.id = " . MONTH . ".entity_id
       where b.contact_sub_type = 'School' and civicrm_activity.activity_date_time between ? and ?
       and civicrm_value_school_info_10.do_we_have_a_ministry_presence_h_73 = 'Yes'
       group by b.id";
@@ -358,17 +356,14 @@
     }
 
     $msQuery = "select YEAR(civicrm_activity.activity_date_time) as 'YEAR', MONTH(civicrm_activity.activity_date_time) as 'MONTH', 
-      sum(civicrm_value_outreach_event_24.total_attendance_165) as 'TOTAL',
-      sum(civicrm_value_outreach_event_24.non_christian_attendance_166) as 'NONCHRISTIAN',
-      sum(civicrm_value_monthly_report_school_25.unrecorded_engagements_167) as 'UNREC',
-      sum(civicrm_value_monthly_report_school_25.growing_disciples_168) as 'GROWING',
-      sum(civicrm_value_monthly_report_school_25.ministering_disciples_169) as 'MINISTERING',
-      sum(civicrm_value_monthly_report_school_25.multiplying_disciples_170) as 'MULTIPLYING'
+      sum(" . EVENT . E_TOTAL . ") as 'TOTAL', sum(" . EVENT . E_NON . ") as 'NONCHRISTIAN',
+      sum(" . MONTH . M_UNREC . ") as 'UNREC', sum(" . MONTH . M_GROW . ") as 'GROWING',
+      sum(" . MONTH . M_MIN . ") as 'MINISTERING', sum(" . MONTH . M_MULT . ") as 'MULTIPLYING'
       from civicrm_activity
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
-      left join civicrm_value_outreach_event_24 on civicrm_activity.id = civicrm_value_outreach_event_24.entity_id
-      left join civicrm_value_monthly_report_school_25 on civicrm_activity.id = civicrm_value_monthly_report_school_25.entity_id
+      left join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
+      left join " . MONTH . " on civicrm_activity.id = " . MONTH . ".entity_id
       where" . $campus["query"] . " b.contact_sub_type = 'School' and civicrm_activity.activity_date_time between ? and ?
       group by YEAR(civicrm_activity.activity_date_time), MONTH(civicrm_activity.activity_date_time)";
     if ($msStmt = $mysqli->prepare($msQuery)){

@@ -132,7 +132,8 @@
       API_MON_UNREC => $form["inputUnRec"],
       API_MON_GROW => $form["inputGrow"],
       API_MON_MIN => $form["inputMin"],
-      API_MON_MULT => $form["inputMult"]
+      API_MON_MULT => $form["inputMult"],
+      API_MON_AUTO => $form["inputAuto"]
     );
     if($form["inputID"]){
       $monParams["id"] = $form["inputID"];

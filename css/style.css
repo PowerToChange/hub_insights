@@ -51,22 +51,22 @@ label.error {
 }
 
 .table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
-background-color: #ececec;
+  background-color: #ececec;
 }
 
 html, body {
-    height: 100%;
+  height: 100%;
 }
 #wrap {
-    height: auto !important;
-    margin: 0 auto -60px;
-    min-height: 100%;
+  height: auto !important;
+  margin: 0 auto -60px;
+  min-height: 100%;
 }
 #push, #footer {
-    height: 60px;
+  height: 60px;
 }
 #footer {
-    background-color: #EEEEEE;
+  background-color: #EEEEEE;
 }
 
 @media (max-width: 767px) {
@@ -79,11 +79,11 @@ html, body {
 }
 
 .muted {
-    color: #777777;
+  color: #777777;
 }
 
 .container .credit {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .tooltip-inner {

@@ -81,13 +81,14 @@
       $("#myModal .selectpicker").on('change', function(ev) {
         $("#monForm").validate().element("#inputCampus");
 
-        if($("#inputID").val() == ""){
+        if(($("#inputEdited").val() == "") && ($("#inputCampus").val())){
           $.getJSON(
             "ajax/monthcheck.php", 
             {cid: $("#inputCampus").val()},  
             function(json){
-              if(json.cid != "false"){
-                $("#inputUnRec").val(json.cid);
+              if(json.type == "double"){
+                $("#inputID").val(json.aid)
+                $("#inputUnRec").val(json.unrec);
                 $("#monForm").validate().element("#inputUnRec");
                 $("#inputGrow").val(json.grow);
                 $("#monForm").validate().element("#inputGrow");
@@ -96,9 +97,31 @@
                 $("#inputMult").val(json.mult);
                 $("#monForm").validate().element("#inputMult");
                 $("#monthWarn").show();
+                $('#monthPop').hide();
+              }
+              else if(json.type == "autopop"){
+                $("#inputUnRec").val("");
+                $("#inputUnRec").closest('.form-group').removeClass('has-success');
+                $("#inputGrow").val(json.grow);
+                $("#monForm").validate().element("#inputGrow");
+                $("#inputMin").val(json.min);
+                $("#monForm").validate().element("#inputMin");
+                $("#inputMult").val(json.mult);
+                $("#monForm").validate().element("#inputMult");
+                $('#monthWarn').hide();
+                $('#monthPop').show();
               }
               else {
+                $("#inputUnRec").val("");
+                $("#inputUnRec").closest('.form-group').removeClass('has-success');
+                $("#inputGrow").val("");
+                $("#inputGrow").closest('.form-group').removeClass('has-success');
+                $("#inputMin").val("");
+                $("#inputMin").closest('.form-group').removeClass('has-success');
+                $("#inputMult").val("");
+                $("#inputMult").closest('.form-group').removeClass('has-success');
                 $('#monthWarn').hide();
+                $('#monthPop').hide();
               }
             }
           );
@@ -133,6 +156,10 @@
     </script>
 
     <div class="col-md-9" >
+      <div id="autoWarn" class="alert alert-warning alert-dismissable hiddenWarning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Warning!</strong> Monthly Reports marked with a yellow Edit button need to be updated.
+      </div>
       <?php
         if($monInfo){
           $monLabel = "Added";
@@ -176,6 +203,7 @@
         <tbody>
           <?php
             $stats = getMonthly($_POST);
+            $automated = false;
             foreach($stats as $mon){
               echo "<tr><td class=\"fDate\">" . $mon["DATE"] . "</td>";
               echo "<td class=\"fCampus\">" . $mon["CAMPUS"] . "<span class=\"hiddenCampus\">" . $mon["CAMPUS_ID"] . "</span></td>";
@@ -184,7 +212,20 @@
               echo "<td class=\"fMin\">" . $mon["MINISTERING"] . "</td>";
               echo "<td class=\"fMult\">" . $mon["MULTIPLYING"] . "</td>";
               echo "<td><span class=\"hiddenID\">" . $mon["ID"] . "</span>";
-              echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editMON\">Edit</a></td></tr>";
+              if($mon["AUTOGEN"]){
+                $automated = true;
+                echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-warning editMON\">Edit</a></td></tr>";
+              }
+              else {
+                echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editMON\">Edit</a></td></tr>";
+              }
+            }
+            if($automated){
+              ?>
+              <script type="text/javascript">
+                $('#autoWarn').show();
+              </script>
+              <?php
             }
           ?>
         </tbody>
@@ -206,6 +247,10 @@
           <div id="monthWarn" class="alert alert-warning hiddenWarning">
             <button type="button" class="close" onclick="$('#monthWarn').hide()" aria-hidden="true">&times;</button>
             <strong>Warning!</strong> Monthly Data entered for this campus already. Now blah blah blah
+          </div>
+          <div id="monthPop" class="alert alert-info hiddenWarning">
+            <button type="button" class="close" onclick="$('#monthPop').hide()" aria-hidden="true">&times;</button>
+            <strong>Notice!</strong> Involvement Thresholds populated from last submitted information.
           </div>
           <form class="form-horizontal" id="monForm" role="form" action="monthlystats.php" method="post">
             <div class="form-group">
@@ -252,6 +297,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" id="inputID" name="inputID">
+          <input type="hidden" id="inputAuto" name="inputAuto" value="0">
           <input type="hidden" id="inputEdited" name="inputEdited">
           <input type="hidden" id="inputDate" name="inputDate">
           <input type="hidden" name="monSubmitted" value="true">
