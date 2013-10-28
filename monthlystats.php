@@ -156,10 +156,6 @@
     </script>
 
     <div class="col-md-9" >
-      <div id="autoWarn" class="alert alert-warning alert-dismissable hiddenWarning">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Warning!</strong> Monthly Reports marked with a yellow Edit button need to be updated.
-      </div>
       <?php
         if($monInfo){
           $monLabel = "Added";
@@ -181,6 +177,10 @@
           }
         }
       ?>
+      <div id="autoWarn" class="alert alert-warning alert-dismissable hiddenWarning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Warning!</strong> Monthly Reports marked with a yellow Edit button need to be updated.
+      </div>
       <div class="text-center">
         <a id="modalBtn" data-toggle="modal" href="#myModal" class="btn btn-success btn-large"></a>
         <script type="text/javascript">
