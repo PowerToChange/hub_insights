@@ -264,11 +264,11 @@
         <div class="modal-body">
           <div id="monthWarn" class="alert alert-warning hiddenWarning">
             <button type="button" class="close" onclick="$('#monthWarn').hide()" aria-hidden="true">&times;</button>
-            <strong>Warning!</strong> Monthly Data entered for this campus already. Now blah blah blah
+            <strong>Warning!</strong> Monthly Data entered for this campus already. Submitting this form will overwrite previous submission.
           </div>
           <div id="monthPop" class="alert alert-info hiddenWarning">
             <button type="button" class="close" onclick="$('#monthPop').hide()" aria-hidden="true">&times;</button>
-            <strong>Notice!</strong> Involvement Thresholds populated from last submitted information.
+            <strong>Notice!</strong> Involvement Thresholds populated from most recent monthly report, not from current Pulse information.
           </div>
           <form class="form-horizontal" id="monForm" role="form" action="monthlystats.php" method="post">
             <div class="form-group">
