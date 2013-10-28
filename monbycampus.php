@@ -3,7 +3,7 @@
   include 'login.php';
   include 'dbcalls.php';
 
-  $title = "Movement Snapshot - By Campus";
+  $title = "Movement Snapshot - Monthly Breakdown";
   $thisFile = "monbycampus.php";
   $msBCActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";

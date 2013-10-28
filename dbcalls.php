@@ -295,7 +295,7 @@
       }
     }
 
-    $msQuery = "select b.id as 'ID', sum(civicrm_value_outreach_event_24.total_attendance_165) as 'TOTAL',
+    $msQuery = "select b.id as 'ID', sum(" . EVENT . E_TOTAL . ") as 'TOTAL',
       sum(" . EVENT . E_NON . ") as 'NONCHRISTIAN', sum(" . MONTH . M_UNREC . ") as 'UNREC'
       from civicrm_activity
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id

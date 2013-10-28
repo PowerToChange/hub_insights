@@ -3,7 +3,7 @@
   include 'login.php';
   include 'dbcalls.php';
 
-  $title = "Movement Snapshot - Big Picture";
+  $title = "Movement Snapshot - Evangelism Big Picture";
   $thisFile = "monbigpicture.php";
   $msBPActive = "active";
   $tableConfig = "'aaSorting': [],\n";
