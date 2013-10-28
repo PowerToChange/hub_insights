@@ -288,7 +288,7 @@
             <div class="form-group">
               <label for="inputUnRec" class="col-lg-3 control-label">Unrecorded Engagements</label>
               <div class="col-lg-9">
-                <input type="text" class="form-control" id="inputUnRec" name="inputUnRec" placeholder="Name">
+                <input type="text" class="form-control" id="inputUnRec" name="inputUnRec" placeholder="Number">
               </div>
             </div>
             <div class="form-group">
@@ -297,19 +297,19 @@
             <div class="form-group">
               <label for="inputGrow" class="col-lg-3 control-label">Growing</label>
               <div class="col-lg-9">
-                <input type="text" class="form-control" id="inputGrow" name="inputGrow" placeholder="AutoPop">
+                <input type="text" class="form-control" id="inputGrow" name="inputGrow" placeholder="Number">
               </div>
             </div>
             <div class="form-group">
               <label for="inputMin" class="col-lg-3 control-label">Ministering</label>
               <div class="col-lg-9">
-                <input type="text" class="form-control" id="inputMin" name="inputMin" placeholder="AutoPop">
+                <input type="text" class="form-control" id="inputMin" name="inputMin" placeholder="Number">
               </div>
             </div>
             <div class="form-group">
               <label for="inputMult" class="col-lg-3 control-label">Multiplying</label>
               <div class="col-lg-9">
-                <input type="text" class="form-control" id="inputMult" name="inputMult" placeholder="AutoPop">
+                <input type="text" class="form-control" id="inputMult" name="inputMult" placeholder="Number">
               </div>
             </div>
         </div>
