@@ -232,6 +232,24 @@
         <tfoot>
         </tfoot>
       </table>
+
+      <div class="well well-sm">
+        <h3>Help</h3>
+        <p><strong>Growing disciples:</strong></p>
+        <p>The number of people involved in a local campus movement that are doing this one thing:
+          growing in their faith.</p>
+        <p><strong>Ministering disciples:</strong></p>
+        <p>The number of people involved in a local campus movement that are doing these two things:
+          growing in their faith and sharing their faith with others.</p>
+        <p><strong>Multiplying disciples:</strong></p>
+        <p>The number of people involved in a local campus movement that are doing these three things:
+          growing in their faith, sharing their faith with others and discipling others to do the same.</p>
+        <p><strong>Engagements:</strong></p>
+        <p>A person who begins, or continues, to be involved in gospel-themed conversations with someone from P2C,
+          either face-to-face or digitally. (ex. we know their name, something about them and can contact them again).
+          For online conversations, a person could be counted as an engagement if they are interacting (not just a random comment)
+          and the conversation is gospel centred.</p>
+      </div>
     </div>
   <?php include 'footer.php'; ?>
 

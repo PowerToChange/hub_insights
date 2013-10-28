@@ -21,10 +21,10 @@
           </tr>
           <tr>
             <th>Campus</th>
-            <th>Surveys</th>
+            <th>Surveys Collected</th>
             <th>Non-Christian Event Attendance</th>
-            <th>Survey Results</th>
-            <th>Unrecorded</th>
+            <th rel="tooltip" title="# who desired further engagement after survey">Positive Survey Results</th>
+            <th rel="tooltip" title="# who engaged with us, but we don't know their name">Unrecorded</th>
           </tr>
         </thead>
         <tbody>
@@ -62,6 +62,18 @@
           </tr>
         </tfoot>
       </table>
+
+      <div class="well well-sm">
+        <h3>Help</h3>
+        <p><strong>Exposures:</strong></p>
+        <p>The number of people exposed to some sort of spiritual content with an opportunity to begin or continue engagement.</p>
+        <p><strong>Engagements:</strong></p>
+        <p>A person who begins, or continues, to be involved in gospel-themed conversations with someone from P2C,
+          either face-to-face or digitally. (ex. we know their name, something about them and can contact them again).
+          For online conversations, a person could be counted as an engagement if they are interacting (not just a random comment)
+          and the conversation is gospel centred.</p>
+        <p><i>Note:</i> Discover Tool Engagements will soon be summarized in this report.</p>
+      </div>
     </div>
   <?php include 'footer.php'; ?>
 
