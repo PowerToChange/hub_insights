@@ -4,7 +4,7 @@
   include 'dbcalls.php';
 
   $eventType = array("1" => "Campus Wide Outreach", "2" => "Weekly Meeting Outreach", 
-    "3" => "MDA Outreach", "4" => "Online Outreach", "10" => "Other");
+    "3" => "MDA Outreach", "4" => "Online Outreach", "10" => "Other", "11" => "Legacy Pulse Outreach");
 
   $title = "Event Stats - By Type";
   $thisFile = "eventtype.php";
