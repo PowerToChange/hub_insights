@@ -5,6 +5,8 @@
 
   $eventType = array("1" => "Campus Wide Outreach", "2" => "Weekly Meeting Outreach", 
     "3" => "MDA Outreach", "4" => "Online Outreach", "10" => "Other");
+  $eventDisp = array("1" => "Campus Wide Outreach", "2" => "Weekly Meeting Outreach",
+    "3" => "MDA Outreach", "4" => "Online Outreach", "10" => "Other", "11" => "Legacy Pulse Outreach");
 
   $evInfo = 0;
   if($_POST["evSubmitted"]){
@@ -169,7 +171,7 @@
             foreach($events as $ev){
               echo "<tr><td class=\"fDate\">" . $ev["DATE"] . "</td>";
               echo "<td class=\"fName\">" . $ev["NAME"] . "</td>";
-              echo "<td class=\"fType\">" . $eventType[$ev["TYPE"]] . "<span class=\"hiddenType\">" . $ev["TYPE"] . "</span></td>";
+              echo "<td class=\"fType\">" . $eventDisp[$ev["TYPE"]] . "<span class=\"hiddenType\">" . $ev["TYPE"] . "</span></td>";
               echo "<td class=\"fStory\">" . $ev["STORY"] . "</td>";
               echo "<td class=\"fTotal\">" . $ev["TOTAL"] . "</td>";
               echo "<td class=\"fNon\">" . $ev["NONCHRISTIAN"] . "</td>";
