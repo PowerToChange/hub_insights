@@ -25,7 +25,7 @@
   echo "Import Started\n";
   $params = array("hiddenStart" => $start, "hiddenEnd" => $end);
   $reports = getMonthly($params);
-  print_r($reports);
+  //print_r($reports);
 
   $schools = getSchools();
   foreach($schools as $id => $label){
