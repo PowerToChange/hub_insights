@@ -15,15 +15,13 @@
 
   $result = array("type" => "false");
   $repQuery = "select civicrm_activity.id as 'ID', YEAR(civicrm_activity.activity_date_time) as 'YEAR',
-    MONTH(civicrm_activity.activity_date_time) as 'MONTH',
-    civicrm_value_monthly_report_school_25.unrecorded_engagements_167 as 'UNRECORDED',
-    civicrm_value_monthly_report_school_25.growing_disciples_168 as 'GROWING',
-    civicrm_value_monthly_report_school_25.ministering_disciples_169 as 'MINISTERING',
-    civicrm_value_monthly_report_school_25.multiplying_disciples_170 as 'MULTIPLYING' from civicrm_activity
-    inner join civicrm_value_monthly_report_school_25 on civicrm_activity.id = civicrm_value_monthly_report_school_25.entity_id
+    MONTH(civicrm_activity.activity_date_time) as 'MONTH', 
+    " . MONTH . M_UNREC . " as 'UNRECORDED', " . MONTH . M_GROW . " as 'GROWING', 
+    " . MONTH . M_MIN . " as 'MINISTERING', " . MONTH . M_MULT . " as 'MULTIPLYING' from civicrm_activity
+    inner join " . MONTH . " on civicrm_activity.id = " . MONTH . ".entity_id
     inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
     inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
-    where b.id = ? and activity_type_id = 54
+    where b.id = ? and activity_type_id = " . M_ID . "
     order by civicrm_activity.activity_date_time DESC;";
   if ($repStmt = $mysqli->prepare($repQuery)){
     $repStmt->bind_param("i", $campus_id);
