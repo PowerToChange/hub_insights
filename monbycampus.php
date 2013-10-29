@@ -2,12 +2,14 @@
   global $civicrm_id;
   include 'login.php';
   include 'dbcalls.php';
+  date_default_timezone_set('America/Toronto');
 
   $title = "Movement Snapshot - Monthly Breakdown";
   $thisFile = "monbycampus.php";
   $msBCActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
-  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 1, 2, 3, 4, 5, 6, 7 ] }],\n";
+  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4, 5, 6, 7 ] },
+    {'iDataSort':8, 'aTargets':[0]}, {'bVisible':false, 'aTargets': [ 8 ]}],\n";
   include 'header.php';
 ?>
 
@@ -44,14 +46,15 @@
             }
 
             foreach($byCampus as $date => $info){
-              echo "<tr><td>" . $date . "</td>";
+              echo "<tr><td>" . date("M Y", strtotime($date)) . "</td>";
               echo "<td>" . ($info["SURVEY"] ?: 0) . "</td>";
               echo "<td>" . ($info["EVENT"] ?: 0) . "</td>";
               echo "<td>" . ($info["RESULT"] ?: 0) . "</td>";
               echo "<td>" . ($info["UNREC"] ?: 0) . "</td>";
               echo "<td>" . ($info["GROW"] ?: 0) . "</td>";
               echo "<td>" . ($info["MIN"] ?: 0) . "</td>";
-              echo "<td>" . ($info["MULT"] ?: 0) . "</td></tr>";
+              echo "<td>" . ($info["MULT"] ?: 0) . "</td>";
+              echo "<td>" . strtotime($date) . "</td></tr>";
             }
           ?>
         </tbody>

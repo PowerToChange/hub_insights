@@ -2,6 +2,7 @@
   global $civicrm_id;
   include 'login.php';
   include 'dbcalls.php';
+  date_default_timezone_set('America/Toronto');
 
   $monInfo = 0;
   if($_POST["monSubmitted"]){
@@ -13,7 +14,8 @@
   $thisFile = "monthlystats.php";
   $monAddActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
-  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 2, 3, 4, 5 ] }],\n";
+  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 2, 3, 4, 5 ] },
+    {'iDataSort':7, 'aTargets':[ 0 ]}, {'bVisible':false, 'aTargets': [ 7 ]}],\n";
   include 'header.php';
 ?>
 
@@ -34,7 +36,7 @@
         modal.find('#inputGrow').val(parent.find('.fGrow').text());
         modal.find('#inputMin').val(parent.find('.fMin').text());
         modal.find('#inputMult').val(parent.find('.fMult').text());
-        var tableDate = parent.find(".fDate").text();
+        var tableDate = parent.find(".hiddenDate").text();
         modal.find('#inputDate').val(tableDate);
         modal.find('h4').text('Edit Monthly Stats - ' + moment(tableDate).format('MMMM YYYY'));
         $("#monForm").validate().resetForm();
@@ -205,7 +207,8 @@
             $stats = getMonthly($_POST);
             $automated = false;
             foreach($stats as $mon){
-              echo "<tr><td class=\"fDate\">" . $mon["DATE"] . "</td>";
+              echo "<tr><td class=\"fDate\">" . date("M Y", strtotime($mon["DATE"])) .
+                "<span class=\"hiddenDate\">" . $mon["DATE"] . "</span></td>";
               echo "<td class=\"fCampus\">" . $mon["CAMPUS"] . "<span class=\"hiddenCampus\">" . $mon["CAMPUS_ID"] . "</span></td>";
               echo "<td class=\"fUnRec\">" . $mon["UNRECORDED"] . "</td>";
               echo "<td class=\"fGrow\">" . $mon["GROWING"] . "</td>";
@@ -214,11 +217,12 @@
               echo "<td><span class=\"hiddenID\">" . $mon["ID"] . "</span>";
               if($mon["AUTOGEN"]){
                 $automated = true;
-                echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-warning editMON\">Edit</a></td></tr>";
+                echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-warning editMON\">Edit</a></td>";
               }
               else {
-                echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editMON\">Edit</a></td></tr>";
+                echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editMON\">Edit</a></td>";
               }
+              echo "<td>" . $mon["DATE"] . "</td></tr>";
             }
             if($automated){
               ?>
