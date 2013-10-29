@@ -207,7 +207,7 @@
           <div class="well well-sm" id="filterWell" data-toggle="popover" data-original-title="Filter Results" 
             data-content="Filters what is displayed to the right. You must press 'Update Display' or a navigation link below to save filter changes.">
           <form id="rangeForm" role="form" action="<?php echo $thisFile; ?>" method="post">
-            <select class="selectpicker" data-width="100%" data-size="10" id="selectCampus" name="selectCampus">
+            <select class="selectpicker" data-width="100%" data-size="10" id="selectCampus" name="selectCampus" hidden>
               <option selected="selected" value="0">All Campuses</option>
               <?php
                 $schools = getSchools();

@@ -154,6 +154,11 @@
         $('#modalBtn').click();
       }
 
+      $("#formSubmit").click(function() {
+        $('#inputCampus').prop('disabled',false);
+        $('#inputCampus').selectpicker('refresh');
+      });
+
     });
     </script>
 
@@ -323,7 +328,7 @@
           <input type="hidden" id="inputEdited" name="inputEdited">
           <input type="hidden" id="inputDate" name="inputDate">
           <input type="hidden" name="monSubmitted" value="true">
-          <button type="submit" class="btn btn-success">Submit</button>
+          <button type="submit" id="formSubmit" class="btn btn-success">Submit</button>
           </form>
         </div>
       </div><!-- /.modal-content -->
