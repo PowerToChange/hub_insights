@@ -1,5 +1,4 @@
 <?php
-  include '../config/dbconstants.php';
   include '../blackbox.php';
   include '../dbcalls.php';
 
