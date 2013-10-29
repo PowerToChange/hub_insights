@@ -132,6 +132,8 @@
       });
 
       $("#modalBtn").click(function() {
+        $("#monthWarn").hide();
+        $('#monthPop').hide();
         $('#monForm')[0].reset();
         $('#inputID').removeAttr("value");
         $('#inputEdited').val("");
