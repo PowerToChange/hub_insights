@@ -21,7 +21,7 @@
         }
       }
 
-      $monthly = array("inputCampus" => $schoolID, "inputDate" => $data[1], "inputUnrec" => $data[2], 
+      $monthly = array("inputCampus" => $schoolID, "inputDate" => $data[1], "inputUnRec" => $data[2],
         "inputGrow" => $data[3], "inputMin" => $data[4], "inputMult" => $data[5], "inputAuto" => "0");
       $monResult = add_monthly($monthly);
       if($monResult == 1){
