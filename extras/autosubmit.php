@@ -53,6 +53,7 @@
             "inputGrow" => $grow_bind, "inputMin" => $min_bind, "inputMult" => $mult_bind);
         }
       }
+      $repStmt->close();
       $monResult = add_monthly($stats);
       if($monResult == 1){
         echo "MONTH REPORT FOR  " . $label . " ADDED SUCCESSFULLY!\n";
