@@ -23,7 +23,7 @@
     throw new Exception($mysqli->connect_error);
   }
 
-  echo "Import Started\n";
+  echo "Import Started on " . date('Y-m-d H:i:s') . "\n";
   $params = array("hiddenStart" => $start, "hiddenEnd" => $end);
   $reports = getMonthly($params);
   //print_r($reports);
