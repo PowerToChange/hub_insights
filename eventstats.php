@@ -29,8 +29,18 @@
         var modal = $('#myModal');
         var parent = edit.closest('tr');
         modal.find('#inputName').val(parent.find(".fName").text());
+        if(!($("#inputCampus option[value='" + parent.find('.hiddenCampus').text() + "']").length > 0)){
+          $('#inputCampus').append($("<option/>",
+            {value: parent.find('.hiddenCampus').text(), text: parent.find('.fCampus').text()}));
+          $('#inputCampus').selectpicker('refresh');
+        }
         modal.find('#inputCampus').selectpicker('val', parent.find('.hiddenCampus').text());
         modal.find('#inputDate').val(parent.find(".fDate").text());
+        if(!($("#inputType option[value='" + parent.find('.hiddenType').text() + "']").length > 0)){
+          $('#inputType').append($("<option/>",
+            {value: parent.find('.hiddenType').text(), text: parent.find('.fType').text()}));
+          $('#inputType').selectpicker('refresh');
+        }
         modal.find('#inputType').selectpicker('val', parent.find(".hiddenType").text());
         modal.find('#inputTotal').val(parent.find('.fTotal').text());
         modal.find('#inputNon').val(parent.find('.fNon').text());
@@ -171,12 +181,13 @@
             foreach($events as $ev){
               echo "<tr><td class=\"fDate\">" . $ev["DATE"] . "</td>";
               echo "<td class=\"fName\">" . $ev["NAME"] . "</td>";
-              echo "<td class=\"fType\">" . $eventDisp[$ev["TYPE"]] . "<span class=\"hiddenType\">" . $ev["TYPE"] . "</span></td>";
+              echo "<td class=\"fType\">" . $eventDisp[$ev["TYPE"]] . "</td>";
               echo "<td class=\"fStory\">" . $ev["STORY"] . "</td>";
               echo "<td class=\"fTotal\">" . $ev["TOTAL"] . "</td>";
               echo "<td class=\"fNon\">" . $ev["NONCHRISTIAN"] . "</td>";
-              echo "<td class=\"fCampus\">" . $ev["CAMPUS"] . "<span class=\"hiddenCampus\">" . $ev["CAMPUS_ID"] . "</span></td>";
-              echo "<td><span class=\"hiddenID\">" . $ev["ID"] . "</span>";
+              echo "<td class=\"fCampus\">" . $ev["CAMPUS"] . "</td>";
+              echo "<td><span class=\"hiddenID\">" . $ev["ID"] . "</span><span class=\"hiddenCampus\">" . $ev["CAMPUS_ID"] . "</span>";
+              echo "<span class=\"hiddenType\">" . $ev["TYPE"] . "</span>";
               echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editEV\">Edit</a></td></tr>";
             }
           ?>

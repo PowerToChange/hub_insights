@@ -31,6 +31,10 @@
         var parent = edit.closest('tr');
         modal.find('#inputID').val(parent.find('.hiddenID').text());
         modal.find('#inputEdited').val("true");
+        if(!($("#inputCampus option[value='" + parent.find('.hiddenCampus').text() + "']").length > 0)){
+          $('#inputCampus').append($("<option/>",
+            {value: parent.find('.hiddenCampus').text(), text: parent.find('.fCampus').text()}));
+        }
         modal.find('#inputCampus').selectpicker('val', parent.find('.hiddenCampus').text());
         modal.find('#inputUnRec').val(parent.find(".fUnRec").text());
         modal.find('#inputGrow').val(parent.find('.fGrow').text());
@@ -216,12 +220,12 @@
             foreach($stats as $mon){
               echo "<tr><td class=\"fDate\">" . date("M Y", strtotime($mon["DATE"])) .
                 "<span class=\"hiddenDate\">" . $mon["DATE"] . "</span></td>";
-              echo "<td class=\"fCampus\">" . $mon["CAMPUS"] . "<span class=\"hiddenCampus\">" . $mon["CAMPUS_ID"] . "</span></td>";
+              echo "<td class=\"fCampus\">" . $mon["CAMPUS"] . "</td>";
               echo "<td class=\"fUnRec\">" . $mon["UNRECORDED"] . "</td>";
               echo "<td class=\"fGrow\">" . $mon["GROWING"] . "</td>";
               echo "<td class=\"fMin\">" . $mon["MINISTERING"] . "</td>";
               echo "<td class=\"fMult\">" . $mon["MULTIPLYING"] . "</td>";
-              echo "<td><span class=\"hiddenID\">" . $mon["ID"] . "</span>";
+              echo "<td><span class=\"hiddenID\">" . $mon["ID"] . "</span><span class=\"hiddenCampus\">" . $mon["CAMPUS_ID"] . "</span>";
               if($mon["AUTOGEN"]){
                 $automated = true;
                 echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-warning editMON\">Edit</a></td>";

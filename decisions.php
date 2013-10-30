@@ -37,6 +37,11 @@
         var parent = edit.closest('tr');
         modal.find('#inputFirst').val(parent.find(".hiddenFirst").text());
         modal.find('#inputLast').val(parent.find(".hiddenLast").text());
+        if(!($("#inputCampus option[value='" + parent.find('.hiddenCampus').text() + "']").length > 0)){
+          $('#inputCampus').append($("<option/>",
+            {value: parent.find('.hiddenCampus').text(), text: parent.find('.fCampus').text()}));
+          $('#inputCampus').selectpicker('refresh');
+        }
         modal.find('#inputCampus').selectpicker('val', parent.find('.hiddenCampus').text());
         modal.find('#inputDate').val(parent.find(".fDate").text());
         modal.find('#inputWitness').val(parent.find(".fWitness").text());
@@ -187,8 +192,9 @@
               echo "<td class=\"fMethod\">" . $method[$dec["METHOD"]] . "<span class=\"hiddenMethod\">" . $dec["METHOD"] . "</span></td>";
               echo "<td class=\"fStory\">" . $dec["STORY"] . "</td>";
               echo "<td class=\"fIntegrated\">" . $integrated[$dec["INTEGRATED"]] . "<span class=\"hiddenInt\">" . $dec["INTEGRATED"] . "</span></td>";
-              echo "<td class=\"fCampus\">" . $dec["CAMPUS"] . "<span class=\"hiddenCampus\">" . $dec["CAMPUS_ID"] . "</span></td>";
+              echo "<td class=\"fCampus\">" . $dec["CAMPUS"] . "</td>";
               echo "<td><span class=\"hiddenID\">" . $dec["ID"] . "</span><span class=\"hiddenCID\">" . $dec["BELIEVER_ID"] . "</span>";
+              echo "<span class=\"hiddenCampus\">" . $dec["CAMPUS_ID"] . "</span>";
               echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editID\">Edit</a></td></tr>";
             }
           ?>
