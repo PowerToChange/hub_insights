@@ -1,13 +1,14 @@
 <?php
   include '../blackbox.php';
   include '../dbcalls.php';
+  error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
   $civicrm_id = 1;
 
   function findCampus($reports, $cid){
     foreach($reports as $key => $report){
-      if($report["CAMPUS_ID"] === $cid){
-        return $key;
+      if(intval($report["CAMPUS_ID"]) === intval($cid)){
+        return true;
       }
     }
     return false;
@@ -59,40 +60,6 @@
       else {
         echo "MONTH REPORT FOR " . $label . " FAILED! ERROR: " . $monResult . "\n";
       }
-      exit;
     }
   }
-  /*$decisionQuery = "select * from cim_stats_prc";
-  if ($decisions = $mysqli->query($decisionQuery)) {
-    while ($row = mysqli_fetch_assoc($decisions)) {
-      $schoolID = 30412;
-      $idQuery = "select id from civicrm_contact where external_identifier = " . $row["campus_id"];
-      if ($result = $mysqli->query($idQuery)) {
-        while ($school = mysqli_fetch_assoc($result)) {
-          $schoolID = $school["id"];
-        }
-      }
-      
-      $params = array(
-        "inputFirst" => $row["prc_firstName"], "inputCampus" => $schoolID, "inputDate" => $row["prc_date"], 
-        "inputIntegrated" => $integrated[$row["prc_7upCompleted"]], "inputMethod" => $method[$row["prcMethod_id"]], 
-        "inputWitness" => $row["prc_witnessName"], "inputStory" => $row["prc_notes"]
-      );
-
-      $succeeded = add_decision($params);
-      if($succeeded == 1){
-        echo "ID " . $row["prc_id"] . " successful!\n";
-      }
-      else {
-        echo "ID " . $row["prc_id"] . " failed! Error: " . $succeeded . "\n";
-      }
-
-      $i++;
-      if($i > 1){
-        echo "Import Completed\n";
-        exit;
-      }
-    }
-    echo "Import Completed\n";
-  }*/
 ?>
