@@ -6,7 +6,7 @@
   $title = "Movement Snapshot - Evangelism Big Picture";
   $thisFile = "monbigpicture.php";
   $msBPActive = "active";
-  $tableConfig = "'aaSorting': [],\n";
+  $tableConfig = "'aaSorting': [[ 0, 'asc' ]],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 1, 2, 3, 4 ] }],\n";
   include 'header.php';
 ?>

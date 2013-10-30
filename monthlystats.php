@@ -13,7 +13,7 @@
   $title = "Monthly Stats";
   $thisFile = "monthlystats.php";
   $monAddActive = "active";
-  $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
+  $tableConfig = "'aaSorting': [[ 0, 'desc' ], [ 1, 'asc']],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 2, 3, 4, 5 ] },
     {'iDataSort':7, 'aTargets':[ 0 ]}, {'bVisible':false, 'aTargets': [ 7 ]}],\n";
   include 'header.php';
@@ -229,7 +229,7 @@
               else {
                 echo "<a data-toggle=\"modal\" href=\"#myModal\" class=\"btn btn-primary editMON\">Edit</a></td>";
               }
-              echo "<td>" . $mon["DATE"] . "</td></tr>";
+              echo "<td>" . date("Y-m-01", strtotime($mon["DATE"])) . "</td></tr>";
             }
             if($automated){
               ?>
