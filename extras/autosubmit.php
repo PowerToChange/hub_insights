@@ -38,23 +38,25 @@
       echo "Missing report for " . $label . "\n";
       $stats = array("inputCampus" => $id, "inputDate" => $end, "inputUnRec" => 0, "inputAuto" => 1,
             "inputGrow" => 0, "inputMin" => 0, "inputMult" => 0);
-      $repQuery = "select civicrm_activity.id as 'ID', " . MONTH . M_GROW . " as 'GROWING',
-        " . MONTH . M_MIN . " as 'MINISTERING', " . MONTH . M_MULT . " as 'MULTIPLYING' from civicrm_activity
-        inner join " . MONTH . " on civicrm_activity.id = " . MONTH . ".entity_id
-        inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
-        inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
-        where b.id = ? and activity_type_id = " . M_ID . "
-        order by civicrm_activity.activity_date_time DESC;";
-      if ($repStmt = $mysqli->prepare($repQuery)){
-        $repStmt->bind_param("i", $id);
-        $repStmt->execute();
-        $repStmt->bind_result($id_bind, $grow_bind, $min_bind, $mult_bind);
-        if($repStmt->fetch()) {
-          $stats = array("inputCampus" => $id, "inputDate" => $end, "inputUnRec" => 0, "inputAuto" => 1,
-            "inputGrow" => $grow_bind, "inputMin" => $min_bind, "inputMult" => $mult_bind);
+      if(date('m') != 10){
+        $repQuery = "select civicrm_activity.id as 'ID', " . MONTH . M_GROW . " as 'GROWING',
+          " . MONTH . M_MIN . " as 'MINISTERING', " . MONTH . M_MULT . " as 'MULTIPLYING' from civicrm_activity
+          inner join " . MONTH . " on civicrm_activity.id = " . MONTH . ".entity_id
+          inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+          inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
+          where b.id = ? and activity_type_id = " . M_ID . "
+          order by civicrm_activity.activity_date_time DESC;";
+        if ($repStmt = $mysqli->prepare($repQuery)){
+          $repStmt->bind_param("i", $id);
+          $repStmt->execute();
+          $repStmt->bind_result($id_bind, $grow_bind, $min_bind, $mult_bind);
+          if($repStmt->fetch()) {
+            $stats = array("inputCampus" => $id, "inputDate" => $end, "inputUnRec" => 0, "inputAuto" => 1,
+              "inputGrow" => $grow_bind, "inputMin" => $min_bind, "inputMult" => $mult_bind);
+          }
+          $repStmt->close();
         }
       }
-      $repStmt->close();
       $monResult = add_monthly($stats);
       if($monResult == 1){
         echo "MONTH REPORT FOR  " . $label . " ADDED SUCCESSFULLY!\n";
