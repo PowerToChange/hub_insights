@@ -52,6 +52,7 @@
               markers: [{
                 attribute: 'r',
                 scale: [4, 10],
+                normalizeFunction: 'polynomial',
                 values: data.counts,
               }]
             },

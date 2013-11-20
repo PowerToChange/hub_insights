@@ -36,7 +36,7 @@
     $idStmt->bind_result($name_bind, $count_bind, $lat_bind, $long_bind);
     while ($idStmt->fetch()) {
       $results["coords"][] = array($lat_bind, $long_bind);
-      $results["names"][] = $name_bind;
+      $results["names"][] = utf8_encode($name_bind);
       $results["counts"][] = $count_bind;
     }
   }
