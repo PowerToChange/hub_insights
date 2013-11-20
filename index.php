@@ -3,7 +3,7 @@
   include 'login.php';
   include 'dbcalls.php';
 
-  $title = "Insights";
+  $title = "P2C-S Insights";
   $thisFile = "index.php";
   include 'header.php';
 ?>
