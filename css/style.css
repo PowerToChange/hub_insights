@@ -98,3 +98,9 @@ html, body {
 .tooltip {
   z-index: 2000 !important;
 }
+
+.jvectormap-zoomin, .jvectormap-zoomout {
+  height: auto !important;
+  width: auto !important;
+  font-family: sans-serif !important;
+}

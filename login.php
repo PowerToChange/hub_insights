@@ -24,7 +24,6 @@
   $testIds = array_unique($testIds);
 
   function checkUser($valid){
-    print_r($user);
     if(!$valid){
       echo "<div class=\"alert alert-danger\"><strong>Error!</strong> No Staff Privileges</div>";
       echo "</div></body></html>";

@@ -121,6 +121,11 @@
           $('#rangeForm').attr("action", "monbycampus.php");
           $('#rangeForm')[0].submit();
         });
+
+        $('#homePage').click(function() {
+          $('#rangeForm').attr("action", "index.php");
+          $('#rangeForm')[0].submit();
+        });
       
         var startThis = moment().month(8).startOf('month');
         var endThis = moment().month(7).add('years',1).endOf('month');
@@ -188,6 +193,8 @@
       <div class="pull-right">
         <i class="glyphicon glyphicon-user"></i>
         <a href="?logout="> Logout of <?php echo $user["firstName"] . " " . $user["lastName"]; ?></a>
+        <i class="glyphicon glyphicon-chevron-up"></i>
+        <a href="https://pulse.p2c.com">Back to Pulse</a>
       </div>
       <?php //print_r($sends); ?>
     </div>
@@ -200,7 +207,7 @@
       <div class="col-md-3 col-sm-12">
         <div class="well">
           <div class="container">
-            <h2 class="pull-left">Insights</h2>
+            <a id="homePage" href="javascript:{}"><h2 class="pull-left" style="color: black">Insights</h2></a>
             <span id="insightsInfo" class="glyphicon glyphicon-question-sign" style="font-size:18px; margin-left:10px" rel="tooltip" title="Click for Help"></span>
           </div>
 
