@@ -240,10 +240,11 @@
         </div>
 
         <?php
-          $idOpen = "in"; $msOpen = "";
-          if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive){
-            $idOpen = ""; $msOpen = "in";
-          }
+          if($permissions["isStaff"] && $permissions["visibility"] >= 1){
+            $idOpen = "in"; $msOpen = "";
+            if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive){
+              $idOpen = ""; $msOpen = "in";
+            }
         ?>
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
@@ -279,7 +280,9 @@
               </div>
             </div>
         </div>
-
+        <?php
+          }
+        ?>
 
         </div>
       </div>

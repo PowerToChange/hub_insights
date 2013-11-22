@@ -3,6 +3,7 @@
   include 'login.php';
   include 'dbcalls.php';
 
+  $permissions["visibility"] = 2; //Student permissions
   $title = "P2C-S Insights";
   $thisFile = "index.php";
   include 'header.php';
