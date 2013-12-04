@@ -1,5 +1,5 @@
 <?php
-  include 'config/civi_constants.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/config/civi_constants.php';
 
   $postData = array(
     "json" => "1",

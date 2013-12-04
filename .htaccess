@@ -1,1 +1,13 @@
 DirectoryIndex index.php
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^pulse2.p2c.com [NC]
+RewriteRule ^(.*)$ https://pulse2.p2c.com/$1 [L,R=301]
+
+RewriteBase /
+RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php [QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/$ $1/$2.php [QSA]
+
+RewriteRule ^insights/$ insights/decisions.php [QSA]
+RewriteRule ^insights/decisions/([a-zA-Z0-9_-]+)/$ insights/id$1.php [QSA]
+RewriteRule ^insights/monthlystats/([a-zA-Z0-9_-]+)/$ insights/mon$1.php [QSA]

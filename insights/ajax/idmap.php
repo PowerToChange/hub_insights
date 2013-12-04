@@ -1,6 +1,6 @@
 <?php
-  include '../config/dbconstants.php';
-  include '../config/columnnames.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/config/dbconstants.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/config/columnnames.php';
 
   $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
   if (mysqli_connect_errno()) {

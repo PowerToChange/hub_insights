@@ -1,16 +1,18 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
   date_default_timezone_set('America/Toronto');
 
   $title = "Movement Snapshot - Monthly Breakdown";
-  $thisFile = "monbycampus.php";
+  $thisFile = "/insights/monthlystats/bycampus/";
+  $activeInsights = "class='active'";
   $msBCActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4, 5, 6, 7 ] },
     {'iDataSort':8, 'aTargets':[0]}, {'bVisible':false, 'aTargets': [ 8 ]}],\n";
-  include 'header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
 
     <div class="col-md-9" >
@@ -95,7 +97,7 @@
         <p><i>Note:</i> Discover Tool Engagements will soon be summarized in this report.</p>
       </div>
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   </body>
 </html>

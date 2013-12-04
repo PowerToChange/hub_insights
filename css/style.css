@@ -104,3 +104,8 @@ html, body {
   width: auto !important;
   font-family: sans-serif !important;
 }
+
+.brand-logo {
+  padding-left: 10px;
+  padding-right: 50px;
+}

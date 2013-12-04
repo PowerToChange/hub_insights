@@ -1,17 +1,19 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
   $eventType = array("1" => "Campus Wide Outreach", "2" => "Weekly Meeting Outreach", 
     "3" => "MDA Outreach", "4" => "Online Outreach", "10" => "Other", "11" => "Legacy Pulse Outreach");
 
   $title = "Event Stats - By Type";
-  $thisFile = "eventtype.php";
+  $thisFile = "/insights/eventtype/";
+  $activeInsights = "class='active'";
   $evTypeActive = "active";
   $tableConfig = "'aaSorting': [],\n";
   $tableSorting = "'aoColumns': [null,{'sType':'numeric', 'asSorting':['desc','asc']},{'sType':'numeric', 'asSorting':['desc','asc']}],\n";
-  include 'header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
 
     <div class="col-md-9" >
@@ -50,7 +52,7 @@
         </tfoot>
       </table>
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   </body>
 </html>

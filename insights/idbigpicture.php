@@ -1,15 +1,17 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
   $title = "Indicated Decisions - Big Picture";
-  $thisFile = "idbigpicture.php";
+  $thisFile = "/insights/decisions/bigpicture/";
+  $activeInsights = "class='active'";
   $idBPActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'asc' ]],\n";
   $tableSorting = "'aoColumns': [null,{'sType':'numeric', 'asSorting':['desc','asc']},
     {'sType':'numeric', 'asSorting':['desc','asc']},{'sType':'numeric', 'asSorting':['desc','asc']}],\n";
-  include 'header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
 
     <div class="col-md-9" >
@@ -63,7 +65,7 @@
         </tfoot>
       </table>
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   </body>
 </html>

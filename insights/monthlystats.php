@@ -1,22 +1,24 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
   date_default_timezone_set('America/Toronto');
 
   $monInfo = 0;
   if($_POST["monSubmitted"]){
-    include 'blackbox.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/blackbox.php';
     $monInfo = add_monthly($_POST);
   }
 
   $title = "Monthly Stats";
-  $thisFile = "monthlystats.php";
+  $thisFile = "/insights/monthlystats/";
+  $activeInsights = "class='active'";
   $monAddActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ], [ 1, 'asc']],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 2, 3, 4, 5 ] },
     {'iDataSort':7, 'aTargets':[ 0 ]}, {'bVisible':false, 'aTargets': [ 7 ]}],\n";
-  include 'header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
 
     <script type="text/javascript">
@@ -266,7 +268,7 @@
           and the conversation is gospel centred.</p>
       </div>
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   <!-- Modal -->
   <div class="modal" id="myModal">

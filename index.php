@@ -1,18 +1,20 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
   $permissions["visibility"] = 2; //Student permissions
-  $title = "P2C-S Insights";
+  $title = "Home";
   $thisFile = "index.php";
-  include 'header.php';
+  $activeHome = "class='active'";
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
 ?>
-    <link rel="stylesheet" type="text/css" href="css/jquery-jvectormap-1.2.2.css">
-    <script src="js/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="js/jquery-jvectormap-ca-lcc-en.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/jquery-jvectormap-1.2.2.css">
+    <script src="/js/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="/js/jquery-jvectormap-ca-lcc-en.js"></script>
 
-    <div class="col-md-9">
+    <div class="row">
+    <div class="col-md-12">
       <?php
         date_default_timezone_set('America/Toronto');   
         $dates = array();
@@ -34,13 +36,13 @@
 
       <div class="text-center"><h2>Indicated Decisions <?php echo $dates["start"] . "-" . $dates["end"]; ?>: 
         <?php echo $newBelievers; ?> New Believers!</h2></div>
-      <div id="map" style="height:510px; width:850px"></div>
+      <div id="map" style="height:510px; width:auto"></div>
       <script>
-        $.getJSON('ajax/idmap.php', function(data){
+        $.getJSON('/insights/ajax/idmap.php', function(data){
 
           $('#map').vectorMap({
             map: 'ca_lcc_en',
-            focusOn: {x: 0.5, y: 1, scale: 1.6},
+            focusOn: {x: 0.5, y: 1, scale: 2},
             regionStyle: {initial: {fill: '#428bca'}},
             markerStyle: {
               initial: {
@@ -71,7 +73,7 @@
       </script>
 
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   </body>
 </html>

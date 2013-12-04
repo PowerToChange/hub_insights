@@ -1,7 +1,7 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
   $method = array("1" => "Random Evangelism", "2" => "Friendship Evangelism", 
     "3" => "MDA Outreach", "4" => "Campus Wide Event", 
@@ -12,12 +12,13 @@
 
   $decInfo = 0;
   if($_POST["idSubmitted"]){
-    include 'blackbox.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/insights/blackbox.php';
     $decInfo = add_decision($_POST);
   }
 
   $title = "Indicated Decisions";
-  $thisFile = "decisions.php";
+  $thisFile = "/insights/decisions/";
+  $activeInsights = "class='active'";
   if($_POST["hiddenAdd"] == "true" || $_GET["add"] == "true"){
     $idAddActive = "active";
   }
@@ -26,7 +27,8 @@
   }
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0 ] }],\n";
-  include 'header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
 
     <script type="text/javascript">
@@ -203,7 +205,7 @@
         </tfoot>
       </table>
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   <!-- Modal -->
   <div class="modal" id="myModal">

@@ -1,7 +1,7 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
   $eventType = array("1" => "Campus Wide Outreach", "2" => "Weekly Meeting Outreach", 
     "3" => "MDA Outreach", "4" => "Online Outreach", "10" => "Other");
@@ -10,16 +10,18 @@
 
   $evInfo = 0;
   if($_POST["evSubmitted"]){
-    include 'blackbox.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/insights/blackbox.php';
     $evInfo = add_event($_POST);
   }
 
   $title = "Event Stats";
-  $thisFile = "eventstats.php";
+  $thisFile = "/insights/eventstats/";
+  $activeInsights = "class='active'";
   $evAddActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 4, 5 ] }],\n";
-  include 'header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
 
     <script type="text/javascript">
@@ -196,7 +198,7 @@
         </tfoot>
       </table>
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   <!-- Modal -->
   <div class="modal" id="myModal">

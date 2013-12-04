@@ -1,7 +1,7 @@
 <?php
   global $civicrm_id;
-  include 'login.php';
-  include 'dbcalls.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/login.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
   $method = array("1" => "Random Evangelism", "2" => "Friendship Evangelism", 
     "3" => "MDA Outreach", "4" => "Campus Wide Event", 
@@ -10,12 +10,14 @@
     "9" => "Internet Evangelism", "10" => "Jesus Video", "11" => "Other");
 
   $title = "Indicated Decisions - By Method";
-  $thisFile = "idbymethod.php";
+  $thisFile = "/insights/decisions/bymethod/";
+  $activeInsights = "class='active'";
   $idBMActive = "active";
   $tableConfig = "'aaSorting': [],\n'iDisplayLength': 25,\n";
   $tableSorting = "'aoColumns': [null,{'sType':'numeric', 'asSorting':['desc','asc']}, { 'sType': 'percent', 'asSorting':['desc','asc']},
     {'sType':'numeric', 'asSorting':['desc','asc']},{'sType':'numeric', 'asSorting':['desc','asc']}],\n";
-  include 'header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
 
     <div class="col-md-9" >
@@ -61,7 +63,7 @@
         </tfoot>
       </table>
     </div>
-  <?php include 'footer.php'; ?>
+  <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   </body>
 </html>
