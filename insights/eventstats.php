@@ -209,7 +209,7 @@
           <h4 class="modal-title">Add Event Stats</h4>
         </div>
         <div class="modal-body">
-          <form class="form-horizontal" id="evForm" role="form" action="eventstats.php" method="post">
+          <form class="form-horizontal" id="evForm" role="form" action="/insights/eventstats/" method="post">
             <div class="form-group">
               <label for="inputName" class="col-lg-3 control-label">Name of Event</label>
               <div class="col-lg-9">

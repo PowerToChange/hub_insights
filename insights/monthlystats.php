@@ -6,7 +6,7 @@
 
   $monInfo = 0;
   if($_POST["monSubmitted"]){
-    include $_SERVER['DOCUMENT_ROOT'].'/blackbox.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/insights/blackbox.php';
     $monInfo = add_monthly($_POST);
   }
 
@@ -287,7 +287,7 @@
             <button type="button" class="close" onclick="$('#monthPop').hide()" aria-hidden="true">&times;</button>
             <strong>Notice!</strong> Involvement Thresholds populated from most recent monthly report, not from current Pulse information.
           </div>
-          <form class="form-horizontal" id="monForm" role="form" action="monthlystats.php" method="post">
+          <form class="form-horizontal" id="monForm" role="form" action="/insights/monthlystats/" method="post">
             <div class="form-group">
               <label for="inputCampus" class="col-lg-3 control-label">Campus</label>
               <div class="col-lg-9">

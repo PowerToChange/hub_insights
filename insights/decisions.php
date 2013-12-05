@@ -216,7 +216,7 @@
           <h4 class="modal-title">Add Indicated Decision</h4>
         </div>
         <div class="modal-body">
-          <form class="form-horizontal" id="idForm" role="form" action="decisions.php" method="post">
+          <form class="form-horizontal" id="idForm" role="form" action="/insights/decisions/" method="post">
             <div class="form-group">
               <label for="inputFirst" class="col-lg-3 control-label">New Believer Name</label>
               <div class="col-lg-4">
