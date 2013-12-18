@@ -51,6 +51,7 @@
         <ul class="nav navbar-nav">
           <li <?php echo $activeHome; ?>><a href="/">Home</a></li>
           <li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li>
+          <li <?php echo $activeDiscover; ?>><a href="/discover/">Discover</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Surveys <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -70,6 +71,5 @@
       <h1 class="text-center"><?php echo $title; ?></h1>
     </div>
 
-    <div class="container">
       <?php //print_r($sends); ?>
       <?php checkUser($isStaff); ?>

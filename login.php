@@ -6,8 +6,8 @@
   $user = phpCAS::getAttributes();
 
   //PERMISSIONS CHECK
-  $permissions = array("isStaff" => false, "isStudent" => false, "visibility" => 1); //0 - Admin, 1 - Staff, 2 - Students
-  $testIds = array();
+  $permissions = array("isStaff" => false, "isStudent" => false, "visibility" => 1, //0 - Admin, 1 - Staff, 2 - Students
+    "ids" => array()); //0 - Admin, 1 - Staff, 2 - Students
   $url ="https://pulse.p2c.com/api/ministry_involvements?guid=" . $user["ssoGuid"] . "&api_key=" . PULSE_API_KEY;
   $xml = simplexml_load_file($url);
   $civicrm_id = (string) $xml['civicrm_id'];
@@ -19,10 +19,10 @@
       $permissions["isStudent"] = true;
     }
     foreach ($minInfo->ministry[0]->campus as $campus){
-      $testIds[] = intval($campus['campus_id']);
+      $permissions["ids"][] = intval($campus['campus_id']);
     }
   }
-  $testIds = array_unique($testIds);
+  $permissions["ids"] = array_unique($permissions["ids"]);
 
   function checkUser(){
     global $permissions;

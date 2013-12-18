@@ -147,16 +147,17 @@
       });
     </script>
 
+    <div class="container">
     <div class="row">
 
       <div class="col-md-3 col-sm-12">
-        <div class="well">
+        <div class="well side">
           <div class="container">
             <h2 class="pull-left" style="color: black">Insights</h2>
             <span id="insightsInfo" class="glyphicon glyphicon-question-sign" style="font-size:18px; margin-left:10px" rel="tooltip" title="Click for Help"></span>
           </div>
 
-          <div class="well well-sm" id="filterWell" data-toggle="popover" data-original-title="Filter Results" 
+          <div class="well well-sm side" id="filterWell" data-toggle="popover" data-original-title="Filter Results" 
             data-content="Filters what is displayed to the right. You must press 'Update Display' or a navigation link below to save filter changes.">
           <form id="rangeForm" role="form" action="<?php echo $thisFile; ?>" method="post">
             <select class="selectpicker" data-width="100%" data-size="10" id="selectCampus" name="selectCampus" hidden>
