@@ -1,25 +1,25 @@
 table.dataTable tr.odd td.sorting_1 {
-  background-color: rgba(66,139,202, 0.35);
+  background-color: rgba(184, 204, 253, 0.6);
 }
 
 table.dataTable tr.even td.sorting_1 {
-  background-color: rgba(66,139,202, 0.1);
+  background-color: rgba(245, 245, 255, 0.6);
 }
 
 table.dataTable tr.odd td.sorting_2 {
-  background-color: rgba(66,139,202, 0.2);
+  background-color: rgba(184, 204, 253, 0.3);
 }
 
 table.dataTable tr.even td.sorting_2 {
-  background-color: rgba(66,139,202, 0.05);
+  background-color: rgba(245, 245, 255, 0.3);
 }
 
 table.dataTable tr.odd td.sorting_3 {
-  background-color: rgba(66,139,202, 0.1);
+  background-color: rgba(184, 204, 253, 0.15);
 }
 
 table.dataTable tr.even td.sorting_3 {
-  background-color: rgba(66,139,202, 0.01);
+  background-color: rgba(245, 245, 255, 0.15);
 }
 
 .hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt,
@@ -28,7 +28,7 @@ table.dataTable tr.even td.sorting_3 {
 }
 
 .well.side {
-  background-color: rgba(66,139,202, 0.35) !important;
+  background-color: rgba(190,190,190, 0.35) !important;
 }
 
 .well.square {
