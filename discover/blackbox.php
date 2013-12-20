@@ -51,59 +51,71 @@
     return $contactReturn;
   }
 
-
-/*
-  function add_decision($form) {
+  function add_rejoiceable($form) {
     global $sends;
-    global $civicrm_id;
     $succeeded = 1;
 
-    $conParams = array(
-      "contact_type" => "Individual",
-      "first_name" => $form["inputFirst"]
-    );
-    if($form["inputCID"]){
-      $conParams["id"] = $form["inputCID"];
-    }
-    if($form["inputLast"]){
-      $conParams["last_name"] = $form["inputLast"];
-    }
-    //$sends[] = $conParams;
-
-    $contact = civicrm_call("Contact", "create", $conParams);
-    $sends[] = $contact;
-    if ($contact["is_error"] == 1) { $succeeded = $contact["error_message"]; return $succeeded; }
-    $id = $contact["id"];
-    //var_dump($contact);
+    $rejType = array("1" => "Interaction", "2" => "Spiritual Conversation", 
+    "3" => "Gospel Presentation", "4" => "Indicated Decision", "5" => "Shared Spirit-Filled Life");
+    date_default_timezone_set('America/Toronto');
+    $now = date('Y-m-d H:i:s');
     
-    $decisionParams = array(
-      "source_contact_id" => $civicrm_id,
-      "target_contact_id" => $id,
+    $rejoiceParams = array(
+      "source_contact_id" => $form["inputID"],
+      "target_contact_id" => $form["inputCID"],
       "assignee_contact_id" => $form["inputCampus"],
       "activity_type_id" => API_D_ID, // rejoiceable
-      "subject" => 'Indicated Decision',
+      "subject" => $rejType[$form["inputType"]],
       "status_id" => 2,  // completed
-      "activity_date_time" => $form["inputDate"],
-      "engagement_level" => $form["inputIntegrated"],
-      API_D_TYPE => "4",
-      API_D_METHOD => $form["inputMethod"],
-      API_D_WITNESS => $form["inputWitness"]
+      "activity_date_time" => $now,
+      API_D_TYPE => $form["inputType"]
     );
-    if($form["inputID"]){
-      $decisionParams["id"] = $form["inputID"];
-    }
-    if($form["inputStory"]){
-      $decisionParams["details"] = $form["inputStory"];
-    }
-    //$sends[] = $decisionParams;
 
-    $decisionReturn = civicrm_call("Activity", "create", $decisionParams);
+    if($form["inputType"] == "4"){
+      $decisionParams = array(
+        "engagement_level" => $form["inputIntegrated"],
+        API_D_METHOD => $form["inputMethod"],
+        API_D_WITNESS => $form["inputWitness"]
+      );
+      if($form["inputStory"]){
+        $decisionParams["details"] = $form["inputStory"];
+      }
+      $rejoiceParams = array_merge($rejoiceParams, $decisionParams);
+      $info = $form["inputWitness"] . " (" . $rejType[$form["inputType"]] . ")<br>" . $form["inputStory"];
+    }
+    else{
+      $rejoiceParams["details"] = $form["inputWitness"];
+      $info = $form["inputWitness"];
+    }
+
+    //$sends[] = $decisionParams;
+    $rejoiceReturn = civicrm_call("Activity", "create", $rejoiceParams);
     //$sends[] = $decisionReturn;
-    if ($decisionReturn["is_error"] == 1) { $succeeded = $decisionReturn["error_message"]; return $succeeded; }
+    if ($rejoiceReturn["is_error"] == 1) { $succeeded = $rejoiceReturn["error_message"]; return $succeeded; }
     //var_dump($surveyReturn);
 
-    return $succeeded;
+    return array("result" => $succeeded, "type" => $rejType[$form["inputType"]], "date" => $now, "info" => $info);
   }
-*/
+
+  function add_note($form) {
+    global $sends;
+    $succeeded = 1;
+
+    date_default_timezone_set('America/Toronto');
+    $now = date('Y-m-d H:i:s');
+    
+    $noteParams = array(
+      "entity_id" => $form["inputCID"],
+      "contact_id" => $form["inputID"],
+      "subject" => $form["inputSubject"],
+      "note" => $form["inputNote"],
+      "modified_date" => $now
+    );
+
+    $noteReturn = civicrm_call("Note", "create", $noteParams);
+    if ($noteReturn["is_error"] == 1) { $succeeded = $noteReturn["error_message"]; return $succeeded; }
+
+    return array("result" => $succeeded, "note" => $form["inputNote"], "date" => $now, "subject" => $form["inputSubject"]);
+  }
 
 ?>
