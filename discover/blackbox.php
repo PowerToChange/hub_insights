@@ -38,7 +38,7 @@
     $contactParams = array(
       "id" => $form["id"],
       "api.Activity.get" => array(),
-      "api.Note.get" => array(),
+      "api.Note.get" => array("entity_id" => $form["id"]),
       "api.CustomValue.get" => array(),
       "api.Relationship.get" => array()
     );
@@ -106,7 +106,7 @@
     
     $noteParams = array(
       "entity_id" => $form["inputCID"],
-      "contact_id" => $form["inputID"],
+      "contact_id" => $form["inputCID"],
       "subject" => $form["inputSubject"],
       "note" => $form["inputNote"],
       "modified_date" => $now
@@ -116,6 +116,82 @@
     if ($noteReturn["is_error"] == 1) { $succeeded = $noteReturn["error_message"]; return $succeeded; }
 
     return array("result" => $succeeded, "note" => $form["inputNote"], "date" => $now, "subject" => $form["inputSubject"]);
+  }
+
+  function add_msg($form) {
+    global $sends;
+    $succeeded = 1;
+
+    date_default_timezone_set('America/Toronto');
+    $now = date('Y-m-d H:i:s');
+    
+    $msgParams = array(
+      "source_contact_id" => $form["msgID"],
+      "target_contact_id" => $form["msgCID"],
+      "activity_type_id" => $form["type"], 
+      "details" => $form["name"],
+      "status_id" => 2,  // completed
+      "activity_date_time" => $now
+    );
+
+    $msgReturn = civicrm_call("Activity", "create", $msgParams);
+    if ($msgReturn["is_error"] == 1) { $succeeded = $msgReturn["error_message"]; return $succeeded; }
+
+    return array("result" => $succeeded, "date" => $now);
+  }
+
+  function edit_contact($form){
+    global $sends;
+    $succeeded = 1;
+
+    date_default_timezone_set('America/Toronto');
+    $now = date('Y-m-d H:i:s');
+
+    $conParams = array(
+      "id" => $form["inputCID"],
+      "contact_type" => "Individual",
+      "first_name" => $form["inputFirst"],
+      "last_name" => $form["inputLast"],
+      "gender_id" => $form["selectGender"],
+      API_CON_INT => $form["selectInter"],
+      API_CON_LEVEL => $form["selectLevel"],
+      "api.email.create" => array("email" => $form["inputEmail"], "is_primary" => 1, "id" => $form["emailID"]),
+      "api.phone.create" => array("phone" => $form["inputPhone"], "is_primary" => 1, "id" => $form["phoneID"])
+    );
+    if($form["inputNext"]){
+      $conParams[API_CON_NEXT] = $form["inputNext"];
+    }
+
+    $sends[] = $conParams;
+    $contact = civicrm_call("Contact", "create", $conParams);
+    $sends[] = $contact;
+    if ($contact["is_error"] == 1) { $succeeded = $contact["error_message"]; return $succeeded; }
+
+    if($form["currentCampus"] != $form["selectCampus"] && $succeeded == 1){
+      //Change campus
+      $oldCampusParams = array(
+        "id" => $form["relationshipID"],
+        "is_active" => 0,
+        "end_date" => $now
+      );
+
+      $oldRel = civicrm_call("Relationship", "create", $oldCampusParams);
+      if ($oldRel["is_error"] == 1) { $succeeded = $oldRel["error_message"]; return $succeeded; }
+
+      if($succeeded == 1){
+        $newCampusParams = array(
+          "contact_id_a" => $form["inputCID"],
+          "contact_id_b" => $form["selectCampus"],
+          "relationship_type_id" => 10,
+          "start_date" => $now
+        );
+
+        $newRel = civicrm_call("Relationship", "create", $newCampusParams);
+        if ($newRel["is_error"] == 1) { $succeeded = $newRel["error_message"]; return $succeeded; }
+      }
+    }
+
+    return $succeeded;
   }
 
 ?>

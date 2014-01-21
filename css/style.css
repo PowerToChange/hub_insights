@@ -62,6 +62,26 @@ label.error {
   background-color: #ececec;
 }
 
+.has-success > .bootstrap-select > button {
+  border-color: #468847;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.has-error > .bootstrap-select > button {
+  border-color: #B94A48;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.has-success > div > .bootstrap-select > button {
+  border-color: #468847;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.has-error > div > .bootstrap-select > button {
+  border-color: #B94A48;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
 html, body {
   height: 100%;
   overflow-x: hidden;
@@ -141,4 +161,8 @@ html, body {
 
 #flash .alert {
   border-radius: 0;
+}
+
+.bootstrap-select.btn-group {
+  margin-bottom: 0px !important;
 }

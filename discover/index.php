@@ -14,8 +14,12 @@
     "9" => "Internet Evangelism", "10" => "Jesus Video", "11" => "Other");
   $integrated = array("0" => "Not Sure", "10" => "Integrated with P2C", "8" => "Integrated with Christian Community");
 
+  if($_POST["inputCID"]){
+    $conValues = $_POST;
+    $conReturn = edit_contact($_POST);
+  }
 
-  $title = "Discover Tab";
+  $title = "Discover";
   $thisFile = "/discover/";
   $activeDiscover = "class='active'";
 
@@ -34,6 +38,68 @@
   $(document).ready(function() {
     $.ajaxSetup({  
       cache: false  
+    });
+
+    jQuery.validator.addMethod('phoneUS', function(phone_number, element) {
+      phone_number = phone_number.replace(/\s+/g, ''); 
+      return this.optional(element) || phone_number.length > 9 &&
+        phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+    }, 'Enter a valid phone number.');
+
+    $('#editForm').validate({
+      ignore: ':not(select:hidden, input:visible, textarea:visible)',
+      rules: {
+        inputFirst: {
+          required: true
+        },
+        inputLast: {
+          required: true
+        },
+        selectCampus: {
+          required: true
+        },
+        selectGender: {
+          required: true
+        },
+        selectInter: {
+          required: true
+        },
+        selectLevel: {
+          required: true
+        },
+        inputEmail: {
+          required: true,
+          email: true
+        },
+        inputPhone: {
+          required: true,
+          phoneUS: true
+        }
+      },
+      messages: {
+        inputEmail: {
+          email: "Enter a valid email."
+        }
+      },
+      highlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+      },
+      success: function(element) {
+        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        $(element).removeClass('error').addClass('valid').addClass('error');
+      },
+      errorPlacement: function (error, element) {
+        if ($(element).is('select')) {
+            element.next().after(error); // special placement for select elements
+        } else {
+            error.insertAfter(element);  // default placement for everything else
+        }
+      }
+    });
+    $("#submitInfo").click(function(){
+      if($("#editForm").valid()){
+        $("#editForm").submit();
+      }
     });
 
     $('#rejForm').validate({
@@ -142,6 +208,64 @@
       }
     });
 
+    $("#editInfoGroup").hide();
+    $(".infoEdit").hide();
+    $("#editInfo").click(function(){
+      $("#editInfo").hide();
+      $("#editInfoGroup").show();
+      $(".infoDisplay").hide();
+      $(".infoEdit").show();
+    });
+    $("#cancelInfo").click(function(){
+      $("#editInfo").show();
+      $("#editInfoGroup").hide();
+      $(".infoDisplay").show();
+      $(".infoEdit").hide();
+    });
+
+    $(".msgAction").click(function(){
+      var type = "2";
+      var glyphicon = "glyphicon-earphone";
+      var label = "Phone Call";
+      if($(this).attr("href").indexOf("mailto") >= 0){
+        type = "3";
+        glyphicon = "glyphicon-envelope";
+        label = "Email";
+      }
+      else if($(this).attr("href").indexOf("sms") >= 0){
+        type = "4";
+        glyphicon = "glyphicon-comment";
+        label = "Text/SMS";
+      }
+      var msgID = "<?php echo $civicrm_id; ?>";
+      var msgCID = "<?php echo $contactID; ?>";
+      var name = "<?php echo $user['firstName'] . ' ' . $user['lastName']; ?>";
+      $("#activityTable tbody").append("<tr id='loading'><td><img class='img-responsive centre' src='/images/loading.gif'></td></tr>");
+      $.getJSON(
+        "/discover/ajax/submitmsg.php", 
+        "id=60088&type="+type+"&msgID="+msgID+"&msgCID="+msgCID+"&name="+encodeURIComponent(name),  
+        function(json){
+          var alert = "<div class='alert alert-danger alert-dismissable'><button type='button' class='close' " +
+            "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> " + json.result + "</div>";
+          if(json.result == 1){
+            var alert = "<div class='alert alert-success alert-dismissable'><button type='button' class='close' " +
+              "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> " + label + " Added</div>";
+            var newMsg = "<tr><td><strong><i class='glyphicon glyphicon-earphone'></i> " + label + 
+              "</strong><small class='pull-right'>" + moment(json.date, "YYYY-MM-DD H:mm:ss").fromNow() + 
+              "</small><br><span>" + name + "</span></td></tr>\n";
+            $("#activityTable tbody #loading").remove();
+            $("#activityTable tbody").append(newMsg);
+          }
+          $("#flash").html(alert);
+          window.setTimeout(function() { 
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+            $(this).remove(); 
+          })}, 4000);
+        }
+      );
+      return true;
+    });
+
 
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       $('.selectpicker').selectpicker('mobile');
@@ -162,27 +286,34 @@
   <div >
   <div class="row">
     <div class="col-sm-12">
+
       <div class="contact">
         <h2 id="headerName"><?php echo $contact["display_name"]; ?></h2>
         <div class="btn-group">
-          <a href="tel:<?php echo $contact["phone"]; ?>" class="btn btn-default">
+          <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
             <i class="glyphicon glyphicon-earphone"></i>
             <span><?php echo $contact["phone"]; ?></span>
           </a>
-          <a href="sms:<?php echo $contact["phone"]; ?>" class="btn btn-default">
+          <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
             <i class="glyphicon glyphicon-comment"></i>
           </a>
-          <a href="mailto:<?php echo $contact["email"]; ?>" class="btn btn-default">
+          <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
             <i class="glyphicon glyphicon-envelope"></i>
             <span><?php echo $contact["email"]; ?></span>
           </a>
         </div>
       </div>
+
       <div class="well square">
         <div>
           <h4 class="pull-left"><i class="glyphicon glyphicon-user"></i> Contact Info</h4>
-          <a class="btn btn-default pull-right">Edit</a>
+          <a id="editInfo" class="btn btn-default pull-right">Edit</a>
+          <div id="editInfoGroup" class=" btn-group pull-right">
+            <a id="cancelInfo" class="btn btn-default">Cancel</a>
+            <a id="submitInfo" class="btn btn-success">Submit</a>
+          </div>
         </div>
+        <form class="form-horizontal" id="editForm" role="form" action="/discover/index.php" method="post">
         <table class="table table-bordered table-striped">
           <tbody>
             <?php 
@@ -200,15 +331,97 @@
                   $nextsteps = ($value["latest"] ? $value["latest"] : "" );
                 }
               }
-              $info = array("Campus" => $contact["api.Relationship.get"]["values"][0]["display_name"],
-                "Gender" => $contact["gender"], "Email" => $contact["email"], "Phone" => $contact["phone"],
-                "International" => $international, "Engagement Level" => $engagement, "Next Steps" => $nextsteps);
-              foreach ($info as $label => $value) {
-                echo "<tr><td>$label</td><td>$value</td></tr>\n";
+              foreach($relationships as $key => $values){
+                if($values["is_active"] == 1 && $values["relationship_type_id"] == 10){
+                  $campusRel = $values;
+                }
               }
-            ?>
+              ?>
+            <tr class="infoEdit">
+              <td>First Name</td>
+              <td class="form-group">
+                  <input type="text" class="form-control" id="inputFirst" name="inputFirst" placeholder="First Name" value="<?php echo $contact['first_name'];?>">
+              </td>
+            </tr>
+            <tr class="infoEdit">
+              <td>Last Name</td>
+              <td class="form-group">
+                  <input type="text" class="form-control" id="inputLast" name="inputLast" placeholder="Last Name" value="<?php echo $contact['last_name'];?>">
+              </td>
+            </tr>
+            <tr>
+              <td>Campus</td>
+              <td class="infoDisplay"><?php echo $campusRel["display_name"]; ?></td>
+              <td class="infoEdit form-group">
+                <select class="selectpicker" data-width="100%" data-size="10" id="selectCampus" name="selectCampus">
+                  <option selected="selected" disabled="disabled" value="0">Choose Campus</option>
+                  <?php
+                    $schools = getSchools();
+                    foreach($schools as $id => $label){
+                      $selected = ($campusRel["contact_id_b"] == $id ? "selected" : "");
+                        echo "<option value=\"" . $id . "\" " . $selected . ">" . $label . "</option>";
+                    }
+                  ?>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Gender</td><td class="infoDisplay"><?php echo $contact["gender"]; ?></td>
+              <td class="infoEdit form-group">
+                <select class="selectpicker" data-width="100%" data-size="10" id="selectGender" name="selectGender">
+                  <option value="2" <?php echo ($contact["gender_id"] == 2 ? "selected" : "");?>>Male</option>
+                  <option value="1" <?php echo ($contact["gender_id"] == 1 ? "selected" : "");?>>Female</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Email</td><td class="infoDisplay"><?php echo $contact["email"]; ?></td>
+              <td class="infoEdit form-group">
+                <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="<?php echo $contact['email'];?>">
+              </td>
+            </tr>
+            <tr>
+              <td>Phone</td><td class="infoDisplay"><?php echo $contact["phone"]; ?></td>
+              <td class="infoEdit form-group">
+                <input type="text" class="form-control" id="inputPhone" name="inputPhone" placeholder="Phone" value="<?php echo $contact['phone'];?>">
+              </td>
+            </tr>
+            <tr>
+              <td>International</td><td class="infoDisplay"><?php echo $international; ?></td>
+              <td class="infoEdit form-group">
+                <select class="selectpicker" data-width="100%" data-size="10" id="selectInter" name="selectInter">
+                  <option value="yes" <?php echo ($international == "Yes" ? "selected" : "");?>>Yes</option>
+                  <option value="no" <?php echo ($international == "No" ? "selected" : "");?>>No</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Engagement Level</td><td class="infoDisplay"><?php echo $engagement; ?></td>
+              <td class="infoEdit form-group">
+                <select class="selectpicker" data-width="100%" data-size="10" id="selectLevel" name="selectLevel">
+                  <?php
+                    foreach ($levels as $id => $label) {
+                      $selected = ($label == $engagement ? "selected" : "");
+                      echo "<option value=\"" . $id . "\" " . $selected . ">" . $label . "</option>";
+                    }
+                  ?>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Next Steps</td><td class="infoDisplay"><?php echo $nextsteps; ?></td>
+              <td class="infoEdit form-group">
+                <textarea class="form-control" id="inputNext" name="inputNext" rows="3" placeholder="Optional"><?php echo $nextsteps; ?></textarea>
+              </td>
+            </tr>
           </tbody>
         </table>
+        <input type="hidden" id="inputCID" name="inputCID" value="<?php echo $contactID; ?>">
+        <input type="hidden" id="phoneID" name="phoneID" value="<?php echo $contact['phone_id']; ?>">
+        <input type="hidden" id="emailID" name="emailID" value="<?php echo $contact['email_id']; ?>">
+        <input type="hidden" id="currentCampus" name="currentCampus" value="<?php echo $campusRel['contact_id_b']; ?>">
+        <input type="hidden" id="relationshipID" name="relationshipID" value="<?php echo $campusRel['id']; ?>">
+        </form>
       </div>
 
       <div id="activities" class="well square">
@@ -286,7 +499,10 @@
           </div>
         </div>
       </div>
-      <?php //print_r(get_contact(array("id" => $contactID))); ?>
+      <?php print_r(get_contact(array("id" => $contactID))); ?>
+      <?php print_r($conValues); ?>
+      <br><?php $conReturn; ?>
+      <br><?php print_r($sends); ?>
     </div>
 
     <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

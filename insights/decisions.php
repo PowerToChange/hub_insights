@@ -88,7 +88,14 @@
         success: function(element) {
           $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
           $(element).removeClass('error').addClass('valid').addClass('error');
+        },
+        errorPlacement: function (error, element) {
+        if ($(element).is('select')) {
+            element.next().after(error); // special placement for select elements
+        } else {
+            error.insertAfter(element);  // default placement for everything else
         }
+      }
       });
 
       $('#inputDate').datepicker({

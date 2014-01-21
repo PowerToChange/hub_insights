@@ -43,7 +43,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="/" class="navbar-brand active">P2C-Students | Pulse</a>
+        <a href="/" class="navbar-brand active">P2C-Students | Pulse (Beta)</a>
         <!--<img class="img-responsive brand-logo" src="/images/p2c_logo.png"></img>-->
       </div>
     
