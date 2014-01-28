@@ -22,20 +22,72 @@ table.dataTable tr.even td.sorting_3 {
   background-color: rgba(245, 245, 255, 0.15);
 }
 
+div.list-group-item {
+  color: #555555;
+}
+
+div.list-group-item .list-group-item-heading {
+  color: #333333;
+}
+
+div.list-group-item:hover,
+div.list-group-item:focus {
+  text-decoration: none;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+div.schoolContacts {
+  margin-bottom: 0px;
+}
+
 .hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt,
 .hiddenFirst, .hiddenLast, .hiddenType, .hiddenWarning, .hiddenDate {
   display: none;
 }
 
-.well.side {
+.well.side, .greyBack {
   background-color: rgba(190,190,190, 0.35) !important;
 }
 
+.greyBack {
+  background-color: rgba(190,190,190, 0.35) !important;
+  color: #5E6469;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 #FFFFFF;
+  padding: 15px;
+}
+
+.fullWidth {
+  font-size: 20px;
+  text-shadow: 0 1px 0 #FFFFFF;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.contactInfo {
+  padding-left: 15px;
+}
+
+.contactArrow {
+  padding-right: 15px;
+  margin-top: 20px;
+  font-size: 25px;
+}
+
+div.greyBack:hover,
+div.greyBack:focus {
+  text-decoration: none;
+  background-color: rgba(190,190,190, 0.7) !important;
+  cursor: pointer;
+}
+
 .well.square {
-    border-bottom: 1px solid #CCCCCC;
-    border-radius: 0;
-    margin-bottom: 0;
-    padding: 10px;
+  border-bottom: 1px solid #CCCCCC;
+  border-radius: 0;
+  margin-bottom: 0;
+  padding: 10px;
 }
 
 label.valid {

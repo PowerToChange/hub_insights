@@ -46,6 +46,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $campus = getCampus($params);
     $dates = getDates($params);
 
@@ -88,6 +89,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $campus = getCampus($params);
     $dates = getDates($params);
 
@@ -126,6 +128,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $dates = getDates($params);
 
     $bigPicture = array();
@@ -159,6 +162,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $campus = getCampus($params);
     $dates = getDates($params);
 
@@ -198,6 +202,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $campus = getCampus($params);
     $dates = getDates($params);
 
@@ -233,6 +238,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $campus = getCampus($params);
     $dates = getDates($params);
 
@@ -273,6 +279,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $dates = getDates($params);
 
     $bigPicture = array();
@@ -328,6 +335,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $campus = getCampus($params);
     $dates = getDates($params);
 
@@ -398,6 +406,7 @@
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
     }
+    $mysqli->set_charset("utf8");
     $schools = array();
     $schoolQuery = "select school.`organization_name` as 'SCHOOL', school.`id` as 'ID', school.external_identifier as 'PULSEID' from civicrm_contact school
       inner join civicrm_value_school_info_10 on civicrm_value_school_info_10.entity_id = school.id
