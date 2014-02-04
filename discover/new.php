@@ -109,6 +109,8 @@
     else {
       $('.selectpicker').selectpicker();
     }
+
+    $("#inputFirst").focus();
   });
   </script>
 

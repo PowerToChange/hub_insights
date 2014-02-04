@@ -112,6 +112,10 @@
       "modified_date" => $now
     );
 
+    if($form["inputNoteID"]){
+      $noteParams["id"] = $form["inputNoteID"];
+    }
+
     $noteReturn = civicrm_call("Note", "create", $noteParams);
     if ($noteReturn["is_error"] == 1) { $succeeded = $noteReturn["error_message"]; return $succeeded; }
 

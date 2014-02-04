@@ -66,6 +66,10 @@ div.schoolContacts {
   cursor: pointer;
 }
 
+.editNote {
+  cursor: pointer;
+}
+
 .contactInfo {
   padding-left: 15px;
 }

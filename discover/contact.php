@@ -163,6 +163,23 @@
       }
     });
 
+    $("#rejModalBtn").click(function(){
+      $('#rejForm')[0].reset();
+      $('#inputType').selectpicker('render');
+      $('#inputMethod').selectpicker('render');
+      $('#inputIntegrated').selectpicker('render');
+      $('#decisionForm').hide();
+
+      $("#rejForm").validate().resetForm();
+      $("#rejForm").validate().reset();
+      $("div .has-error").removeClass("has-error");
+      $("div .has-success").removeClass("has-success");
+    });
+
+    $('#rejoiceModal').on('shown.bs.modal', function () {
+      $('.dropdown-toggle').focus();
+    });
+
     $('#noteForm').validate({
       ignore: ":hidden:not(.selectpicker)",
       rules: {
@@ -191,12 +208,20 @@
             if(json.result == 1){
               var alert = "<div class='alert alert-success alert-dismissable'><button type='button' class='close' " +
                 "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> Note Added</div>";
-              var newNote = "<tr><td><strong><i class='glyphicon glyphicon-pencil'></i> " + json.subject + 
-                "</strong><small class='pull-right'>" + moment(json.date, "YYYY-MM-DD H:mm:ss").fromNow() + 
-                "</small><br><span>" + json.note + "</span></td></tr>\n";
+              var newNote = "<tr class='editNote'><td><strong><i class='glyphicon glyphicon-pencil'></i>" + 
+                "<span class='editNoteSubject'>" + json.subject + "</span></strong>" +
+                "<small class='pull-right'>" + moment(json.date, "YYYY-MM-DD H:mm:ss").fromNow() + "</small><br>" +
+                "<span class='hidden editNoteID'>" + json.id + "</span>" +
+                "<span class='editNoteNote'>" + json.note + "</span></td></tr>\n";
               $("#noteTable tbody #loading2").remove();
-              $("#noteTable tbody").append(newNote);
+              if($(".currentNoteEdit").length>0){
+                $(".currentNoteEdit").replaceWith(newNote);
+              }
+              else {
+                $("#noteTable tbody").append(newNote);
+              }
             }
+            $(".currentNoteEdit").removeClass("currentNoteEdit");
             $("#flash").html(alert);
             window.setTimeout(function() { 
               $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
@@ -206,6 +231,29 @@
         );
         $('#noteModal').modal('hide');
       }
+    });
+
+    $('#noteModalBtn').click(function(){
+      $("#noteFormTitle").html("Add Note");
+      $('#noteForm')[0].reset();
+      $("#inputNoteID").val("");
+      $("div .has-error").removeClass("has-error");
+      $("div .has-success").removeClass("has-success");
+    });
+
+    $('.editNote').click(function(){
+      $(this).addClass("currentNoteEdit");
+      $("#noteFormTitle").html("Edit Note");
+      $("#inputSubject").val($(this).find(".editNoteSubject").text());
+      $("#inputNote").val($(this).find(".editNoteNote").text());
+      $("#inputNoteID").val($(this).find(".editNoteID").text());
+      $('#noteModal').modal('show');
+      $("div .has-error").removeClass("has-error");
+      $("div .has-success").removeClass("has-success");
+    });
+
+    $('#noteModal').on('shown.bs.modal', function () {
+      $('#inputSubject').focus();
     });
 
     $('#decisionForm').hide();
@@ -225,6 +273,7 @@
       $("#editInfoGroup").show();
       $(".infoDisplay").hide();
       $(".infoEdit").show();
+      $("#inputFirst").focus();
     });
     $("#cancelInfo").click(function(){
       $("#editInfo").show();
@@ -523,9 +572,13 @@
               <tbody>
                 <?php
                   foreach ($notes as $key => $note) {
-                    echo "<tr><td><strong><i class='glyphicon glyphicon-pencil'></i> " . $note["subject"] . "</strong>";
-                    echo "<small class='pull-right'>" . $note["modified_date"] . "</small><br>";
-                    echo "<span>" . $note["note"] . "</span></td></tr>\n";
+                    ?>
+                    <tr class='editNote'><td><strong><i class='glyphicon glyphicon-pencil'></i>
+                    <span class='editNoteSubject'><?php echo $note["subject"]; ?></span></strong>
+                    <small class='pull-right'><?php echo $note["modified_date"]; ?></small><br>
+                    <span class='hidden editNoteID'><?php echo $note["id"]; ?></span>
+                    <span class='editNoteNote'><?php echo $note["note"]; ?></span></td></tr>
+                    <?php
                   }
                 ?>
               </tbody>
@@ -621,7 +674,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Add Note</h4>
+            <h4 id="noteFormTitle" class="modal-title">Add Note</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal" id="noteForm" role="form" action="" method="post">
@@ -639,6 +692,7 @@
             </div>
           </div>
           <div class="modal-footer">
+            <input type="hidden" id="inputNoteID" name="inputNoteID">
             <input type="hidden" id="inputID" name="inputID" value="<?php echo $civicrm_id; ?>">
             <input type="hidden" id="inputCID" name="inputCID" value="<?php echo $contactID; ?>">
             <button type="submit" class="btn btn-success">Submit</button>
@@ -661,8 +715,6 @@
           </div>
           <div class="modal-footer">
             <form class="form-horizontal" id="relForm" role="form" action="<?php echo $thisFile; ?>" method="post">
-              <!--<input type="hidden" id="inputID" name="inputID" value="<?php echo $civicrm_id; ?>">
-              <input type="hidden" id="inputCID" name="inputCID" value="<?php echo $contactID; ?>">-->
               <input type="hidden" id="inputRelID" name="inputRelID" value="<?php echo $discoverRel["id"]; ?>">
               <input type="hidden" id="inputActive" name="inputActive" value="<?php echo $discoverRel["is_active"]; ?>">
               <button type="submit" class="btn btn-success">Yes</button>

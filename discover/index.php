@@ -93,87 +93,96 @@
     <div class="col-sm-12">
 
     <?php
-      $currentCampus = 0; $stillActive = 1; $first = 1;
-      foreach($contacts as $key => $contact){
-        if($contact["is_active"] == 0 && $stillActive == 1){
-          $stillActive = 0; $currentCampus = 0; $first = 1;
-          ?>
+      if($contacts){
+        $currentCampus = 0; $stillActive = 1; $first = 1;
+        foreach($contacts as $key => $contact){
+          if($contact["is_active"] == 0 && $stillActive == 1){
+            if(!$first){
+              echo "</div></div>";
+            }
+            $stillActive = 0; $currentCampus = 0; $first = 1;
+            ?>
+            <div id="addContact" class="btn-success fullWidth">
+              <i class='glyphicon glyphicon-plus'></i> Add Contact
             </div>
-          </div>
-
+            <br>
+              <div id="inactiveContacts" data-toggle="collapse" data-target="#inactive" class="greyBack">
+                <i id='inactiveSymbol' class='glyphicon glyphicon-chevron-down'></i> Inactive Contacts
+              </div>
+  
+              <div id="inactive" class="collapse">
+            <?php
+          }
+          if($contact["school_id"] != $currentCampus){
+            if($first == 0){
+              echo "</div></div>";
+            }
+            $currentCampus = $contact["school_id"];
+            ?>
+              <div class="panel panel-default schoolContacts">
+                  <!-- Default panel contents -->
+                <div class="panel-heading"><h4><?php echo $contact["school_name"]; ?></h4></div>
+                <div class="list-group">
+                  <div class="list-group-item contactLink row">
+                    <div class="contactInfo pull-left">
+                      <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
+                      <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
+                      <div class="btn-group contactBtns">
+                        <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
+                          <i class="glyphicon glyphicon-earphone"></i>
+                          <span><?php echo $contact["phone"]; ?></span>
+                        </a>
+                        <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
+                          <i class="glyphicon glyphicon-comment"></i>
+                        </a>
+                        <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
+                          <i class="glyphicon glyphicon-envelope"></i>
+                          <span><?php echo $contact["email"]; ?></span>
+                        </a>
+                      </div>
+                    </div>
+                    <i class='glyphicon glyphicon-chevron-right pull-right contactArrow'></i>
+                  </div>
+            <?php
+          }
+          else {
+            ?>
+                  <div class="list-group-item contactLink row">
+                    <div class="contactInfo pull-left">
+                      <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
+                      <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
+                      <div class="btn-group contactBtns">
+                        <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
+                          <i class="glyphicon glyphicon-earphone"></i>
+                          <span><?php echo $contact["phone"]; ?></span>
+                        </a>
+                        <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
+                          <i class="glyphicon glyphicon-comment"></i>
+                        </a>
+                        <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
+                          <i class="glyphicon glyphicon-envelope"></i>
+                          <span><?php echo $contact["email"]; ?></span>
+                        </a>
+                      </div>
+                    </div>
+                    <i class='glyphicon glyphicon-chevron-right pull-right contactArrow'></i>
+                  </div>
+            <?php
+          }
+          if($first == 1){
+            $first = 0;
+          }
+        }
+        $closer = ($stillActive ? "</div></div>" : "</div></div></div>");
+        echo $closer;
+      }
+      else {
+        ?>
           <div id="addContact" class="btn-success fullWidth">
             <i class='glyphicon glyphicon-plus'></i> Add Contact
           </div>
-          <br>
-            <div id="inactiveContacts" data-toggle="collapse" data-target="#inactive" class="greyBack">
-              <i id='inactiveSymbol' class='glyphicon glyphicon-chevron-down'></i> Inactive Contacts
-            </div>
-
-            <div id="inactive" class="collapse">
-          <?php
-        }
-        if($contact["school_id"] != $currentCampus){
-          if($first == 0){
-            echo "</div></div>";
-          }
-          $currentCampus = $contact["school_id"];
-          ?>
-            <div class="panel panel-default schoolContacts">
-                <!-- Default panel contents -->
-              <div class="panel-heading"><h4><?php echo $contact["school_name"]; ?></h4></div>
-              <div class="list-group">
-                <div class="list-group-item contactLink row">
-                  <div class="contactInfo pull-left">
-                    <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
-                    <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
-                    <div class="btn-group contactBtns">
-                      <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
-                        <i class="glyphicon glyphicon-earphone"></i>
-                        <span><?php echo $contact["phone"]; ?></span>
-                      </a>
-                      <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
-                        <i class="glyphicon glyphicon-comment"></i>
-                      </a>
-                      <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
-                        <i class="glyphicon glyphicon-envelope"></i>
-                        <span><?php echo $contact["email"]; ?></span>
-                      </a>
-                    </div>
-                  </div>
-                  <i class='glyphicon glyphicon-chevron-right pull-right contactArrow'></i>
-                </div>
-          <?php
-        }
-        else {
-          ?>
-                <div class="list-group-item contactLink row">
-                  <div class="contactInfo pull-left">
-                    <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
-                    <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
-                    <div class="btn-group contactBtns">
-                      <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
-                        <i class="glyphicon glyphicon-earphone"></i>
-                        <span><?php echo $contact["phone"]; ?></span>
-                      </a>
-                      <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
-                        <i class="glyphicon glyphicon-comment"></i>
-                      </a>
-                      <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
-                        <i class="glyphicon glyphicon-envelope"></i>
-                        <span><?php echo $contact["email"]; ?></span>
-                      </a>
-                    </div>
-                  </div>
-                  <i class='glyphicon glyphicon-chevron-right pull-right contactArrow'></i>
-                </div>
-          <?php
-        }
-        if($first == 1){
-          $first = 0;
-        }
+        <?php
       }
-      $closer = ($stillActive ? "</div></div>" : "</div></div></div>");
-      echo $closer;
     ?>
     </div>
 
