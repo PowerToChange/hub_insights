@@ -553,10 +553,10 @@
                     elseif($activity["activity_type_id"] == API_ACT_PHONE){
                       $title = "<i class='glyphicon glyphicon-earphone'></i> " . $activity["activity_name"];
                     }
-                    elseif($activity["activity_type_id"] == API_ACT_SMS){
+                    elseif($activity["activity_type_id"] == API_ACT_EMAIL){
                       $title = "<i class='glyphicon glyphicon-envelope'></i> " . $activity["activity_name"];
                     }
-                    elseif($activity["activity_type_id"] == API_ACT_EMAIL){
+                    elseif($activity["activity_type_id"] == API_ACT_SMS){
                       $title = "<i class='glyphicon glyphicon-comment'></i> " . $activity["activity_name"];
                     }
                     echo "<tr><td><strong>" . $title . "</strong>";

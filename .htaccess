@@ -1,8 +1,8 @@
 DirectoryIndex index.php
 
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^pulse2.p2c.com [NC]
-RewriteRule ^(.*)$ https://pulse2.p2c.com/$1 [L,R=301]
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 RewriteBase /
 RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php [QSA]
