@@ -309,7 +309,7 @@
           if(json.result == 1){
             var alert = "<div class='alert alert-success alert-dismissable'><button type='button' class='close' " +
               "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> " + label + " Added</div>";
-            var newMsg = "<tr><td><strong><i class='glyphicon glyphicon-earphone'></i> " + label + 
+            var newMsg = "<tr><td><strong><i class='glyphicon glyphicon-certificate'></i> " + label + 
               "</strong><small class='pull-right'>" + moment(json.date, "YYYY-MM-DD H:mm:ss").fromNow() + 
               "</small><br><span>" + name + "</span></td></tr>\n";
             $("#activityTable tbody #loading").remove();
@@ -550,13 +550,13 @@
                         $details = $activity[API_D_WITNESS] . " (" . $method[$activity[API_D_METHOD]] . ") " . $activity["details"];
                       }
                     }
-                    elseif($activity["activity_type_id"] == 2){
+                    elseif($activity["activity_type_id"] == API_ACT_PHONE){
                       $title = "<i class='glyphicon glyphicon-earphone'></i> " . $activity["activity_name"];
                     }
-                    elseif($activity["activity_type_id"] == 3){
+                    elseif($activity["activity_type_id"] == API_ACT_SMS){
                       $title = "<i class='glyphicon glyphicon-envelope'></i> " . $activity["activity_name"];
                     }
-                    elseif($activity["activity_type_id"] == 4){
+                    elseif($activity["activity_type_id"] == API_ACT_EMAIL){
                       $title = "<i class='glyphicon glyphicon-comment'></i> " . $activity["activity_name"];
                     }
                     echo "<tr><td><strong>" . $title . "</strong>";

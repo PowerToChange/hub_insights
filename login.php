@@ -9,10 +9,14 @@
   $permissions = array("isStaff" => false, "isStudent" => false, "visibility" => 1, //0 - Admin, 1 - Staff, 2 - Students
     "ids" => array()); //0 - Admin, 1 - Staff, 2 - Students
   $url ="https://pulse.p2c.com/api/ministry_involvements?guid=" . $user["ssoGuid"] . "&api_key=" . PULSE_API_KEY;
+  //$url ="https://pulse.p2c.com/api/ministry_involvements?guid=9F6A3C73-A808-8176-F528-C9D695B857BA&api_key=" . PULSE_API_KEY;
   $xml = simplexml_load_file($url);
   $civicrm_id = (string) $xml['civicrm_id'];
   foreach ($xml->ministry_involvement as $minInfo) {
     if(strcmp($minInfo->role[0]['type'], "StaffRole") == 0){
+      $permissions["isStaff"] = true;
+    }
+    if(strcmp($minInfo->role[0]['role_id'], "5") == 0){
       $permissions["isStaff"] = true;
     }
     if(strcmp($minInfo->role[0]['type'], "StudentRole") == 0){

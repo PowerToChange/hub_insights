@@ -52,7 +52,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li <?php echo $activeHome; ?>><a href="/">Home</a></li>
-          <li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li>
+          <!--<li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li>-->
           <li <?php echo $activeDiscover; ?>><a href="/discover/">Discover</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Surveys <b class="caret"></b></a>

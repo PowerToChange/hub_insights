@@ -161,8 +161,10 @@
             data-content="Filters what is displayed to the right. You must press 'Update Display' or a navigation link below to save filter changes.">
           <form id="rangeForm" role="form" action="<?php echo $thisFile; ?>" method="post">
             <select class="selectpicker" data-width="100%" data-size="10" id="selectCampus" name="selectCampus" hidden>
+              <?php if(!$permissions["isStudent"]){ ?>
               <option selected="selected" value="0">All Campuses</option>
               <?php
+                }
                 $schools = getSchools();
                 foreach($schools as $id => $label){
                   echo "<option value=\"" . $id . "\">" . $label . "</option>";

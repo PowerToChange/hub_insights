@@ -59,6 +59,9 @@
     "3" => "Gospel Presentation", "4" => "Indicated Decision", "5" => "Shared Spirit-Filled Life");
     date_default_timezone_set('America/Toronto');
     $now = date('Y-m-d H:i:s');
+    if(isset($form["date"])){
+      $now = $form["date"];
+    }
     
     $rejoiceParams = array(
       "source_contact_id" => $form["inputID"],
@@ -103,6 +106,9 @@
 
     date_default_timezone_set('America/Toronto');
     $now = date('Y-m-d H:i:s');
+    if(isset($form["date"])){
+      $now = $form["date"];
+    }
     
     $noteParams = array(
       "entity_id" => $form["inputCID"],
@@ -204,19 +210,28 @@
 
     date_default_timezone_set('America/Toronto');
     $now = date('Y-m-d H:i:s');
+    if(isset($form["date"])){
+      $now = $form["date"];
+    }
 
     $conParams = array(
       "contact_type" => "Individual",
       "first_name" => $form["inputFirst"],
-      "last_name" => $form["inputLast"],
       "gender_id" => $form["selectGender"],
       API_CON_INT => $form["selectInter"],
-      API_CON_LEVEL => $form["selectLevel"],
-      "api.email.create" => array("email" => $form["inputEmail"], "is_primary" => 1, "id" => $form["emailID"]),
-      "api.phone.create" => array("phone" => $form["inputPhone"], "is_primary" => 1, "id" => $form["phoneID"])
+      API_CON_LEVEL => $form["selectLevel"]
     );
     if($form["inputNext"]){
       $conParams[API_CON_NEXT] = $form["inputNext"];
+    }
+    if($form["inputLast"]){
+      $conParams["last_name"] = $form["inputLast"];
+    }
+    if($form["inputEmail"]){
+      $conParams["api.email.create"] = array("email" => $form["inputEmail"], "is_primary" => 1);
+    }
+    if($form["inputPhone"]){
+      $conParams["api.phone.create"] = array("phone" => $form["inputPhone"], "is_primary" => 1);
     }
 
     //$sends[] = $conParams;

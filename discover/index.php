@@ -76,7 +76,7 @@
     }
 
     $("#inactiveContacts").click(function(){
-      $("#inactiveSymbol").toggleClass("glyphicon-chevron-down glyphicon-chevron-up");
+      $("#inactiveSymbol").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
     });
 
     $("small").each(function() {
@@ -107,7 +107,7 @@
             </div>
             <br>
               <div id="inactiveContacts" data-toggle="collapse" data-target="#inactive" class="greyBack">
-                <i id='inactiveSymbol' class='glyphicon glyphicon-chevron-down'></i> Inactive Contacts
+                <i id='inactiveSymbol' class='glyphicon glyphicon-chevron-right'></i> Inactive Contacts
               </div>
   
               <div id="inactive" class="collapse">
