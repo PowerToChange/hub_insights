@@ -42,9 +42,6 @@
         inputFirst: {
           required: true
         },
-        inputLast: {
-          required: true
-        },
         selectCampus: {
           required: true
         },
@@ -58,11 +55,9 @@
           required: true
         },
         inputEmail: {
-          required: true,
           email: true
         },
         inputPhone: {
-          required: true,
           phoneUS: true
         }
       },
