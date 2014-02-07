@@ -5,6 +5,9 @@
   include '../config/columnnames.php';
 
   $importForContact = 11392;
+  if($argv[1]){
+    $importForContact = $argv[1];
+  }
 
   function getInter($value){
     return ($value ? "yes" : "no");
