@@ -26,12 +26,12 @@
   $discQuery = "select contacts.id as 'CONTACTID', contacts.first_name as 'FIRST', contacts.last_name as 'LAST',
     contacts.email as 'EMAIL', contacts.mobile_phone as 'PHONE', contacts.gender_id as 'GENDER',
     contacts.next_step_id as 'LEVEL', contacts.what_i_am_trusting_god_to_do_next as 'NEXT',
-    contacts.international as 'INTER', staginghubtest.civicrm_contact.id as 'CAMPUS',
+    contacts.international as 'INTER', connect_powertochange_org.civicrm_contact.id as 'CAMPUS',
     cim_hrdb_person.civicrm_id as 'ID', cim_hrdb_person.person_fname as 'FNAME',
     cim_hrdb_person.person_lname as 'LNAME', contacts.created_at as 'DATE' from contacts
     inner join contacts_people on contacts.`id` = contacts_people.`contact_id`
     inner join cim_hrdb_person on contacts_people.`person_id` = cim_hrdb_person.`person_id`
-    inner join staginghubtest.civicrm_contact on contacts.campus_id = staginghubtest.civicrm_contact.external_identifier
+    inner join connect_powertochange_org.civicrm_contact on contacts.campus_id = connect_powertochange_org.civicrm_contact.external_identifier
     where cim_hrdb_person.person_id = " . $importForContact . ";";
   if ($result = $mysqli->query($discQuery)) {
     while ($row = mysqli_fetch_assoc($result)) {
