@@ -173,8 +173,16 @@
             $first = 0;
           }
         }
-        $closer = ($stillActive ? "</div></div>" : "</div></div></div>");
-        echo $closer;
+        if($stillActive){
+          ?>
+            </div></div>
+            <div id="addContact" class="btn-success fullWidth">
+              <i class='glyphicon glyphicon-plus'></i> Add Contact
+            </div>
+          <?php
+        }else {
+          echo "</div></div></div>";
+        }
       }
       else {
         ?>
