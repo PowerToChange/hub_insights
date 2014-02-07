@@ -118,7 +118,7 @@
       "modified_date" => $now
     );
 
-    if($form["inputNoteID"]){
+    if(isset($form["inputNoteID"])){
       $noteParams["id"] = $form["inputNoteID"];
     }
 
