@@ -80,6 +80,10 @@ div.schoolContacts {
   font-size: 25px;
 }
 
+.contactLink {
+  min-height: 85px;
+}
+
 div.greyBack:hover,
 div.greyBack:focus {
   text-decoration: none;

@@ -164,12 +164,30 @@
       "last_name" => $form["inputLast"],
       "gender_id" => $form["selectGender"],
       API_CON_INT => $form["selectInter"],
-      API_CON_LEVEL => $form["selectLevel"],
-      "api.email.create" => array("email" => $form["inputEmail"], "is_primary" => 1, "id" => $form["emailID"]),
-      "api.phone.create" => array("phone" => $form["inputPhone"], "is_primary" => 1, "id" => $form["phoneID"])
+      API_CON_LEVEL => $form["selectLevel"]
     );
     if($form["inputNext"]){
       $conParams[API_CON_NEXT] = $form["inputNext"];
+    }
+    if($form["inputEmail"]){
+      $emailParams = array("email" => $form["inputEmail"], "is_primary" => 1);
+      if($form["emailID"]){
+        $emailParams["id"] = $form["emailID"];
+      }
+      $conParams["api.email.create"] = $emailParams;
+    }
+    else if($form["emailID"] && !$form["inputEmail"]){
+      $conParams["api.email.delete"] = array("id" => $form["emailID"]);
+    }
+    if($form["inputPhone"]){
+      $phoneParams = array("phone" => $form["inputPhone"], "is_primary" => 1);
+      if($form["phoneID"]){
+        $phoneParams["id"] = $form["phoneID"];
+      }
+      $conParams["api.phone.create"] = $phoneParams;
+    }
+    else if($form["phoneID"] && !$form["inputPhone"]){
+      $conParams["api.phone.delete"] = array("id" => $form["phoneID"]);
     }
 
     //$sends[] = $conParams;
