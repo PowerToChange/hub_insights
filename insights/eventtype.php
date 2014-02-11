@@ -9,6 +9,8 @@
   $title = "Event Stats - By Type";
   $thisFile = "/insights/eventtype/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   $evTypeActive = "active";
   $tableConfig = "'aaSorting': [],\n";
   $tableSorting = "'aoColumns': [null,{'sType':'numeric', 'asSorting':['desc','asc']},{'sType':'numeric', 'asSorting':['desc','asc']}],\n";

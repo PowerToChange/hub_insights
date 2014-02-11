@@ -11,6 +11,7 @@
   $title = "Discover Contacts - New";
   $thisFile = "/discover/new/";
   $activeDiscover = "class='active'";
+  $crumbs = array("Home" => "/", "Discover" => "/discover/", "New Contact" => "/discover/new/");
 
   $conReturn = 0;
   if($_POST){

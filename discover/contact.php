@@ -33,6 +33,7 @@
   $title = "Discover Contact";
   $thisFile = "/discover/contact/" . $contactID . "/";
   $activeDiscover = "class='active'";
+  $crumbs = array("Home" => "/", "Discover" => "/discover/", "Contact" => $thisFile);
 
   $discoverRel = array();
   foreach($relationships as $key => $values){

@@ -6,6 +6,8 @@
   $title = "Movement Snapshot - Evangelism Big Picture";
   $thisFile = "/insights/monthlystats/bigpicture/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   $msBPActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'asc' ]],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 1, 2, 3, 4 ] }],\n";

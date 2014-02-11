@@ -13,6 +13,8 @@
   $title = "Monthly Stats";
   $thisFile = "/insights/monthlystats/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   $monAddActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ], [ 1, 'asc']],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 2, 3, 4, 5 ] },

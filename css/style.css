@@ -149,11 +149,11 @@ html, body {
 
 #wrap {
   height: auto !important;
-  margin: 0 auto -60px;
+  margin: 0 auto -85px;
   min-height: 100%;
 }
 #push, #footer {
-  height: 60px;
+  height: 85px;
 }
 #footer {
   background-color: #EEEEEE;
@@ -173,7 +173,7 @@ html, body {
 }
 
 .container .credit {
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .tooltip-inner {

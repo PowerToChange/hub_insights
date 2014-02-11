@@ -6,6 +6,8 @@
   $title = "Indicated Decisions - Big Picture";
   $thisFile = "/insights/decisions/bigpicture/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   $idBPActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'asc' ]],\n";
   $tableSorting = "'aoColumns': [null,{'sType':'numeric', 'asSorting':['desc','asc']},

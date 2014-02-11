@@ -7,6 +7,8 @@
   $title = "Movement Snapshot - Monthly Breakdown";
   $thisFile = "/insights/monthlystats/bycampus/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   $msBCActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4, 5, 6, 7 ] },

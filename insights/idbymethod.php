@@ -12,6 +12,8 @@
   $title = "Indicated Decisions - By Method";
   $thisFile = "/insights/decisions/bymethod/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   $idBMActive = "active";
   $tableConfig = "'aaSorting': [],\n'iDisplayLength': 25,\n";
   $tableSorting = "'aoColumns': [null,{'sType':'numeric', 'asSorting':['desc','asc']}, { 'sType': 'percent', 'asSorting':['desc','asc']},

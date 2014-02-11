@@ -19,6 +19,8 @@
   $title = "Indicated Decisions";
   $thisFile = "/insights/decisions/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   if($_POST["hiddenAdd"] == "true" || $_GET["add"] == "true"){
     $idAddActive = "active";
   }

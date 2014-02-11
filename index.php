@@ -7,6 +7,8 @@
   $title = "Home";
   $thisFile = "index.php";
   $activeHome = "class='active'";
+  $crumbs = array("Home" => "/");
+
   include $_SERVER['DOCUMENT_ROOT'].'/header.php';
 ?>
     <link rel="stylesheet" type="text/css" href="/css/jquery-jvectormap-1.2.2.css">

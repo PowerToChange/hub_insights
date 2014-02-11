@@ -7,6 +7,7 @@
 
   $title = "Discover Contacts";
   $activeDiscover = "class='active'";
+  $crumbs = array("Home" => "/", "Discover" => "/discover/");
 
   $contacts = all_contacts();
 

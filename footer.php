@@ -4,7 +4,22 @@
 </div>
 <div id="footer">
   <div class="container">
-    <p class="muted credit">
+    <p class="muted credit text-center">
+      <?php
+        global $crumbs;
+        $first = 1;
+        foreach ($crumbs as $label => $link) {
+          if($first){
+            echo "<a href='" . $link . "'>" . $label . "</a>";
+            $first = 0;
+          }
+          else {
+            echo " / <a href='" . $link . "'>" . $label . "</a>";
+          }
+        }
+      ?>
+    </p>
+    <p class="muted credit text-center">
       Have questions? Find answers at <a href="https://getsatisfaction.com/powertochange">Get Satisfaction</a>
     </p>
   </div>

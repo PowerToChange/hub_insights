@@ -17,6 +17,8 @@
   $title = "Event Stats";
   $thisFile = "/insights/eventstats/";
   $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+
   $evAddActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
   $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 4, 5 ] }],\n";
