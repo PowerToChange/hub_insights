@@ -8,8 +8,7 @@
   $levels = array(0 => "Unknown", 1 => "Know and trust a christian", 2 => "Become curious", 3 => "Become open to Change",
     4 => "Seek God", 5 => "Make a decision", 6 => "Grow in relationship with God");  
 
-  //$title = "Discover Contacts - New";
-  $title = apc_fetch("newTest");
+  $title = "Discover Contacts - New";
   $thisFile = "/discover/new/";
   $activeDiscover = "class='active'";
   $crumbs = array("Home" => "/", "Discover" => "/discover/", "New Contact" => "/discover/new/");
