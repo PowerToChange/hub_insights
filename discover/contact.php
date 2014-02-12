@@ -23,12 +23,21 @@
     $relReturn = change_status($_POST);
   }
 
+  function sortActivities($a, $b){
+    return strtotime($b["activity_date_time"]) - strtotime($a["activity_date_time"]);
+  }
+  function sortNotes($a, $b){
+    return strtotime($b["modified_date"]) - strtotime($a["modified_date"]);
+  }
+
   $contactID = $_GET["id"];
   $contact_info = get_contact(array("id" => $contactID));
   $contact = $contact_info["values"][$contactID];
   $relationships = $contact_info["values"][$contactID]["api.Relationship.get"]["values"];
   $notes = $contact_info["values"][$contactID]["api.Note.get"]["values"];
+  uasort($notes, 'sortNotes');
   $activities = $contact_info["values"][$contactID]["api.Activity.get"]["values"];
+  uasort($activities, 'sortActivities');
 
   $title = "Discover Contact";
   $thisFile = "/discover/contact/" . $contactID . "/";
@@ -132,7 +141,7 @@
         $(element).removeClass('error').addClass('valid').addClass('error');
       },
       submitHandler: function(form) {
-        $("#activityTable tbody").append("<tr id='loading'><td><img class='img-responsive centre' src='/images/loading.gif'></td></tr>");
+        $("#activityTable tbody").prepend("<tr id='loading'><td><img class='img-responsive centre' src='/images/loading.gif'></td></tr>");
         $.getJSON(
           "/discover/ajax/submitrejoice.php", 
           $(form).serialize(),  
@@ -146,7 +155,7 @@
                 "</strong><small class='pull-right'>" + moment(json.date, "YYYY-MM-DD H:mm:ss").fromNow() + 
                 "</small><br><span>" + json.info + "</span></td></tr>\n";
               $("#activityTable tbody #loading").remove();
-              $("#activityTable tbody").append(newRejoice);
+              $("#activityTable tbody").prepend(newRejoice);
             }
             $("#flash").html(alert);
             window.setTimeout(function() { 
@@ -194,7 +203,7 @@
         $(element).removeClass('error').addClass('valid').addClass('error');
       },
       submitHandler: function(form) {
-        $("#noteTable tbody").append("<tr id='loading2'><td><img class='img-responsive centre' src='/images/loading.gif'></td></tr>");
+        $("#noteTable tbody").prepend("<tr id='loading2'><td><img class='img-responsive centre' src='/images/loading.gif'></td></tr>");
         $.getJSON(
           "/discover/ajax/submitnote.php", 
           $(form).serialize(),  
@@ -205,17 +214,29 @@
               var alert = "<div class='alert alert-success alert-dismissable'><button type='button' class='close' " +
                 "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> Note Added</div>";
               var newNote = "<tr class='editNote'><td><strong><i class='glyphicon glyphicon-pencil'></i>" + 
-                "<span class='editNoteSubject'>" + json.subject + "</span></strong>" +
+                "<span class='editNoteSubject'> " + json.subject + "</span></strong>" +
                 "<small class='pull-right'>" + moment(json.date, "YYYY-MM-DD H:mm:ss").fromNow() + "</small><br>" +
-                "<span class='hidden editNoteID'>" + json.id + "</span>" +
+                "<span class='hidden editNoteID'>" + json.noteid + "</span>" +
                 "<span class='editNoteNote'>" + json.note + "</span></td></tr>\n";
               $("#noteTable tbody #loading2").remove();
               if($(".currentNoteEdit").length>0){
-                $(".currentNoteEdit").replaceWith(newNote);
+                $(".currentNoteEdit").remove();
+                $("#noteTable tbody").prepend(newNote);
               }
               else {
-                $("#noteTable tbody").append(newNote);
+                $("#noteTable tbody").prepend(newNote);
               }
+              $('.editNote').click(function(){
+                $(".currentNoteEdit").removeClass("currentNoteEdit");
+                $(this).addClass("currentNoteEdit");
+                $("#noteFormTitle").html("Edit Note");
+                $("#inputSubject").val($(this).find(".editNoteSubject").text());
+                $("#inputNote").val($(this).find(".editNoteNote").text());
+                $("#inputNoteID").val($(this).find(".editNoteID").text());
+                $('#noteModal').modal('show');
+                $("div .has-error").removeClass("has-error");
+                $("div .has-success").removeClass("has-success");
+              });
             }
             $(".currentNoteEdit").removeClass("currentNoteEdit");
             $("#flash").html(alert);
@@ -235,9 +256,11 @@
       $("#inputNoteID").val("");
       $("div .has-error").removeClass("has-error");
       $("div .has-success").removeClass("has-success");
+      $(".currentNoteEdit").removeClass("currentNoteEdit");
     });
 
     $('.editNote').click(function(){
+      $(".currentNoteEdit").removeClass("currentNoteEdit");
       $(this).addClass("currentNoteEdit");
       $("#noteFormTitle").html("Edit Note");
       $("#inputSubject").val($(this).find(".editNoteSubject").text());
@@ -584,8 +607,8 @@
           </div>
         </div>
       </div>
-      <!--<?php print_r($contact_info); ?>
-      <?php print_r($conValues); ?>
+      <?php print_r($notes); ?>
+      <!--<?php print_r($conValues); ?>
       <br><?php $conReturn; ?>
       <br><?php print_r($sends); ?>-->
     </div>

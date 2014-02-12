@@ -5,11 +5,14 @@
   include $_SERVER['DOCUMENT_ROOT'].'/discover/blackbox.php';
   date_default_timezone_set('America/Toronto');
 
+  apc_store('newTest', 'asdasdasdasd');
+  //$title = "Discover Contacts";
+
   $title = "Discover Contacts";
   $activeDiscover = "class='active'";
   $crumbs = array("Home" => "/", "Discover" => "/discover/");
 
-  $contacts = all_contacts();
+  $contacts = all_contacts($civicrm_id, 1);
 
   include $_SERVER['DOCUMENT_ROOT'].'/header.php';
 ?>
@@ -76,8 +79,24 @@
       $('.selectpicker').selectpicker();
     }
 
+    var getInactive = 1;
     $("#inactiveContacts").click(function(){
       $("#inactiveSymbol").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
+      if(getInactive){
+        getInactive = 0;
+        $("#inactive").html("<div class='panel-heading'><img class='img-responsive centre' src='/images/loading.gif'></div>");
+        $.get(
+          "/discover/ajax/getinactive.php",
+          {id: "<?php echo $civicrm_id; ?>" },
+          function(contacts){
+            $("#inactive").html(contacts);
+          }
+        );
+      }
+    });
+
+    $(".collapsable").click(function(){
+      $(this).find(".collSymbol").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
     });
 
     $("small").each(function() {
@@ -95,25 +114,8 @@
 
     <?php
       if($contacts){
-        $currentCampus = 0; $stillActive = 1; $first = 1;
+        $currentCampus = 0; $first = 1; $idVal = 0;
         foreach($contacts as $key => $contact){
-          if($contact["is_active"] == 0 && $stillActive == 1){
-            if(!$first){
-              echo "</div></div>";
-            }
-            $stillActive = 0; $currentCampus = 0; $first = 1;
-            ?>
-            <div id="addContact" class="btn-success fullWidth">
-              <i class='glyphicon glyphicon-plus'></i> Add Contact
-            </div>
-            <br>
-              <div id="inactiveContacts" data-toggle="collapse" data-target="#inactive" class="greyBack">
-                <i id='inactiveSymbol' class='glyphicon glyphicon-chevron-right'></i> Inactive Contacts
-              </div>
-  
-              <div id="inactive" class="collapse">
-            <?php
-          }
           if($contact["school_id"] != $currentCampus){
             if($first == 0){
               echo "</div></div>";
@@ -122,8 +124,13 @@
             ?>
               <div class="panel panel-default schoolContacts">
                   <!-- Default panel contents -->
-                <div class="panel-heading"><h4><?php echo $contact["school_name"]; ?></h4></div>
-                <div class="list-group">
+                <div class="panel-heading collapsable" data-toggle="collapse" data-target="#schoolColl<?php echo $idVal; ?>">
+                  <h4>
+                    <i class='glyphicon glyphicon-chevron-down collSymbol'></i>
+                    <?php echo $contact["school_name"]; ?>
+                  </h4>
+                </div>
+                <div id="schoolColl<?php echo $idVal++; ?>" class="list-group collapse in">
                   <div class="list-group-item contactLink row">
                     <div class="contactInfo pull-left">
                       <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
@@ -180,25 +187,19 @@
             $first = 0;
           }
         }
-        if($stillActive){
-          ?>
-            </div></div>
-            <div id="addContact" class="btn-success fullWidth">
-              <i class='glyphicon glyphicon-plus'></i> Add Contact
-            </div>
-          <?php
-        }else {
-          echo "</div></div></div>";
-        }
-      }
-      else {
-        ?>
-          <div id="addContact" class="btn-success fullWidth">
-            <i class='glyphicon glyphicon-plus'></i> Add Contact
-          </div>
-        <?php
+        echo "</div></div>";
       }
     ?>
+    <div id="addContact" class="btn-success fullWidth">
+      <i class='glyphicon glyphicon-plus'></i> Add Contact
+    </div>
+    <br>
+    <div id="inactiveContacts" data-toggle="collapse" data-target="#inactive" class="greyBack">
+      <i id='inactiveSymbol' class='glyphicon glyphicon-chevron-right'></i> Inactive Contacts
+    </div>
+
+    <div id="inactive" class="collapse">
+    </div>
     </div>
 
     <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

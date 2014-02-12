@@ -118,14 +118,14 @@
       "modified_date" => $now
     );
 
-    if(isset($form["inputNoteID"])){
+    if(isset($form["inputNoteID"]) && $form["inputNoteID"]){
       $noteParams["id"] = $form["inputNoteID"];
     }
 
     $noteReturn = civicrm_call("Note", "create", $noteParams);
     if ($noteReturn["is_error"] == 1) { $succeeded = $noteReturn["error_message"]; return $succeeded; }
 
-    return array("result" => $succeeded, "note" => $form["inputNote"], "date" => $now, "subject" => $form["inputSubject"]);
+    return array("result" => $succeeded, "note" => $form["inputNote"], "date" => $now, "subject" => $form["inputSubject"], "noteid" => $noteReturn["id"]);
   }
 
   function add_msg($form) {
@@ -293,14 +293,13 @@
     }
   }
 
-  function all_contacts(){
+  function all_contacts($id, $is_active){
     global $sends;
-    global $civicrm_id;
     $succeeded = 1;
 
     $contactParams = array(
-      "contact_id" => $civicrm_id,
-      "api.Relationship.get" => array("relationship_type_id" => API_REL_DISC)
+      "contact_id" => $id,
+      "api.Relationship.get" => array("relationship_type_id" => API_REL_DISC, "is_active" => $is_active)
     );
 
     $contacts = civicrm_call("Contact", "get", $contactParams);
@@ -308,8 +307,8 @@
     if ($contacts["is_error"] == 1) { $succeeded = $contacts["error_message"]; return $succeeded; }
 
     $returnContacts = array();
-    foreach($contacts["values"][$civicrm_id]["api.Relationship.get"]["values"] as $key => $values) {
-      if($values["relationship_type_id"] == API_REL_DISC){
+    foreach($contacts["values"][$id]["api.Relationship.get"]["values"] as $key => $values) {
+      if($values["relationship_type_id"] == API_REL_DISC && $values["is_active"] == $is_active){
         $schoolParams = array(
           "contact_id" => $values["contact_id_b"],
           "api.Relationship.get" => array("relationship_type_id" => API_REL_CAMPUS, "is_active" => 1)
