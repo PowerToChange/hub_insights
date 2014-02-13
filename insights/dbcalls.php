@@ -526,7 +526,7 @@
         $newStmt->bind_param("ss", $dates["start"], $dates["end"]);
       }
       $newStmt->execute();
-      $newStmt->bind_result($id_bind, $name_bind, $year_bind, $month_bind, $new_bind);
+      $newStmt->bind_result($id_bind, $name_bind, $new_bind);
       while ($newStmt->fetch()) {
         if(is_array($byPerson[$id_bind])){
           $byPerson[$id_bind] = array_merge($byPerson[$id_bind], array("NEW" => $new_bind));
