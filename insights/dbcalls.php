@@ -440,7 +440,7 @@
     $newWhere = " where ";
     if($campus["id"]){
       $newWhere = " inner join civicrm_relationship c on r.contact_id_b = c.contact_id_a
-        where c.relationship_type_id = 10 AND c.contact_id_b = 30430 AND ";
+        where c.relationship_type_id = 10 AND c.contact_id_b = ? AND ";
     }
     $newQuery = "select YEAR(r.start_date) as 'YEAR', MONTH(r.start_date) as 'MONTH', count(r.contact_id_b) as 'NEW' from civicrm_relationship r
       " . $newWhere . " r.relationship_type_id = 16 and r.start_date between ? and ? AND
@@ -467,6 +467,77 @@
     }
 
     return $byMonth;
+  }
+
+  function getDCByPerson($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $byPerson = array();
+    $whereClause = " where ";
+    if($campus["id"]){
+      $whereClause = " inner join civicrm_relationship c on civicrm_activity_target.target_contact_id = c.contact_id_a
+        where c.relationship_type_id = 10 AND c.contact_id_b = ? AND ";
+    }
+    $activityQuery = "select civicrm_contact.id as 'ID', civicrm_contact.display_name as 'NAME',
+      count(CASE WHEN civicrm_activity.activity_type_id >= 2 AND civicrm_activity.activity_type_id <= 4 then 1 ELSE NULL END) as 'INTERACTIONS',
+      count(CASE WHEN civicrm_activity.activity_type_id = 47 then 1 ELSE NULL END) as 'REJOICEABLES',
+      count(CASE WHEN civicrm_activity.activity_type_id = 32 then 1 ELSE NULL END) as 'SURVEYS' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_relationship on civicrm_activity_target.target_contact_id = civicrm_relationship.contact_id_b
+      inner join civicrm_contact on civicrm_activity.source_contact_id = civicrm_contact.id " . $whereClause . "
+      civicrm_relationship.relationship_type_id = 16 and civicrm_contact.id = civicrm_relationship.contact_id_a
+      AND civicrm_activity.activity_date_time between ? and ?
+      GROUP BY civicrm_contact.id, civicrm_contact.display_name;";
+    if ($activityStmt = $mysqli->prepare($activityQuery)){
+      if($campus["id"]){
+        $activityStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $activityStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $activityStmt->execute();
+      $activityStmt->bind_result($id_bind, $name_bind, $int_bind, $rejoice_bind, $survey_bind);
+      while ($activityStmt->fetch()) {
+        $byPerson[$id_bind] = array("NAME" => $name_bind, "INTERACTIONS" => $int_bind, "REJOICEABLES" => $rejoice_bind, "SURVEYS" => $survey_bind);
+      }
+    }
+
+    $newWhere = " where ";
+    if($campus["id"]){
+      $newWhere = " inner join civicrm_relationship c on r.contact_id_b = c.contact_id_a
+        where c.relationship_type_id = 10 AND c.contact_id_b = ? AND ";
+    }
+    $newQuery = "select civicrm_contact.id as 'ID', civicrm_contact.display_name as 'NAME', count(r.contact_id_b) as 'NEW' from civicrm_relationship r
+      inner join civicrm_contact on r.contact_id_a = civicrm_contact.id
+      " . $newWhere . " r.relationship_type_id = 16 and r.start_date between ? and ? AND
+      r.start_date = (select min(start_date) from civicrm_relationship where contact_id_b = r.contact_id_b)
+      GROUP BY civicrm_contact.id, civicrm_contact.display_name;";
+    if ($newStmt = $mysqli->prepare($newQuery)){
+      if($campus["id"]){
+        $newStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $newStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $newStmt->execute();
+      $newStmt->bind_result($id_bind, $name_bind, $year_bind, $month_bind, $new_bind);
+      while ($newStmt->fetch()) {
+        if(is_array($byPerson[$id_bind])){
+          $byPerson[$id_bind] = array_merge($byPerson[$id_bind], array("NEW" => $new_bind));
+        }
+        else {
+          $byPerson[$id_bind] = array("NAME" => $name_bind, "NEW" => $new_bind);
+        }
+      }
+    }
+
+    return $byPerson;
   }
 
 //****************************************************************************************************************
