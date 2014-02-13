@@ -422,7 +422,7 @@
       civicrm_activity_target.target_contact_id IN (select contact_id_b from civicrm_relationship where  civicrm_relationship.relationship_type_id = 16)
       AND civicrm_activity.activity_date_time between ? and ?
       GROUP BY YEAR(civicrm_activity.activity_date_time), MONTH(civicrm_activity.activity_date_time);";
-    if ($actStmt = $mysqli->prepare($activityQuery)){
+    if ($activityStmt = $mysqli->prepare($activityQuery)){
       if($campus["id"]){
         $activityStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
       }
