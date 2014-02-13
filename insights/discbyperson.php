@@ -37,8 +37,8 @@
               $intTotal += intval($row["INTERACTIONS"]);
             }
 
-            foreach($byPerson as $date => $info){
-              echo "<tr><td>" . date("M Y", strtotime($date)) . "</td>";
+            foreach($byPerson as $id => $info){
+              echo "<tr><td>" . $info["NAME"] . "</td>";
               echo "<td>" . ($info["NEW"] ?: 0) . "</td>";
               echo "<td>" . ($info["REJOICEABLES"] ?: 0) . "</td>";
               echo "<td>" . ($info["INTERACTIONS"] ?: 0) . "</td></tr>";
