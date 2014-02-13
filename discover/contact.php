@@ -607,8 +607,8 @@
           </div>
         </div>
       </div>
-      <?php print_r($notes); ?>
-      <!--<?php print_r($conValues); ?>
+      <!--<?php print_r($notes); ?>
+      <?php print_r($conValues); ?>
       <br><?php $conReturn; ?>
       <br><?php print_r($sends); ?>-->
     </div>

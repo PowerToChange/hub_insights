@@ -88,6 +88,16 @@
           $('#rangeForm').attr("action", "/insights/monthlystats/bycampus/");
           $('#rangeForm')[0].submit();
         });
+
+        $('#dcByMon').click(function() {
+          $('#rangeForm').attr("action", "/insights/discover/bymonth/");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#dcByPerson').click(function() {
+          $('#rangeForm').attr("action", "/insights/discover/byperson/");
+          $('#rangeForm')[0].submit();
+        });
       
         var startThis = moment().month(8).startOf('month');
         var endThis = moment().month(7).add('years',1).endOf('month');
@@ -149,7 +159,7 @@
 
     <div class="container">
     <div class="row">
-
+      <br>
       <div class="col-md-3 col-sm-12">
         <div class="well side">
           <div class="container">
@@ -189,9 +199,12 @@
 
         <?php
           if($permissions["isStaff"] && $permissions["visibility"] >= 1){
-            $idOpen = "in"; $msOpen = "";
+            $idOpen = "in"; $msOpen = ""; $dcOpen = "";
             if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive){
-              $idOpen = ""; $msOpen = "in";
+              $idOpen = ""; $msOpen = "in"; $dcOpen = "";
+            }
+            if($dcMonActive || $dcPersonActive){
+              $idOpen = ""; $msOpen = ""; $dcOpen = "in";
             }
         ?>
         <div class="panel-group" id="accordion">
@@ -225,6 +238,19 @@
                 <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
                 <a id="msBigPicture" href="javascript:{}" class="list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Evangelism Big Picture</a>
                 <a id="msByCampus" href="javascript:{}" class="list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - Monthly Breakdown</a>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                    Discover Contacts
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseThree" class="list-group panel-collapse collapse <?php echo $dcOpen; ?>">
+                <a id="dcByMon" href="javascript:{}" class="list-group-item <?php echo $dcMonActive; ?>">Discover Contacts - By Month</a>
+                <a id="dcByPerson" href="javascript:{}" class="list-group-item <?php echo $dcPersonActive; ?>">Discover Contacts - By Person</a>
               </div>
             </div>
         </div>

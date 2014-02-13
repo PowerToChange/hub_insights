@@ -399,6 +399,76 @@
     return $byCampus;
   }
 
+  function getDCByMonth($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $byMonth = array();
+    $whereClause = " where ";
+    if($campus["id"]){
+      $whereClause = " inner join civicrm_relationship on civicrm_activity_target.target_contact_id = civicrm_relationship.contact_id_a
+        where civicrm_relationship.relationship_type_id = 10 AND civicrm_relationship.contact_id_b = ? AND ";
+    }
+    $activityQuery = "select YEAR(civicrm_activity.activity_date_time) as 'YEAR', MONTH(civicrm_activity.activity_date_time) as 'MONTH',
+      count(CASE WHEN civicrm_activity.activity_type_id >= 2 AND civicrm_activity.activity_type_id <= 4 then 1 ELSE NULL END) as 'INTERACTIONS',
+      count(CASE WHEN civicrm_activity.activity_type_id = 47 then 1 ELSE NULL END) as 'REJOICEABLES',
+      count(CASE WHEN civicrm_activity.activity_type_id = 32 then 1 ELSE NULL END) as 'SURVEYS' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id " . $whereClause . "
+      civicrm_activity_target.target_contact_id IN (select contact_id_b from civicrm_relationship where  civicrm_relationship.relationship_type_id = 16)
+      AND civicrm_activity.activity_date_time between ? and ?
+      GROUP BY YEAR(civicrm_activity.activity_date_time), MONTH(civicrm_activity.activity_date_time);";
+    if ($actStmt = $mysqli->prepare($activityQuery)){
+      if($campus["id"]){
+        $activityStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $activityStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $activityStmt->execute();
+      $activityStmt->bind_result($year_bind, $month_bind, $int_bind, $rejoice_bind, $survey_bind);
+      while ($activityStmt->fetch()) {
+        $date = $year_bind . "-" . $month_bind;
+        $byMonth[$date] = array("INTERACTIONS" => $int_bind, "REJOICEABLES" => $rejoice_bind, "SURVEYS" => $survey_bind);
+      }
+    }
+
+    $newWhere = " where ";
+    if($campus["id"]){
+      $newWhere = " inner join civicrm_relationship c on r.contact_id_b = c.contact_id_a
+        where c.relationship_type_id = 10 AND c.contact_id_b = 30430 AND ";
+    }
+    $newQuery = "select YEAR(r.start_date) as 'YEAR', MONTH(r.start_date) as 'MONTH', count(r.contact_id_b) as 'NEW' from civicrm_relationship r
+      " . $newWhere . " r.relationship_type_id = 16 and r.start_date between ? and ? AND
+      r.start_date = (select min(start_date) from civicrm_relationship where contact_id_b = r.contact_id_b)
+      GROUP BY YEAR(r.start_date), MONTH(r.start_date);";
+    if ($newStmt = $mysqli->prepare($newQuery)){
+      if($campus["id"]){
+        $newStmt->bind_param("iss", $campus["id"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $newStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $newStmt->execute();
+      $newStmt->bind_result($year_bind, $month_bind, $new_bind);
+      while ($newStmt->fetch()) {
+        $date = $year_bind . "-" . $month_bind;
+        if(is_array($byMonth[$date])){
+          $byMonth[$date] = array_merge($byMonth[$date], array("NEW" => $new_bind));
+        }
+        else {
+          $byMonth[$date] = array("NEW" => $new_bind);
+        }
+      }
+    }
+
+    return $byMonth;
+  }
+
 //****************************************************************************************************************
 
   function getSchools(){
