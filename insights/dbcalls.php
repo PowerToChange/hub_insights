@@ -440,7 +440,7 @@
     $newWhere = " where ";
     if($campus["id"]){
       $newWhere = " inner join civicrm_relationship c on r.contact_id_b = c.contact_id_a
-        where c.relationship_type_id = 10 AND c.contact_id_b = ? AND ";
+        where c.relationship_type_id = 10 AND c.contact_id_b = ? AND c.is_active = 1 AND ";
     }
     $newQuery = "select YEAR(r.start_date) as 'YEAR', MONTH(r.start_date) as 'MONTH', count(r.contact_id_b) as 'NEW' from civicrm_relationship r
       " . $newWhere . " r.relationship_type_id = 16 and r.start_date between ? and ? AND

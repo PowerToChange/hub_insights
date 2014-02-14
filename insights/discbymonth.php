@@ -22,7 +22,7 @@
             <th>Date</th>
             <th>New Relationships</th>
             <th>Rejoiceables</th>
-            <th rel="tooltip" title="# of calls, emails and texts">Interactions</th>
+            <th rel="tooltip" title="# of calls, emails and texts">Connections</th>
           </tr>
         </thead>
         <tbody>
@@ -59,7 +59,12 @@
       <div class="well well-sm">
         <h3>Help</h3>
         <p><strong>New Relationships:</strong></p>
-        <p>The number of blah</p>
+        <p>The number of new relationships with contacts that were not already being journeyed with.</p>
+        <p><strong>Rejoiceables:</strong></p>
+        <p>The number of interactions, spiritual conversations, gospel presentations, indicated decisions and
+          spirit-filled life sharings with discover contacts.</p>
+        <p><strong>Connections:</strong></p>
+        <p>The number of calls, emails, and texts sent out through the Pulse system to discover contacts.</p>
       </div>
     </div>
   <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
