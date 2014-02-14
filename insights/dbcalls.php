@@ -412,7 +412,7 @@
     $whereClause = " where ";
     if($campus["id"]){
       $whereClause = " inner join civicrm_relationship on civicrm_activity_target.target_contact_id = civicrm_relationship.contact_id_a
-        where civicrm_relationship.relationship_type_id = 10 AND civicrm_relationship.contact_id_b = ? AND ";
+        where civicrm_relationship.relationship_type_id = 10 AND civicrm_relationship.contact_id_b = ? AND civicrm_relationship.is_active = 1 AND ";
     }
     $activityQuery = "select YEAR(civicrm_activity.activity_date_time) as 'YEAR', MONTH(civicrm_activity.activity_date_time) as 'MONTH',
       count(CASE WHEN civicrm_activity.activity_type_id >= 2 AND civicrm_activity.activity_type_id <= 4 then 1 ELSE NULL END) as 'INTERACTIONS',
