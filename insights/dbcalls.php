@@ -540,6 +540,27 @@
     return $byPerson;
   }
 
+  function getActiveDiscover(){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+
+    $count = "0";
+    $activeQuery = "select count(distinct contact_id_b) as 'COUNT' from civicrm_relationship
+      where relationship_type_id = 16 and is_active = 1;";
+    if ($activeStmt = $mysqli->prepare($activeQuery)){
+      $activeStmt->execute();
+      $activeStmt->bind_result($count_bind);
+      while ($activeStmt->fetch()) {
+        $count = $count_bind;
+      }
+    }
+
+    return $count;
+  }
+
 //****************************************************************************************************************
 
   function getSchools(){

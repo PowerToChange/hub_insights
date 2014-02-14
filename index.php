@@ -34,6 +34,7 @@
         foreach($bigPicture as $row){
           $newBelievers += intval($row["TOTAL"]);
         }
+        $activeContacts = getActiveDiscover();
       ?>
 
       <div class="text-center"><h2>Indicated Decisions <?php echo $dates["start"] . "-" . $dates["end"]; ?>: 
@@ -73,6 +74,7 @@
           });
         });
       </script>
+      <div class="text-center"><h2>Active Discover Contacts: <?php echo $activeContacts; ?> Students Journeying</h2></div>
 
     </div>
   <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
