@@ -399,6 +399,8 @@
     return $byCampus;
   }
 
+//************************************************DISCOVER***********************************************************
+
   function getDCByMonth($params){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
@@ -561,6 +563,372 @@
     return $count;
   }
 
+//*************************************************SURVEY***********************************************************
+
+  function getNationalPriority($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $report = array();
+    $whereClause = " where ";
+    if($params["onlyInt"]){
+      $whereClause = " inner join " . DEMOG . " on a.id = " . DEMOG . ".entity_id 
+        where " . DEMOG . D_INT . " = \"yes\" and ";
+    }
+    $surveyAddon = "";
+    if($params["selectSurvey"]){
+      $surveyAddon = " and civicrm_activity.source_record_id = ? ";
+    }
+    $priorityQuery = "select school.id as 'ID', school.`organization_name` as 'SCHOOL', 
+      count(CASE civicrm_activity.priority_id WHEN 1 then 1 ELSE NULL END) as 'HOT', 
+      count(CASE civicrm_activity.priority_id WHEN 2 then 1 ELSE NULL END) as 'MEDIUM',
+      count(CASE civicrm_activity.priority_id WHEN 3 then 1 ELSE NULL END) as 'MILD',
+      count(CASE civicrm_activity.priority_id WHEN 4 then 1 ELSE NULL END) as 'NOT INTERESTED',
+      count(CASE civicrm_activity.priority_id WHEN 5 then 1 ELSE NULL END) as 'N/A',
+      count(*) as 'TOTAL' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact school on civicrm_relationship.`contact_id_b` = school.id " . $whereClause . "
+      activity_date_time between ? and ? and activity_type_id = 32 and civicrm_relationship.`relationship_type_id` = 10
+      and civicrm_relationship.is_active = 1 " . $surveyAddon . "
+      group by school.`organization_name`;";
+    if ($priorityStmt = $mysqli->prepare($priorityQuery)){
+      if($surveyAddon != ""){
+        $priorityStmt->bind_param("ssi", $dates["start"], $dates["end"], $params["selectSurvey"]);
+      }
+      else{
+        $priorityStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $priorityStmt->execute();
+      $priorityStmt->bind_result($id_bind, $school_bind, $hot_bind, $medium_bind, $mild_bind, $not_bind, $na_bind, $total_bind);
+      while ($priorityStmt->fetch()) {
+        $report[$id_bind] = array("SCHOOL" => $school_bind, "HOT" => $hot_bind, "MEDIUM" => $medium_bind, 
+          "MILD" => $mild_bind, "NOT" => $not_bind, "NA" => $na_bind, "TOTAL" => $total_bind);
+      }
+    }
+
+    return $report;
+  }
+
+  function getNationalFollowup($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $report = array();
+    $whereClause = " where ";
+    if($params["onlyInt"]){
+      $whereClause = " inner join " . DEMOG . " on a.id = " . DEMOG . ".entity_id 
+        where " . DEMOG . D_INT . " = \"yes\" and ";
+    }
+    $surveyAddon = "";
+    if($params["selectSurvey"]){
+      $surveyAddon = " and civicrm_activity.source_record_id = ? ";
+    }
+    $followupQuery = "select school.id as 'ID', school.`organization_name` as 'SCHOOL', 
+      count(CASE civicrm_activity.status_id WHEN 4 then 1 ELSE NULL END) as 'UNCONTACTED', 
+      count(CASE civicrm_activity.status_id WHEN 3 then 1 ELSE NULL END) as 'IN PROGRESS',
+      count(CASE civicrm_activity.status_id WHEN 2 then 1 ELSE NULL END) as 'COMPLETED',
+      count(*) as 'TOTAL' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact school on civicrm_relationship.`contact_id_b` = school.id " . $whereClause . "
+      activity_date_time between ? and ? and activity_type_id = 32 and civicrm_relationship.`relationship_type_id` = 10
+      and civicrm_relationship.is_active = 1 " . $surveyAddon . "
+      group by school.`organization_name`;";
+    if ($followupStmt = $mysqli->prepare($followupQuery)){
+      if($surveyAddon != ""){
+        $followupStmt->bind_param("ssi", $dates["start"], $dates["end"], $params["selectSurvey"]);
+      }
+      else{
+        $followupStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $followupStmt->execute();
+      $followupStmt->bind_result($id_bind, $school_bind, $un_bind, $in_bind, $com_bind, $total_bind);
+      while ($followupStmt->fetch()) {
+        $report[$id_bind] = array("SCHOOL" => $school_bind, "UNCONTACTED" => $un_bind, 
+          "IN PROGRESS" => $in_bind, "COMPLETED" => $com_bind, "TOTAL" => $total_bind);
+      }
+    }
+
+    return $report;
+  }
+
+  function getPriorityBreakdown($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $report = array();
+    $whereClause = " where ";
+    if($params["onlyInt"]){
+      $whereClause = " inner join " . DEMOG . " on a.id = " . DEMOG . ".entity_id 
+        where " . DEMOG . D_INT . " = \"yes\" and ";
+    }
+    $surveyAddon = "";
+    if($params["selectSurvey"]){
+      $surveyAddon = " and civicrm_activity.source_record_id = ? ";
+    }
+    $breakdownQuery = "select civicrm_activity.`priority_id` as PRIORITY, 
+      count(CASE civicrm_activity.status_id WHEN 4 then 1 ELSE NULL END) as 'UNCONTACTED', 
+      count(CASE civicrm_activity.status_id WHEN 3 then 1 ELSE NULL END) as 'IN PROGRESS',
+      count(CASE civicrm_activity.status_id WHEN 2 then 1 ELSE NULL END) as 'COMPLETED',
+      count(*) as 'TOTAL' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
+      activity_date_time between ? and ? and activity_type_id = 32 and civicrm_relationship.`relationship_type_id` = 10
+      " . $campus["query"] . $survyAddon . " group by civicrm_activity.`priority_id`";
+    if ($breakdownStmt = $mysqli->prepare($breakdownQuery)){
+      if($surveyAddon && $campus["id"]){
+        $breakdownStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
+      }
+      elseif($surveyAddon){
+        $breakdownStmt->bind_param("ssi", $dates["start"], $dates["end"], $params["selectSurvey"]);
+      }
+      elseif($campus["id"]){
+        $breakdownStmt->bind_param("ssi", $dates["start"], $dates["end"], $campus["id"]);
+      }
+      else{
+        $breakdownStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $breakdownStmt->execute();
+      $breakdownStmt->bind_result($priority_bind, $un_bind, $in_bind, $com_bind, $total_bind);
+      while ($breakdownStmt->fetch()) {
+        $report[$priority_bind] = array("UNCONTACTED" => $un_bind, 
+          "IN PROGRESS" => $in_bind, "COMPLETED" => $com_bind, "TOTAL" => $total_bind);
+      }
+    }
+
+    return $report;
+  }
+
+  function getVolunteers($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $report = array();
+    $whereClause = " where ";
+    if($params["onlyInt"]){
+      $whereClause = " inner join " . DEMOG . " on a.id = " . DEMOG . ".entity_id 
+        where " . DEMOG . D_INT . " = \"yes\" and ";
+    }
+    $surveyAddon = "";
+    if($params["selectSurvey"]){
+      $surveyAddon = " and civicrm_activity.source_record_id = ? ";
+    }
+    $volunteerQuery = "select v.sort_name as 'NAME', 
+      count(CASE civicrm_activity.status_id WHEN 4 then 1 ELSE NULL END) as 'UNCONTACTED', 
+      count(CASE civicrm_activity.status_id WHEN 3 then 1 ELSE NULL END) as 'IN PROGRESS',
+      count(CASE civicrm_activity.status_id WHEN 2 then 1 ELSE NULL END) as 'COMPLETED',
+      count(*) as 'TOTAL' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
+      left join civicrm_contact v on civicrm_activity_assignment.assignee_contact_id = v.id
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
+      activity_date_time between ? and ? and activity_type_id = 32 and civicrm_relationship.`relationship_type_id` = 10
+      " . $campus["query"] . $survyAddon . " group by v.sort_name";
+    if ($volunteerStmt = $mysqli->prepare($volunteerQuery)){
+      if($surveyAddon && $campus["id"]){
+        $volunteerStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
+      }
+      elseif($surveyAddon){
+        $volunteerStmt->bind_param("ssi", $dates["start"], $dates["end"], $params["selectSurvey"]);
+      }
+      elseif($campus["id"]){
+        $volunteerStmt->bind_param("ssi", $dates["start"], $dates["end"], $campus["id"]);
+      }
+      else{
+        $volunteerStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $volunteerStmt->execute();
+      $volunteerStmt->bind_result($name_bind, $un_bind, $in_bind, $com_bind, $total_bind);
+      while ($volunteerStmt->fetch()) {
+        $report[] = array("NAME" => $name_bind, "UNCONTACTED" => $un_bind, 
+          "IN PROGRESS" => $in_bind, "COMPLETED" => $com_bind, "TOTAL" => $total_bind);
+      }
+    }
+
+    return $report;
+  }
+
+  function getRejoiceables($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $report = array();
+    $whereClause = " where ";
+    if($params["onlyInt"]){
+      $whereClause = " inner join " . DEMOG . " on a.id = " . DEMOG . ".entity_id 
+        where " . DEMOG . D_INT . " = \"yes\" and ";
+    }
+    $surveyAddon = "";
+    if($params["selectSurvey"]){
+      $surveyAddon = " and civicrm_activity.source_record_id = ? ";
+    }
+    $rejoiceQuery = "select civicrm_value_rejoiceable_16.rejoiceable_143 as 'TYPE', count(*) as 'COUNT' from civicrm_activity
+      inner join civicrm_value_rejoiceable_16 on civicrm_activity.id = civicrm_value_rejoiceable_16.entity_id
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
+      activity_date_time between ? and ? and activity_type_id = 47 and " . REJOICEABLE . R_SURVEY . " is not null
+      and civicrm_value_rejoiceable_16.rejoiceable_143 is not null " . $campus["query"] . $survyAddon . " group by " . REJOICEABLE . R_TYPE;
+    if ($rejoiceStmt = $mysqli->prepare($rejoiceQuery)){
+      if($surveyAddon && $campus["id"]){
+        $rejoiceStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
+      }
+      elseif($surveyAddon){
+        $rejoiceStmt->bind_param("ssi", $dates["start"], $dates["end"], $params["selectSurvey"]);
+      }
+      elseif($campus["id"]){
+        $rejoiceStmt->bind_param("ssi", $dates["start"], $dates["end"], $campus["id"]);
+      }
+      else{
+        $rejoiceStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $rejoiceStmt->execute();
+      $rejoiceStmt->bind_result($type_bind, $count_bind);
+      while ($rejoiceStmt->fetch()) {
+        $report[$type_bind] = $count_bind;
+      }
+    }
+
+    return $report;
+  }
+
+  function getSurveyResults($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $report = array();
+    $whereClause = " where ";
+    if($params["onlyInt"]){
+      $whereClause = " inner join " . DEMOG . " on a.id = " . DEMOG . ".entity_id 
+        where " . DEMOG . D_INT . " = \"yes\" and ";
+    }
+    $surveyAddon = "";
+    if($params["selectSurvey"]){
+      $surveyAddon = " and civicrm_activity.source_record_id = ? ";
+    }
+    $resultQuery = "select civicrm_activity.engagement_level as TYPE, count(*) as COUNT from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
+      activity_date_time between ? and ? and activity_type_id = 32
+      and civicrm_activity.engagement_level is not null " . $campus["query"] . $survyAddon . " group by civicrm_activity.engagement_level";
+    if ($resultStmt = $mysqli->prepare($resultQuery)){
+      if($surveyAddon && $campus["id"]){
+        $resultStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
+      }
+      elseif($surveyAddon){
+        $resultStmt->bind_param("ssi", $dates["start"], $dates["end"], $params["selectSurvey"]);
+      }
+      elseif($campus["id"]){
+        $resultStmt->bind_param("ssi", $dates["start"], $dates["end"], $campus["id"]);
+      }
+      else{
+        $resultStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $resultStmt->execute();
+      $resultStmt->bind_result($type_bind, $count_bind);
+      while ($resultStmt->fetch()) {
+        $report[$type_bind] = $count_bind;
+      }
+    }
+
+    return $report;
+  }
+
+  function getSurveyHighlights($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $report = array();
+    $whereClause = " where ";
+    if($params["onlyInt"]){
+      $whereClause = " inner join " . DEMOG . " on a.id = " . DEMOG . ".entity_id 
+        where " . DEMOG . D_INT . " = \"yes\" and ";
+    }
+    $surveyAddon = "";
+    if($params["selectSurvey"]){
+      $surveyAddon = " and civicrm_activity.source_record_id = ? ";
+    }
+    $highlightQuery = "select count(distinct a.id) as 'TOTAL', count(CASE civicrm_activity.status_id WHEN 2 then 1 ELSE NULL END) as 'COMPLETED',
+      count(CASE civicrm_activity.status_id WHEN 3 then 1 ELSE NULL END) as 'IN PROGRESS',
+      count(distinct v.id) as 'VOLUNTEERS' from civicrm_activity
+      inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
+      inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id 
+      left join civicrm_activity_assignment on civicrm_activity.id = civicrm_activity_assignment.activity_id
+      left join civicrm_contact v on civicrm_activity_assignment.assignee_contact_id = v.id 
+      inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
+      inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
+      activity_date_time between ? and ? and activity_type_id = 32 " . $campus["query"] . $survyAddon . " and priority_id <> 4";
+    if ($highlightStmt = $mysqli->prepare($highlightQuery)){
+      if($surveyAddon && $campus["id"]){
+        $highlightStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
+      }
+      elseif($surveyAddon){
+        $highlightStmt->bind_param("ssi", $dates["start"], $dates["end"], $params["selectSurvey"]);
+      }
+      elseif($campus["id"]){
+        $highlightStmt->bind_param("ssi", $dates["start"], $dates["end"], $campus["id"]);
+      }
+      else{
+        $highlightStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      }
+      $highlightStmt->execute();
+      $highlightStmt->bind_result($total_bind, $completed_bind, $progress_bind, $volunteers_bind);
+      while ($highlightStmt->fetch()) {
+        $report = array("TOTAL" => $total_bind, "COMPLETED" => $completed_bind,
+          "IN PROGRESS" => $progress_bind, "VOLUNTEERS" => $volunteers_bind);
+      }
+    }
+
+    return $report;
+  }
+
+
+
 //****************************************************************************************************************
 
   function getSchools(){
@@ -582,6 +950,25 @@
       }
     }
     return $schools;
+  }
+
+  function getSurveys(){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $surveys = array();
+    $surveyQuery = "select civicrm_survey.title as 'SURVEY', civicrm_survey.id as 'ID' from civicrm_activity
+      inner join civicrm_survey on civicrm_activity.source_record_id = civicrm_survey.id
+      where civicrm_activity.activity_type_id = 32
+      group by `civicrm_survey`.id;";
+    if ($result = $mysqli->query($surveyQuery)) {
+      while ($row = mysqli_fetch_assoc($result)) {
+        $surveys[$row["ID"]] = $row["SURVEY"];
+      }
+    }
+    return $surveys;
   }
 
 ?>

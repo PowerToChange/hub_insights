@@ -98,6 +98,31 @@
           $('#rangeForm').attr("action", "/insights/discover/byperson/");
           $('#rangeForm')[0].submit();
         });
+
+        $('#surveyNatPriority').click(function() {
+          $('#rangeForm').attr("action", "/insights/survey/natpriority/");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#surveyNatFollowup').click(function() {
+          $('#rangeForm').attr("action", "/insights/survey/natfollowup/");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#surveyResults').click(function() {
+          $('#rangeForm').attr("action", "/insights/survey/results/");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#surveyBreakdown').click(function() {
+          $('#rangeForm').attr("action", "/insights/survey/breakdown/");
+          $('#rangeForm')[0].submit();
+        });
+
+        $('#surveyVolunteers').click(function() {
+          $('#rangeForm').attr("action", "/insights/survey/volunteers/");
+          $('#rangeForm')[0].submit();
+        });
       
         var startThis = moment().month(8).startOf('month');
         var endThis = moment().month(7).add('years',1).endOf('month');
@@ -117,6 +142,7 @@
             echo "var selectStart = moment('" . $_POST["hiddenStart"] . "', 'YYYY-MM-DD');\n";
             echo "var selectEnd = moment('" . $_POST["hiddenEnd"] . "', 'YYYY-MM-DD');\n";
             echo "$('#selectCampus').selectpicker('val', '" . $_POST["selectCampus"] . "');\n";
+            echo "$('#selectSurvey').selectpicker('val', '" . $_POST["selectSurvey"] . "');\n";
           }
           elseif($_COOKIE["campus"]){
             echo "$('#selectCampus').selectpicker('val', '" . $_COOKIE["campus"] . "');\n";
@@ -186,25 +212,45 @@
             <input type="hidden" id="hiddenAdd" name="hiddenAdd"
               value="<?php echo (($_POST["hiddenAdd"] == "true" || $_GET["add"] == "true") ? "true" : "false"); ?>">
             <input type="hidden" name="selectSubmitted" value="true">
-          </form>
 
           <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; margin-bottom: 10px;">
             <i class="glyphicon glyphicon-calendar icon-calendar"></i>
             <span></span> <b class="caret"></b>
           </div>
 
+          <div <?php if(!isset($surveyOptions)){ echo "class='hidden'"; }?> >
+            <label for="selectSurvey">Survey Options</label>
+            <select class="selectpicker" data-width="100%" data-size="10" data-dropup-auto="false" id="selectSurvey" name="selectSurvey" hidden>
+              <option selected="selected" value="0">All Surveys</option>
+              <?php
+                $surveys = getSurveys();
+                foreach ($surveys as $id => $label) {
+                  echo "<option value=\"" . $id . "\">" . $label . "</option>";
+                }
+              ?>
+            </select>
+
+            <div class="checkbox">
+              <label><input type="checkbox" id="onlyInt" name="onlyInt" <?php if(isset($_POST["onlyInt"])){ echo "checked"; }?> > International Students Only</label>
+            </div>
+          </div>
+
+          </form>
           <a class="btn btn-warning" style="width:100%" onclick="$('#rangeForm')[0].submit();">Update Display</a>
 
         </div>
 
         <?php
           if($permissions["isStaff"] && $permissions["visibility"] >= 1){
-            $idOpen = "in"; $msOpen = ""; $dcOpen = "";
+            $idOpen = "in"; $msOpen = ""; $dcOpen = ""; $surveyOpen = "";
             if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive){
-              $idOpen = ""; $msOpen = "in"; $dcOpen = "";
+              $idOpen = ""; $msOpen = "in"; $dcOpen = ""; $surveyOpen = "";
             }
             if($dcMonActive || $dcPersonActive){
-              $idOpen = ""; $msOpen = ""; $dcOpen = "in";
+              $idOpen = ""; $msOpen = ""; $dcOpen = "in"; $surveyOpen = "";
+            }
+            if($surNatPriActive || $surNatFollowActive || $surResultsActive || $surBreakdownActive || $surVolunteersActive){
+              $idOpen = ""; $msOpen = ""; $dcOpen = ""; $surveyOpen = "in";
             }
         ?>
         <div class="panel-group" id="accordion">
@@ -251,6 +297,22 @@
               <div id="collapseThree" class="list-group panel-collapse collapse <?php echo $dcOpen; ?>">
                 <a id="dcByMon" href="javascript:{}" class="list-group-item <?php echo $dcMonActive; ?>">Discover Contacts - By Month</a>
                 <a id="dcByPerson" href="javascript:{}" class="list-group-item <?php echo $dcPersonActive; ?>">Discover Contacts - By Person</a>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                    Surveys
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseFour" class="list-group panel-collapse collapse <?php echo $surveyOpen; ?>">
+                <a id="surveyNatPriority" href="javascript:{}" class="list-group-item <?php echo $surNatPriActive; ?>">National Priority</a>
+                <a id="surveyNatFollowup" href="javascript:{}" class="list-group-item <?php echo $surNatFollowActive; ?>">National Follow-Up</a>
+                <a id="surveyResults" href="javascript:{}" class="list-group-item <?php echo $surResultsActive; ?>">Results and Rejoiceables</a>
+                <a id="surveyBreakdown" href="javascript:{}" class="list-group-item <?php echo $surBreakdownActive; ?>">Priority Breakdown</a>
+                <a id="surveyVolunteers" href="javascript:{}" class="list-group-item <?php echo $surVolunteersActive; ?>">Volunteers Report</a>
               </div>
             </div>
         </div>

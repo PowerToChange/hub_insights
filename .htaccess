@@ -13,6 +13,7 @@ RewriteRule ^insights/$ insights/decisions.php [QSA]
 RewriteRule ^insights/decisions/([a-zA-Z0-9_-]+)/$ insights/id$1.php [QSA]
 RewriteRule ^insights/monthlystats/([a-zA-Z0-9_-]+)/$ insights/mon$1.php [QSA]
 RewriteRule ^insights/discover/([a-zA-Z0-9_-]+)/$ insights/disc$1.php [QSA]
+RewriteRule ^insights/survey/([a-zA-Z0-9_-]+)/$ insights/survey$1.php [QSA]
 
 RewriteRule ^discover/$ discover/index.php [QSA]
 RewriteRule ^discover/new/$ discover/new.php [QSA]
