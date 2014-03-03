@@ -944,7 +944,7 @@
       where school.contact_sub_type = 'School' and civicrm_value_school_info_10.do_we_have_a_ministry_presence_h_73 = 'Yes' order by school.organization_name asc;";
     if ($result = $mysqli->query($schoolQuery)) {
       while ($row = mysqli_fetch_assoc($result)) {
-        if(in_array($row["PULSEID"], $permissions["ids"])){
+        if(in_array($row["PULSEID"], $permissions["ids"]) || isset($permissions["autoScript"])){
           $schools[$row["ID"]] = $row["SCHOOL"];
         }
       }

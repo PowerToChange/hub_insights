@@ -1,10 +1,18 @@
 <?php
   chdir(dirname(__FILE__));
-  include '../blackbox.php';
-  include '../dbcalls.php';
+  include '../insights/blackbox.php';
+  include '../insights/dbcalls.php';
   error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
+  date_default_timezone_set('America/Toronto');
+  if(date('m') > 4 && date('m') < 9){
+    echo "No import needed for " . date('Y-m-d H:i:s') . "\n";
+    exit();
+  }
+
   $civicrm_id = 1;
+  global $permissions;
+  $permissions["autoScript"] = 1;
 
   function findCampus($reports, $cid){
     foreach($reports as $key => $report){
@@ -15,7 +23,6 @@
     return false;
   }
 
-  date_default_timezone_set('America/Toronto');
   $start = date('Y-m-d', strtotime('first day of previous month'));
   $end = date('Y-m-d', strtotime('last day of previous month'));
 
