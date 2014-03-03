@@ -6,7 +6,7 @@
   error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
   date_default_timezone_set('America/Toronto');
-  if(date('m') > 4 && date('m') < 9){
+  if(date('m') > 5 && date('m') < 10){
     echo "No import needed for " . date('Y-m-d H:i:s') . "\n";
     exit();
   }
