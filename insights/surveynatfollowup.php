@@ -17,6 +17,11 @@
 ?>
 
     <div class="col-md-9" >
+      <div class="alert alert-info alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Notice:</strong> Campus selection has no impact on Big Picture Results
+      </div>
+
       <table id="datatable" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered">
         <thead>
           <tr>
