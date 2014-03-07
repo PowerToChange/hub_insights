@@ -89,6 +89,11 @@
           $('#rangeForm')[0].submit();
         });
 
+        $('#schoolRep').click(function() {
+          $('#rangeForm').attr("action", "/insights/schools/");
+          $('#rangeForm')[0].submit();
+        });
+
         $('#dcByMon').click(function() {
           $('#rangeForm').attr("action", "/insights/discover/bymonth/");
           $('#rangeForm')[0].submit();
@@ -243,7 +248,7 @@
         <?php
           if($permissions["isStaff"] && $permissions["visibility"] >= 1){
             $idOpen = "in"; $msOpen = ""; $dcOpen = ""; $surveyOpen = "";
-            if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive){
+            if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive || $schoolActive){
               $idOpen = ""; $msOpen = "in"; $dcOpen = ""; $surveyOpen = "";
             }
             if($dcMonActive || $dcPersonActive){
@@ -284,6 +289,7 @@
                 <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
                 <a id="msBigPicture" href="javascript:{}" class="list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Evangelism Big Picture</a>
                 <a id="msByCampus" href="javascript:{}" class="list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - Monthly Breakdown</a>
+                <a id="schoolRep" href="javascript:{}" class="list-group-item <?php echo $schoolActive; ?>">School Report</a>
               </div>
             </div>
             <div class="panel panel-default">

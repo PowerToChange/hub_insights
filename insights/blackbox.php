@@ -1,12 +1,6 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT'].'/config/civi_constants.php';
 
-  $postData = array(
-    "json" => "1",
-    "api_key" => API_KEY,
-    "key" => KEY
-  );
-
   function http_call($params){
     $ch = curl_init(RESTURL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -24,13 +18,14 @@
   }
 
   function civicrm_call($entity, $action, $params){
-    global $postData;
-    $addData = array(
+    $allParams = array(
+      "api_key" => API_KEY,
+      "key" => KEY,
       "entity" => $entity,
-      "action" => $action
+      "action" => $action,
+      "json" => json_encode($params)
       );
 
-    $allParams = array_merge($postData, $addData, $params);
     return http_call($allParams);
   }
 
@@ -143,6 +138,79 @@
     $monReturn = civicrm_call("Activity", "create", $monParams);
     //$sends[] = $monReturn;
     if ($monReturn["is_error"] == 1) { $succeeded = $monReturn["error_message"]; return $succeeded; }
+
+    return $succeeded;
+  }
+
+  function get_schools() {
+    global $sends;
+    //global $civicrm_id;
+    $succeeded = 1;
+
+    $contactParams = array(
+      "rowCount" => 500,
+      "contact_sub_type" => "School",
+      "api.CustomValue.get" => array()
+    );
+    //$sends[] = $eventParams;
+
+    $contactReturn = civicrm_call("Contact", "get", $contactParams);
+    //$sends[] = $eventReturn;
+    if ($contactReturn["is_error"] == 1) { $succeeded = $contactReturn["error_message"]; return $succeeded; }
+
+    return $contactReturn;
+  }
+
+  function get_school($id) {
+    global $sends;
+    //global $civicrm_id;
+    $succeeded = 1;
+
+    $contactParams = array(
+      "contact_id" => $id,
+      "api.CustomValue.get" => array()
+    );
+
+    $contactReturn = civicrm_call("Contact", "get", $contactParams);
+    //$sends[] = $eventReturn;
+    if ($contactReturn["is_error"] == 1) { $succeeded = $contactReturn["error_message"]; return $succeeded; }
+
+    return $contactReturn;
+  }
+
+  function edit_school($params) {
+    global $sends;
+    $succeeded = 1;
+
+    $checkboxes = array("custom_98", "custom_99", "custom_100", "custom_101", "custom_102", "custom_103", "custom_104", "custom_105", 
+      "custom_106", "custom_107", "custom_108", "custom_109", "custom_111", "custom_".API_SCHOOL_MP_13, "custom_".API_SCHOOL_SLM_13);
+    foreach($checkboxes as $field){
+      if(!isset($params[$field])){
+        $params[$field] = 0;
+      }
+    }
+
+    if($params["phone"]){
+      $phoneParams = array("phone" => $params["phone"], "is_primary" => 1);
+      if($params["phone_id"]){
+        $phoneParams["id"] = $params["phone_id"];
+        unset($params["phone_id"]);
+      }
+      $params["api.phone.create"] = $phoneParams;
+      unset($params["phone"]);
+    }
+
+    if($params["address_id"]){
+      $params["api.address.create"] = array("id" => $params["address_id"], "location_type_id" => 1, "is_primary" => 1, "city" => $params["city"],
+        "street_address" => $params["street_address"], "state_province" => $params["state_province"], "postal_code" => $params["postal_code"],
+        "country" => $params["country"], "geo_code_1" => $params["geo_code_1"], "geo_code_2" => $params["geo_code_2"]);
+    }
+
+    $sends["params"] = $params;
+
+    $contactReturn = civicrm_call("Contact", "create", $params);
+    //$sends["error"] = $contactReturn;
+    if ($contactReturn["is_error"] == 1) { $succeeded = $contactReturn["error_message"]; return $succeeded; }
 
     return $succeeded;
   }
