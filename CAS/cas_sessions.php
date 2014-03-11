@@ -33,7 +33,7 @@
       throw new Exception($mysqli->connect_error);
     }
 
-    if ($result = $mysqli->query("CREATE TABLE IF NOT EXISTS cas_login_data (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sessionID CHAR(26), logoutTicket CHAR(33));")) {
+    if ($result = $mysqli->query("CREATE TABLE IF NOT EXISTS cas_login_data (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, sessionID CHAR(64), logoutTicket CHAR(33));")) {
       $mysqli->query("INSERT INTO cas_login_data (sessionID, logoutTicket) VALUES ('".session_id()."', '$logoutTicket');");
     }
 

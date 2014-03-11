@@ -11,7 +11,7 @@ if (defined('USE_CUSTOM_SESSION_HANDLERS')) {
 }
 
 //uncomment next line to turn on debugging
-//phpCAS::setDebug('./debug.log');
+phpCAS::setDebug('/tmp/debug.log');
 
 // initialize phpCAS
 phpCAS::client($cas_version, $cas_server, $cas_port, $cas_uri, $start_session);
