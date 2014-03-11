@@ -1,10 +1,5 @@
 <?php
 
-  define('CONNECT_HOST', 'localhost');
-  define('CONNECT_DB', 'StagingHubTest');
-  define('CONNECT_USER', 'root');
-  define('CONNECT_PASSWD', 'root');
-
   $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
   if (mysqli_connect_errno()) {
     throw new Exception($mysqli->connect_error);

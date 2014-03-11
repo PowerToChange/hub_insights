@@ -1,10 +1,5 @@
 <?php
 
-  define('CONNECT_HOST', 'localhost');
-  define('CONNECT_DB', 'StagingHubTest');
-  define('CONNECT_USER', 'root');
-  define('CONNECT_PASSWD', 'root');
-
    /*****************************************
     * functions for handling single signout *
     *****************************************/
