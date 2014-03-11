@@ -1,6 +1,6 @@
 <?php
 // uncomment to use custom session handlers
-//define('USE_CUSTOM_SESSION_HANDLERS','yes');
+define('USE_CUSTOM_SESSION_HANDLERS','yes');
 
 define('CAS_NO_VERIFY','none');
 define('CAS_VERIFY','verify');
