@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'].'/config/dbconstants.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/config/dbconstants.php';
 
 // uncomment to use custom session handlers
 define('USE_CUSTOM_SESSION_HANDLERS','yes');

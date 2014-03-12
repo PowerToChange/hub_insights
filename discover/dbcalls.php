@@ -1,5 +1,5 @@
 <?php
-  include $_SERVER['DOCUMENT_ROOT'].'/config/dbconstants.php';
+  include_once $_SERVER['DOCUMENT_ROOT'].'/config/dbconstants.php';
   include $_SERVER['DOCUMENT_ROOT'].'/config/columnnames.php';
 
 //****************************************************************************************************************
