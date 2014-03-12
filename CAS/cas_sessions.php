@@ -4,6 +4,7 @@
     * functions for handling single signout *
     *****************************************/
   function _cas_single_signout_callback($logoutTicket) {
+    file_put_contents("/tmp/debug.log", "In CAS SIGNOUT $logoutTicket\n", FILE_APPEND);
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
       throw new Exception($mysqli->connect_error);
@@ -33,7 +34,7 @@
       throw new Exception($mysqli->connect_error);
     }
 
-    if ($result = $mysqli->query("CREATE TABLE IF NOT EXISTS cas_login_data (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, sessionID CHAR(64), logoutTicket CHAR(33));")) {
+    if ($result = $mysqli->query("CREATE TABLE IF NOT EXISTS cas_login_data (id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT, sessionID CHAR(64), logoutTicket CHAR(64));")) {
       $mysqli->query("INSERT INTO cas_login_data (sessionID, logoutTicket) VALUES ('".session_id()."', '$logoutTicket');");
     }
 
