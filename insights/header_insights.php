@@ -128,6 +128,11 @@
           $('#rangeForm').attr("action", "/insights/survey/volunteers/");
           $('#rangeForm')[0].submit();
         });
+
+        $('#overview').click(function() {
+          $('#rangeForm').attr("action", "/insights/map/");
+          $('#rangeForm')[0].submit();
+        });
       
         var startThis = moment().month(8).startOf('month');
         var endThis = moment().month(7).add('years',1).endOf('month');
@@ -247,14 +252,17 @@
 
         <?php
           if($permissions["isStaff"] && $permissions["visibility"] >= 1){
-            $idOpen = "in"; $msOpen = ""; $dcOpen = ""; $surveyOpen = "";
-            if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive || $schoolActive){
+            $idOpen = ""; $msOpen = "in"; $dcOpen = ""; $surveyOpen = "";
+            if($idAddActive || $idBPActive || $idBMActive || $idBNActive){
+              $idOpen = "in"; $msOpen = ""; $dcOpen = ""; $surveyOpen = "";
+            }
+            else if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive || $schoolActive){
               $idOpen = ""; $msOpen = "in"; $dcOpen = ""; $surveyOpen = "";
             }
-            if($dcMonActive || $dcPersonActive){
+            else if($dcMonActive || $dcPersonActive){
               $idOpen = ""; $msOpen = ""; $dcOpen = "in"; $surveyOpen = "";
             }
-            if($surNatPriActive || $surNatFollowActive || $surResultsActive || $surBreakdownActive || $surVolunteersActive){
+            else if($surNatPriActive || $surNatFollowActive || $surResultsActive || $surBreakdownActive || $surVolunteersActive){
               $idOpen = ""; $msOpen = ""; $dcOpen = ""; $surveyOpen = "in";
             }
         ?>
@@ -284,6 +292,7 @@
                 </h4>
               </div>
               <div id="collapseTwo" class="list-group panel-collapse collapse <?php echo $msOpen; ?>">
+                <a id="overview" href="javascript:{}" class="list-group-item <?php echo $overviewActive; ?>">Overview</a>
                 <a id="evAdd" href="javascript:{}" class="list-group-item <?php echo $evAddActive; ?>">Add/Edit Event Stats</a>
                 <a id="evType" href="javascript:{}" class="list-group-item <?php echo $evTypeActive; ?>">Event Stats By Type</a>
                 <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>

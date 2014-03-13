@@ -4,19 +4,20 @@
   include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
   $permissions["visibility"] = 2; //Student permissions
-  $title = "Home";
-  $thisFile = "index.php";
-  $activeHome = "class='active'";
-  $crumbs = array("Home" => "/");
+  $title = "National Overview";
+  $thisFile = "/insights/map/";
+  $activeInsights = "class='active'";
+  $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
+  $overviewActive = "active";
 
   include $_SERVER['DOCUMENT_ROOT'].'/header.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
     <link rel="stylesheet" type="text/css" href="/css/jquery-jvectormap-1.2.2.css">
     <script src="/js/jquery-jvectormap-1.2.2.min.js"></script>
     <script src="/js/jquery-jvectormap-ca-lcc-en.js"></script>
 
-    <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-9">
       <?php
         date_default_timezone_set('America/Toronto');   
         $dates = array();
@@ -45,7 +46,7 @@
 
           $('#map').vectorMap({
             map: 'ca_lcc_en',
-            focusOn: {x: 0.5, y: 1, scale: 2},
+            focusOn: {x: 0.5, y: 1, scale: 1.7},
             regionStyle: {initial: {fill: '#428bca'}},
             markerStyle: {
               initial: {
