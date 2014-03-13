@@ -38,10 +38,10 @@ switch ($cas_cert_verify) {
 
 // uncomment one of the following handleLogoutRequests calls
 // handle logout requests from any server 
-//phpCAS::handleLogoutRequests(false);
+phpCAS::handleLogoutRequests(false);
 
 // handle logout requests from only The Key servers (recommended)
-phpCAS::handleLogoutRequests(true, array('173.45.224.95', '173.45.225.184'));
+//phpCAS::handleLogoutRequests(true, array('173.45.224.95', '173.45.225.184'));
 
 // force CAS authentication
 phpCAS::forceAuthentication();
