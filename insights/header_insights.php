@@ -256,7 +256,7 @@
             if($idAddActive || $idBPActive || $idBMActive || $idBNActive){
               $idOpen = "in"; $msOpen = ""; $dcOpen = ""; $surveyOpen = "";
             }
-            else if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive || $schoolActive){
+            else if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive || $schoolActive || $overviewActive){
               $idOpen = ""; $msOpen = "in"; $dcOpen = ""; $surveyOpen = "";
             }
             else if($dcMonActive || $dcPersonActive){
