@@ -51,7 +51,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/">Map</a></li>
+          <li><a href="https://pulse.p2c.com">Dashboard</a></li>
           <li><a href="https://pulse.p2c.com/people/<?php echo $pulse_id; ?>">Profile</a></li>
           <li><a href="https://pulse.p2c.com/groups">Groups</a></li>
           <li <?php echo $activeDiscover; ?>><a href="/discover/">Discover</a></li>
