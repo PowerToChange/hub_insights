@@ -226,3 +226,15 @@ html, body {
 .bootstrap-select.btn-group {
   margin-bottom: 0px !important;
 }
+
+.fade {
+  opacity: 0.75;
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+}
+
+.fade:hover {
+  opacity: 1;
+}
+

@@ -12,6 +12,7 @@
   //$url ="https://pulse.p2c.com/api/ministry_involvements?guid=9F6A3C73-A808-8176-F528-C9D695B857BA&api_key=" . PULSE_API_KEY;
   $xml = simplexml_load_file($url);
   $civicrm_id = (string) $xml['civicrm_id'];
+  $pulse_id = (string) $xml['id'];
   foreach ($xml->ministry_involvement as $minInfo) {
     if(strcmp($minInfo->role[0]['type'], "StaffRole") == 0){
       $permissions["isStaff"] = true;

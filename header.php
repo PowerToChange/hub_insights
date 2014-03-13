@@ -44,28 +44,29 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="/" class="navbar-brand active">P2C-Students | Pulse (Beta)</a>
-        <!--<img class="img-responsive brand-logo" src="/images/p2c_logo.png"></img>-->
+        <a href="https://pulse.p2c.com" class="navbar-brand active" style="margin:1px 0px; padding:0px;">
+        <img class="img-responsive brand-logo fade" src="/images/pulse_logo_black.png"></img></a>
       </div>
     
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li <?php echo $activeHome; ?>><a href="/">Home</a></li>
-          <!--<li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li>-->
+          <li><a href="/">Map</a></li>
+          <li><a href="https://pulse.p2c.com/people/<?php echo $pulse_id; ?>">Profile</a></li>
+          <li><a href="https://pulse.p2c.com/groups">Groups</a></li>
           <li <?php echo $activeDiscover; ?>><a href="/discover/">Discover</a></li>
-          <li <?php echo $activeInsights; ?>><a href="/insights/discover/byperson/">Insights By Person</a></li>
+          <li><a href="https://pulse.p2c.com/campus_discipleship">Discipleship</a></li>
+          <li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Surveys <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="https://connect.p2c.com/">Connect</a></li>
-              <li><a href="https://hub.p2c.com/reports">Reports</a></li>
+              <li><a href="https://connect.p2c.com/connections">My Connections</a></li>
+              <li><a href="https://hub.p2c.com/node/10">Data Input</a></li>
             </ul>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="?logout="> Logout of <?php echo $user["firstName"] . " " . $user["lastName"]; ?></a></li>
-          <li><a href="https://pulse.p2c.com">Back to Pulse</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </nav>
