@@ -67,7 +67,7 @@
     if ($result = $mysqli->query("DELETE FROM cas_sessions WHERE dateTouched + $sess_maxlifetime < $CurrentTime;")) {
       return true;
     }
-    return false;
+    return true;
   }
 
 	 session_set_save_handler("sess_open", "sess_close", "sess_read", "sess_write", "sess_destroy", "sess_gc");
