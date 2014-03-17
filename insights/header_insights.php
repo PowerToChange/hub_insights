@@ -42,95 +42,9 @@
           $('.selectpicker').selectpicker();
         }
       
-        $('#idAdd').click(function() {
-          $('#rangeForm').attr("action", "/insights/decisions/");
-          $('#hiddenAdd').val("true");
-          $('#rangeForm')[0].submit();
-        });
-      
-        $('#idBigPicture').click(function() {
-          $('#rangeForm').attr("action", "/insights/decisions/bigpicture/");
-          $('#rangeForm')[0].submit();
-        });
-      
-        $('#idByMethod').click(function() {
-          $('#rangeForm').attr("action", "/insights/decisions/bymethod/");
-          $('#rangeForm')[0].submit();
-        });
-      
-        $('#idByName').click(function() {
-          $('#rangeForm').attr("action", "/insights/decisions/");
-          $('#hiddenAdd').val("false");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#evAdd').click(function() {
-          $('#rangeForm').attr("action", "/insights/eventstats/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#evType').click(function() {
-          $('#rangeForm').attr("action", "/insights/eventtype/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#monAdd').click(function() {
-          $('#rangeForm').attr("action", "/insights/monthlystats/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#msBigPicture').click(function() {
-          $('#rangeForm').attr("action", "/insights/monthlystats/bigpicture/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#msByCampus').click(function() {
-          $('#rangeForm').attr("action", "/insights/monthlystats/bycampus/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#schoolRep').click(function() {
-          $('#rangeForm').attr("action", "/insights/schools/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#dcByMon').click(function() {
-          $('#rangeForm').attr("action", "/insights/discover/bymonth/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#dcByPerson').click(function() {
-          $('#rangeForm').attr("action", "/insights/discover/byperson/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#surveyNatPriority').click(function() {
-          $('#rangeForm').attr("action", "/insights/survey/natpriority/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#surveyNatFollowup').click(function() {
-          $('#rangeForm').attr("action", "/insights/survey/natfollowup/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#surveyResults').click(function() {
-          $('#rangeForm').attr("action", "/insights/survey/results/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#surveyBreakdown').click(function() {
-          $('#rangeForm').attr("action", "/insights/survey/breakdown/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#surveyVolunteers').click(function() {
-          $('#rangeForm').attr("action", "/insights/survey/volunteers/");
-          $('#rangeForm')[0].submit();
-        });
-
-        $('#overview').click(function() {
-          $('#rangeForm').attr("action", "/insights/map/");
+        $('.insightLink').click(function() {
+          $('#rangeForm').attr("action", $(this).data("url"));
+          $('#hiddenAdd').val($(this).data("input")); 
           $('#rangeForm')[0].submit();
         });
       
@@ -219,8 +133,7 @@
             </select>
             <input type="hidden" id="hiddenStart" name="hiddenStart">
             <input type="hidden" id="hiddenEnd" name="hiddenEnd">
-            <input type="hidden" id="hiddenAdd" name="hiddenAdd"
-              value="<?php echo (($_POST["hiddenAdd"] == "true" || $_GET["add"] == "true") ? "true" : "false"); ?>">
+            <input type="hidden" id="hiddenAdd" name="hiddenAdd" value="<?php echo $_POST["hiddenAdd"]; ?>">
             <input type="hidden" name="selectSubmitted" value="true">
 
           <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; margin-bottom: 10px;">
@@ -277,10 +190,10 @@
                 </h4>
               </div>
               <div id="collapseOne" class="list-group panel-collapse collapse <?php echo $idOpen; ?>">
-                  <a id="idAdd" href="javascript:{}" class="list-group-item <?php echo $idAddActive; ?>">Add/Edit Decisions</a>
-                  <a id="idBigPicture" href="javascript:{}" class="list-group-item <?php echo $idBPActive; ?>">Big Picture</a>
-                  <a id="idByMethod" href="javascript:{}" class="list-group-item <?php echo $idBMActive; ?>">By Method</a>
-                  <a id="idByName" href="javascript:{}" class="list-group-item <?php echo $idBNActive; ?>">By Name</a>
+                  <a href="javascript:{}" data-url="/insights/decisions/" data-input="true" class="insightLink list-group-item <?php echo $idAddActive; ?>">Add/Edit Decisions</a>
+                  <a href="javascript:{}" data-url="/insights/decisions/bigpicture/" class="insightLink list-group-item <?php echo $idBPActive; ?>">Big Picture</a>
+                  <a href="javascript:{}" data-url="/insights/decisions/bymethod/" class="insightLink list-group-item <?php echo $idBMActive; ?>">By Method</a>
+                  <a href="javascript:{}" data-url="/insights/decisions/" data-input="false" class="insightLink list-group-item <?php echo $idBNActive; ?>">By Name</a>
               </div>
             </div>
             <div class="panel panel-default">
@@ -292,13 +205,13 @@
                 </h4>
               </div>
               <div id="collapseTwo" class="list-group panel-collapse collapse <?php echo $msOpen; ?>">
-                <a id="overview" href="javascript:{}" class="list-group-item <?php echo $overviewActive; ?>">Overview</a>
-                <a id="evAdd" href="javascript:{}" class="list-group-item <?php echo $evAddActive; ?>">Add/Edit Event Stats</a>
-                <a id="evType" href="javascript:{}" class="list-group-item <?php echo $evTypeActive; ?>">Event Stats By Type</a>
-                <a id="monAdd" href="javascript:{}" class="list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
-                <a id="msBigPicture" href="javascript:{}" class="list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Evangelism Big Picture</a>
-                <a id="msByCampus" href="javascript:{}" class="list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - Monthly Breakdown</a>
-                <a id="schoolRep" href="javascript:{}" class="list-group-item <?php echo $schoolActive; ?>">School Report</a>
+                <a href="javascript:{}" data-url="/insights/map/" class="insightLink list-group-item <?php echo $overviewActive; ?>">Overview</a>
+                <a href="javascript:{}" data-url="/insights/eventstats/" class="insightLink list-group-item <?php echo $evAddActive; ?>">Add/Edit Event Stats</a>
+                <a href="javascript:{}" data-url="/insights/eventtype/" class="insightLink list-group-item <?php echo $evTypeActive; ?>">Event Stats By Type</a>
+                <a href="javascript:{}" data-url="/insights/monthlystats/" class="insightLink list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
+                <a href="javascript:{}" data-url="/insights/monthlystats/bigpicture/" class="insightLink list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Evangelism Big Picture</a>
+                <a href="javascript:{}" data-url="/insights/monthlystats/bycampus/" class="insightLink list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - Monthly Breakdown</a>
+                <a href="javascript:{}" data-url="/insights/schools/" class="insightLink list-group-item <?php echo $schoolActive; ?>">School Report</a>
               </div>
             </div>
             <div class="panel panel-default">
@@ -310,8 +223,8 @@
                 </h4>
               </div>
               <div id="collapseThree" class="list-group panel-collapse collapse <?php echo $dcOpen; ?>">
-                <a id="dcByMon" href="javascript:{}" class="list-group-item <?php echo $dcMonActive; ?>">Discover Contacts - By Month</a>
-                <a id="dcByPerson" href="javascript:{}" class="list-group-item <?php echo $dcPersonActive; ?>">Discover Contacts - By Person</a>
+                <a href="javascript:{}" data-url="/insights/discover/bymonth/" class="insightLink list-group-item <?php echo $dcMonActive; ?>">Discover Contacts - By Month</a>
+                <a href="javascript:{}" data-url="/insights/discover/byperson/" class="insightLink list-group-item <?php echo $dcPersonActive; ?>">Discover Contacts - By Person</a>
               </div>
             </div>
             <div class="panel panel-default">
@@ -323,11 +236,11 @@
                 </h4>
               </div>
               <div id="collapseFour" class="list-group panel-collapse collapse <?php echo $surveyOpen; ?>">
-                <a id="surveyNatPriority" href="javascript:{}" class="list-group-item <?php echo $surNatPriActive; ?>">National Priority</a>
-                <a id="surveyNatFollowup" href="javascript:{}" class="list-group-item <?php echo $surNatFollowActive; ?>">National Follow-Up</a>
-                <a id="surveyResults" href="javascript:{}" class="list-group-item <?php echo $surResultsActive; ?>">Results and Rejoiceables</a>
-                <a id="surveyBreakdown" href="javascript:{}" class="list-group-item <?php echo $surBreakdownActive; ?>">Priority Breakdown</a>
-                <a id="surveyVolunteers" href="javascript:{}" class="list-group-item <?php echo $surVolunteersActive; ?>">Volunteers Report</a>
+                <a href="javascript:{}" data-url="/insights/survey/natpriority/" class="insightLink list-group-item <?php echo $surNatPriActive; ?>">National Priority</a>
+                <a href="javascript:{}" data-url="/insights/survey/natfollowup/" class="insightLink list-group-item <?php echo $surNatFollowActive; ?>">National Follow-Up</a>
+                <a href="javascript:{}" data-url="/insights/survey/results/" class="insightLink list-group-item <?php echo $surResultsActive; ?>">Results and Rejoiceables</a>
+                <a href="javascript:{}" data-url="/insights/survey/breakdown/" class="insightLink list-group-item <?php echo $surBreakdownActive; ?>">Priority Breakdown</a>
+                <a href="javascript:{}" data-url="/insights/survey/volunteers/" class="insightLink list-group-item <?php echo $surVolunteersActive; ?>">Volunteers Report</a>
               </div>
             </div>
         </div>
