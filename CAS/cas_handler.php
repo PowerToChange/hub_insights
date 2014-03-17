@@ -51,6 +51,6 @@ phpCAS::forceAuthentication();
 
 // logout if desired
 if (isset($_REQUEST['logout'])) {
-  phpCAS::logout();
+  phpCAS::logout(array("service" => "http://p2c.com/students"));
 }
 ?>
