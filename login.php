@@ -1,27 +1,35 @@
 <?php
   include 'config/pulse_constants.php';
+  define("STAFF_VIS", 4);
+  define("MIN_VIS", 3);
+  define("LEADER_VIS", 2);
+  define("STUDENT_VIS", 1);
 
   //CAS WORK
   include 'CAS/cas_handler.php';
   $user = phpCAS::getAttributes();
 
   //PERMISSIONS CHECK
-  $permissions = array("isStaff" => false, "isStudent" => false, "visibility" => 1, //0 - Admin, 1 - Staff, 2 - Students
-    "ids" => array()); //0 - Admin, 1 - Staff, 2 - Students
+  $permissions = array("level" => 0, "ids" => array());
+
   $url ="https://pulse.p2c.com/api/ministry_involvements?guid=" . $user["ssoGuid"] . "&api_key=" . PULSE_API_KEY;
-  //$url ="https://pulse.p2c.com/api/ministry_involvements?guid=9F6A3C73-A808-8176-F528-C9D695B857BA&api_key=" . PULSE_API_KEY;
+  //$url ="https://pulse.p2c.com/api/ministry_involvements?guid=D0D5195C-9D64-A015-3EDF-6BDC6353BF62&api_key=" . PULSE_API_KEY;
+
   $xml = simplexml_load_file($url);
   $civicrm_id = (string) $xml['civicrm_id'];
   $pulse_id = (string) $xml['id'];
   foreach ($xml->ministry_involvement as $minInfo) {
-    if(strcmp($minInfo->role[0]['type'], "StaffRole") == 0){
-      $permissions["isStaff"] = true;
+    if(strcmp($minInfo->role[0]['type'], "StaffRole") == 0 && $permissions["level"] < STAFF_VIS){
+      $permissions["level"] = STAFF_VIS;
     }
-    if(strcmp($minInfo->role[0]['role_id'], "5") == 0){
-      $permissions["isStaff"] = true;
+    else if(strcmp($minInfo->role[0]['role_id'], "5") == 0 && $permissions["level"] < MIN_VIS){
+      $permissions["level"] = MIN_VIS;
     }
-    if(strcmp($minInfo->role[0]['type'], "StudentRole") == 0){
-      $permissions["isStudent"] = true;
+    else if(strcmp($minInfo->role[0]['role_id'], "6") == 0 && $permissions["level"] < LEADER_VIS){
+      $permissions["level"] = LEADER_VIS;
+    }
+    else if(strcmp($minInfo->role[0]['type'], "StudentRole") == 0 && $permissions["level"] < STUDENT_VIS){
+      $permissions["level"] = STUDENT_VIS;
     }
     foreach ($minInfo->ministry[0]->campus as $campus){
       $permissions["ids"][] = intval($campus['campus_id']);
@@ -29,11 +37,13 @@
   }
   $permissions["ids"] = array_unique($permissions["ids"]);
 
-  function checkUser(){
+  function userAccess($security_level = MIN_VIS){
     global $permissions;
-    $validStaff = $permissions["isStaff"] && $permissions["visibility"] >= 1;
-    $validStudent = $permissions["isStudent"] && $permissions["visibility"] >= 2;
-    if(!($validStaff || $validStudent)){
+    return ($permissions["level"] >= $security_level);
+  }
+
+  function checkUser($security_level = MIN_VIS){
+    if(!userAccess($security_level)){
       echo "<div class=\"alert alert-danger\"><strong>Error!</strong> You don't have permission to view this page.</div>";
       echo "</div></body></html>";
       exit;

@@ -5,6 +5,7 @@
   include $_SERVER['DOCUMENT_ROOT'].'/discover/blackbox.php';
   date_default_timezone_set('America/Toronto');
 
+  $access = STUDENT_VIS; //Student permissions
   $rejType = array("1" => "Interaction", "2" => "Spiritual Conversation", 
     "3" => "Gospel Presentation", "4" => "Indicated Decision", "5" => "Shared Spirit-Filled Life");
   $method = array("1" => "Random Evangelism", "2" => "Friendship Evangelism", 

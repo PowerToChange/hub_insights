@@ -5,6 +5,7 @@
   include $_SERVER['DOCUMENT_ROOT'].'/insights/blackbox.php';
   date_default_timezone_set('America/Toronto');
 
+  $access = STAFF_VIS;
   $schoolInfo = 0;
   if($_POST){
     $schoolInfo = edit_school($_POST);
@@ -109,7 +110,7 @@
             ?>
             <div class="alert alert-success alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <strong>Success!</strong> School Edited.
+              <strong>Success!</strong> School Saved.
             </div>
           <?php } else { ?>
             <div class="alert alert-danger alert-dismissable">
@@ -346,7 +347,7 @@
       <div class="text-center">
         <div class="btn-group">
           <a id="backBtn" href="/insights/schools/" class="btn btn-default btn-lg">Back</a>
-          <button type="submit" id="formSubmit" class="btn btn-success btn-lg">Edit School</button>
+          <button type="submit" id="formSubmit" class="btn btn-success btn-lg">Save Changes</button>
         </div>
         <br><br>
       </div>

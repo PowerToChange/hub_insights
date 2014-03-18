@@ -5,6 +5,7 @@
   include $_SERVER['DOCUMENT_ROOT'].'/discover/blackbox.php';
   date_default_timezone_set('America/Toronto');
 
+  $access = STUDENT_VIS; //Student permissions
   $title = "Discover Contacts";
   $activeDiscover = "class='active'";
   $crumbs = array("Home" => "/", "Discover" => "/discover/");

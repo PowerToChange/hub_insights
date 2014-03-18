@@ -3,7 +3,7 @@
   include $_SERVER['DOCUMENT_ROOT'].'/login.php';
   include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
 
-  $permissions["visibility"] = 2; //Student permissions
+  $access = STUDENT_VIS; //Student permissions
   $title = "National Overview";
   $thisFile = "/insights/map/";
   $activeInsights = "class='active'";
@@ -17,8 +17,12 @@
     <script src="/js/jquery-jvectormap-1.2.2.min.js"></script>
     <script src="/js/jquery-jvectormap-ca-lcc-en.js"></script>
 
+    <?php if(userAccess(MIN_VIS)){ ?>
     <div class="col-md-9">
+    <?php } else { ?>
+    <div class="col-md-12">
       <?php
+      }
         date_default_timezone_set('America/Toronto');   
         $dates = array();
         if(date("Y-m-d") < date("Y-09-01")){

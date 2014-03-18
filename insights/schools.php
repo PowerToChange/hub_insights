@@ -5,6 +5,7 @@
   include $_SERVER['DOCUMENT_ROOT'].'/insights/blackbox.php';
   date_default_timezone_set('America/Toronto');
 
+  $access = STAFF_VIS;
   $title = "School Report";
   $thisFile = "/insights/schools/";
   $activeInsights = "class='active'";

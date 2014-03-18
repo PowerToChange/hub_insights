@@ -5,6 +5,7 @@
   include $_SERVER['DOCUMENT_ROOT'].'/discover/blackbox.php';
   date_default_timezone_set('America/Toronto');
 
+  $access = STUDENT_VIS; //Student permissions
   $levels = array(0 => "Unknown", 1 => "Know and trust a christian", 2 => "Become curious", 3 => "Become open to Change",
     4 => "Seek God", 5 => "Make a decision", 6 => "Grow in relationship with God");  
 

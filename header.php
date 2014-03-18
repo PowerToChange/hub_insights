@@ -52,18 +52,19 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="https://pulse.p2c.com">Dashboard</a></li>
-          <li><a href="https://pulse.p2c.com/people/<?php echo $pulse_id; ?>">Profile</a></li>
-          <li><a href="https://pulse.p2c.com/groups">Groups</a></li>
-          <li <?php echo $activeDiscover; ?>><a href="/discover/">Discover</a></li>
-          <li><a href="https://pulse.p2c.com/campus_discipleship">Discipleship</a></li>
-          <li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li>
+          <?php if(userAccess(STUDENT_VIS)){ ?><li><a href="https://pulse.p2c.com/people/<?php echo $pulse_id; ?>">Profile</a></li><?php } ?>
+          <?php if(userAccess(LEADER_VIS)){ ?><li><a href="https://pulse.p2c.com/groups">Groups</a></li><?php } ?>
+          <?php if(userAccess(STUDENT_VIS)){ ?><li <?php echo $activeDiscover; ?>><a href="/discover/">Discover</a></li><?php } ?>
+          <?php if(userAccess(LEADER_VIS)){ ?><li><a href="https://pulse.p2c.com/campus_discipleship">Discipleship</a></li><?php } ?>
+          <?php if(userAccess(STUDENT_VIS)){ ?><li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li><?php } ?>
+          <?php if(userAccess(LEADER_VIS)){ ?>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="https://connect.p2c.com/connections">My Connections</a></li>
               <li><a href="https://hub.p2c.com/node/10">Data Input</a></li>
             </ul>
-          </li>
+          </li><?php } ?>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="?logout="> Logout of <?php echo $user["firstName"] . " " . $user["lastName"]; ?></a></li>
@@ -76,4 +77,6 @@
     </div>
 
       <?php //print_r($sends); ?>
-      <?php checkUser($isStaff); ?>
+      <?php
+        (isset($access) ? checkUser($access) : checkUser());
+      ?>

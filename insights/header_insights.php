@@ -110,6 +110,7 @@
     <div class="container">
     <div class="row">
       <br>
+      <?php if(userAccess(MIN_VIS)){ ?>
       <div class="col-md-3 col-sm-12">
         <div class="well side">
           <div class="container">
@@ -121,7 +122,7 @@
             data-content="Filters what is displayed to the right. You must press 'Update Display' or a navigation link below to save filter changes.">
           <form id="rangeForm" role="form" action="<?php echo $thisFile; ?>" method="post">
             <select class="selectpicker" data-width="100%" data-size="10" id="selectCampus" name="selectCampus" hidden>
-              <?php if(!$permissions["isStudent"]){ ?>
+              <?php if(userAccess(STAFF_VIS)){ ?>
               <option selected="selected" value="0">All Campuses</option>
               <?php
                 }
@@ -164,7 +165,6 @@
         </div>
 
         <?php
-          if($permissions["isStaff"] && $permissions["visibility"] >= 1){
             $idOpen = ""; $msOpen = "in"; $dcOpen = ""; $surveyOpen = "";
             if($idAddActive || $idBPActive || $idBMActive || $idBNActive){
               $idOpen = "in"; $msOpen = ""; $dcOpen = ""; $surveyOpen = "";
@@ -211,7 +211,9 @@
                 <a href="javascript:{}" data-url="/insights/monthlystats/" class="insightLink list-group-item <?php echo $monAddActive; ?>">Add/Edit Monthly Stats</a>
                 <a href="javascript:{}" data-url="/insights/monthlystats/bigpicture/" class="insightLink list-group-item <?php echo $msBPActive; ?>">Movement Snapshot - Evangelism Big Picture</a>
                 <a href="javascript:{}" data-url="/insights/monthlystats/bycampus/" class="insightLink list-group-item <?php echo $msBCActive; ?>">Movement Snapshot - Monthly Breakdown</a>
-                <a href="javascript:{}" data-url="/insights/schools/" class="insightLink list-group-item <?php echo $schoolActive; ?>">School Report</a>
+                <?php if(userAccess(STAFF_VIS)){ ?>
+                  <a href="javascript:{}" data-url="/insights/schools/" class="insightLink list-group-item <?php echo $schoolActive; ?>">School Report</a>
+                <?php } ?>
               </div>
             </div>
             <div class="panel panel-default">
@@ -243,10 +245,7 @@
                 <a href="javascript:{}" data-url="/insights/survey/volunteers/" class="insightLink list-group-item <?php echo $surVolunteersActive; ?>">Volunteers Report</a>
               </div>
             </div>
-        </div>
-        <?php
-          }
-        ?>
-
+          </div>
         </div>
       </div>
+      <?php } ?>
