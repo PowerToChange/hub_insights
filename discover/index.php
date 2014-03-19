@@ -107,6 +107,20 @@
   <div id="flash"></div>
 
   <div>
+    <?php
+      if(!$contacts){
+        ?>
+        <div class='alert alert-info alert-dismissable'>
+          <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+          <strong>Note:</strong> If you are not currently a Discover beta tester and would like your contacts moved over, contact
+            <a href="mailto:paul.hildebrand@p2c.com">Paul Hildebrand</a>.
+        </div>
+        <?php
+      }
+    ?>
+  </div>
+
+  <div>
   <div class="row">
     <div class="col-sm-12">
 
