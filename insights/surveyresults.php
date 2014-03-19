@@ -118,10 +118,12 @@
 
       <div class="well well-sm">
         <h3>Help</h3>
-        <p><strong>National Numbers:</strong></p>
-        <p>Interested Contacts: Total number of contacts with priority not set to "Not Interested".
-        <br>Contacts In Motion: Total number of interested contacts with status "In Progress" or "Completed".
-        <br>Volunteers: Total number of people assigned to follow-up a contact.</p>
+        <h4>National Numbers:</h4>
+        <p><strong>Interested Contacts:</strong> This number represents ONLY those contacts who indicated interest through their survey. 
+          (I.e. Their priority is, “Hot”, “Medium”, “Mild” or “N/A”.) It does not include those whose priority is "Not Interested".
+        <br><strong>Contacts In Motion:</strong> This number represents all contacts who have been assigned for follow up. 
+          It is both those who are “In Progress” and “Completed”.
+        <br><strong>Volunteers:</strong> Total number of people who have a minimum of 1 contact assigned for follow-up.</p>
       </div>
 
     </div>
