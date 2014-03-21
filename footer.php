@@ -20,7 +20,10 @@
       ?>
     </p>
     <p class="muted credit text-center">
-      Have questions? Find answers at <a href="https://getsatisfaction.com/powertochange">Get Satisfaction</a>
+      Sign up for the P2C newsletter <a href="http://p2c.com/students/subscribe" target="_blank">here</a>
+    </p>
+    <p class="muted credit text-center">
+      Have questions? Find answers at <a href="https://getsatisfaction.com/powertochange" target="_blank">Get Satisfaction</a>
     </p>
   </div>
 </div>

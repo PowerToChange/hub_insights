@@ -149,11 +149,11 @@ html, body {
 
 #wrap {
   height: auto !important;
-  margin: 0 auto -85px;
+  margin: 0 auto -120px;
   min-height: 100%;
 }
 #push, #footer {
-  height: 85px;
+  height: 120px;
 }
 #footer {
   background-color: #EEEEEE;
