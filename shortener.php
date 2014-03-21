@@ -21,7 +21,7 @@
     $result = json_decode($reply, TRUE);
   }
 
-  $access = LEADER_VIS;
+  $access = STUDENT_VIS;
   $title = "P2C URL Shortener";
   $thisFile = "/shortener/";
   $crumbs = array("Home" => "/", $title => $thisFile);
@@ -30,6 +30,10 @@
 ?>
   <script type="text/javascript">
   $(document).ready(function() {
+    jQuery.validator.addMethod('yourls', function(shortlink, element) {
+      return this.optional(element) || shortlink.match(/^[a-z0-9-]+$/);
+    }, 'Short link can only contain lowercase letters, numbers, and hyphens');
+
     $('#linkForm').validate({
       ignore: ':not(select:hidden, input:visible, textarea:visible)',
       rules: {
@@ -37,7 +41,7 @@
           required: true
         },
         inputShort: {
-          required: true
+          yourls: true
         }
       },
       errorElement: 'span',
@@ -66,19 +70,20 @@
           }
           else if($result["status"] == "success"){
             echo "<div class='text-success text-center'>";
-            echo "<h3>Short Link \"" . $result["shorturl"] . "\" created for URL \"" . $result["url"]["url"] . "\"</h3></div>";
+            echo "<h3>Short Link <a href=\"" . $result["shorturl"] . "\" target='_blank'>" . $result["shorturl"] . "</a> created for ";
+            echo "URL <a href=\"" . $result["url"]["url"] . "\" target='_blank'>" . $result["url"]["url"] . "</a></h3></div>";
           }
         }
       ?>
       <div class="well square">
         <div>
-          <h4 class="pull-left"><i class="glyphicon glyphicon-link"></i> Add p2c.sh short link</h4>
+          <h4 class="pull-left"><i class="glyphicon glyphicon-link"></i> Create p2c.sh Short Link</h4>
         </div>
         <form class="form-horizontal" id="linkForm" role="form" action="<?php echo $thisFile; ?>" method="post">
         <table class="table table-bordered table-striped">
           <tbody>
             <tr class="infoEdit">
-              <td>URL</td>
+              <td>Long URL</td>
               <td class="form-group">
                   <input type="text" class="form-control" id="inputUrl" name="inputUrl" placeholder="URL" value="<?php echo $_POST['inputUrl']; ?>">
               </td>
@@ -88,7 +93,7 @@
               <td class="form-group">
                 <div class="input-group">
                   <label class="input-group-addon">http://p2c.sh/</label>
-                  <input type="text" class="form-control" id="inputShort" name="inputShort" placeholder="Shortlink" value="<?php echo $_POST['inputShort']; ?>">
+                  <input type="text" class="form-control" id="inputShort" name="inputShort" placeholder="Short link" value="<?php echo $_POST['inputShort']; ?>">
                 </div>
                 <span class="error" for="inputShort"></span>
               </td>
