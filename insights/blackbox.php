@@ -112,6 +112,24 @@
     return $succeeded;
   }
 
+  function delete_event($form) {
+    global $sends;
+    $succeeded = 2;
+
+    $eventParams = array(
+      "id" => $form["inputID"]
+    );
+    //$sends[] = $eventParams;
+
+    $eventReturn = civicrm_call("Activity", "delete", $eventParams);
+    //$sends[] = $eventReturn;
+    if ($eventReturn["is_error"] == 1) { $succeeded = $eventReturn["error_message"]; return $succeeded; }
+
+    return $succeeded;
+  }
+
+
+
   function add_monthly($form) {
     global $sends;
     global $civicrm_id;

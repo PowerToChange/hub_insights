@@ -42,7 +42,7 @@ div.schoolContacts {
 }
 
 .hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt,
-.hiddenFirst, .hiddenLast, .hiddenType, .hiddenWarning, .hiddenDate {
+.hiddenFirst, .hiddenLast, .hiddenType, .hiddenWarning, .hiddenDate, .hiddenDelete {
   display: none;
 }
 

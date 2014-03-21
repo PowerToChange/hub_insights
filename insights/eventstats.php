@@ -9,9 +9,13 @@
     "3" => "MDA Outreach", "4" => "Online Outreach", "10" => "Other", "11" => "Legacy Pulse Outreach");
 
   $evInfo = 0;
-  if($_POST["evSubmitted"]){
+  if($_POST["evSubmitted"] == "Create"){
     include $_SERVER['DOCUMENT_ROOT'].'/insights/blackbox.php';
     $evInfo = add_event($_POST);
+  }
+  else if($_POST["evSubmitted"] == "Delete"){
+    include $_SERVER['DOCUMENT_ROOT'].'/insights/blackbox.php';
+    $evInfo = delete_event($_POST);
   }
 
   $title = "Event Stats";
@@ -55,6 +59,12 @@
         $("#evForm").validate().reset();
         $("div .has-error").removeClass("has-error");
         $("div .has-success").removeClass("has-success");
+        $("#deleteEvent").show();
+      });
+
+      $('#deleteEvent').click(function() {
+        $('#evSubmitted').val("Delete");
+        $('#evForm')[0].submit();
       });
 
       $('#evForm').validate({
@@ -127,6 +137,7 @@
         $("div .has-error").removeClass("has-error");
         $("div .has-success").removeClass("has-success");
         $("#inputDate").val(moment().format('YYYY-MM-DD'));
+        $("#deleteEvent").hide();
       });
 
       $('#myModal').on('shown.bs.modal', function () {
@@ -152,6 +163,11 @@
             <div class="alert alert-success alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
               <strong>Success!</strong> Event Stats <?php echo $evLabel; ?>.
+            </div>
+          <?php } else if($evInfo == 2){ ?>
+            <div class="alert alert-info alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <strong>Success!</strong> Event Deleted.
             </div>
           <?php } else { ?>
             <div class="alert alert-danger alert-dismissable">
@@ -200,6 +216,7 @@
         </tfoot>
       </table>
     </div>
+    <?php print_r($_POST); ?>
   <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   <!-- Modal -->
@@ -271,7 +288,8 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" id="inputID" name="inputID">
-          <input type="hidden" name="evSubmitted" value="true">
+          <input type="hidden" id="evSubmitted" name="evSubmitted" value="Create">
+          <a id="deleteEvent" class="hiddenDelete btn btn-danger">Delete</a>
           <button type="submit" class="btn btn-success">Submit</button>
           </form>
         </div>
