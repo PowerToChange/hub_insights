@@ -65,8 +65,8 @@
       var inactiveBtn = $(this);
       $(this).closest(".contactLink").remove();
       $.getJSON(
-        "/discover/ajax/changestatus.php", 
-        "inputActive=1&inputRelID="+$(this).data("relid"),  
+        "/discover/ajax/changestatus.php",
+        "inputActive=1&inputRelID="+$(this).data("relid"),
         function(json){
           var alert = "<div class='alert alert-danger alert-dismissable'><button type='button' class='close' " +
             "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> " + json.result + "</div>";
@@ -75,9 +75,9 @@
               "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> " + inactiveBtn.data("name") + " marked as inactive.</div>";
           }
           $("#flash").html(alert);
-          window.setTimeout(function() { 
+          window.setTimeout(function() {
             $(".alert").fadeTo(2000, 0).slideUp(2000, function(){
-            $(this).remove(); 
+            $(this).remove();
           })}, 4000);
         }
       );
