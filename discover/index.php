@@ -21,7 +21,7 @@
       cache: false  
     });
 
-    $(".msgAction").click(function(event){
+    $("#wrap").on("click", ".msgAction", function(event){
       event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);
       var type = "2";
       var glyphicon = "glyphicon-earphone";
@@ -41,8 +41,8 @@
       var name = "<?php echo $user['firstName'] . ' ' . $user['lastName']; ?>";
       label = $(this).parent().siblings("h3").html() + " " + label
       $.getJSON(
-        "/discover/ajax/submitmsg.php", 
-        "type="+type+"&msgID="+msgID+"&msgCID="+msgCID+"&name="+encodeURIComponent(name),  
+        "/discover/ajax/submitmsg.php",
+        "type="+type+"&msgID="+msgID+"&msgCID="+msgCID+"&name="+encodeURIComponent(name),
         function(json){
           var alert = "<div class='alert alert-danger alert-dismissable'><button type='button' class='close' " +
             "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> " + json.result + "</div>";
@@ -51,16 +51,39 @@
               "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> " + label + " Added</div>";
           }
           $("#flash").html(alert);
-          window.setTimeout(function() { 
+          window.setTimeout(function() {
             $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
-            $(this).remove(); 
+            $(this).remove();
           })}, 4000);
         }
       );
       return true;
     });
 
-    $(".contactLink").click(function(){
+    $(".inactiveBtn").click(function(event){
+      event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);
+      var inactiveBtn = $(this);
+      $(this).closest(".contactLink").remove();
+      $.getJSON(
+        "/discover/ajax/changestatus.php", 
+        "inputActive=1&inputRelID="+$(this).data("relid"),  
+        function(json){
+          var alert = "<div class='alert alert-danger alert-dismissable'><button type='button' class='close' " +
+            "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> " + json.result + "</div>";
+          if(json.result == 1){
+            var alert = "<div class='alert alert-success alert-dismissable'><button type='button' class='close' " +
+              "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> " + inactiveBtn.data("name") + " marked as inactive.</div>";
+          }
+          $("#flash").html(alert);
+          window.setTimeout(function() { 
+            $(".alert").fadeTo(2000, 0).slideUp(2000, function(){
+            $(this).remove(); 
+          })}, 4000);
+        }
+      );
+    });
+
+    $("#wrap").on("click", ".contactLink", function(){
       var id = $(this).find("span.contactID").html();
       window.location = "/discover/contact/"+id+"/";
     });
@@ -93,7 +116,7 @@
       }
     });
 
-    $(".collapsable").click(function(){
+    $("#wrap").on("click", ".collapsable", function(){
       $(this).find(".collSymbol").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
     });
 
@@ -148,6 +171,11 @@
                       <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
                       <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
                       <div class="btn-group contactBtns">
+                        <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>"
+                          data-name="<?php echo $contact["name"]; ?>" class="btn btn-danger inactiveBtn">
+                          <i class="glyphicon glyphicon-remove"></i>
+                          <span>Mark Inactive</span>
+                        </a>
                         <?php if(isset($contact["phone"]) && $contact["phone"]){ ?>
                         <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                           <i class="glyphicon glyphicon-earphone"></i>
@@ -175,6 +203,11 @@
                       <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
                       <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
                       <div class="btn-group contactBtns">
+                        <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>"
+                          data-name="<?php echo $contact["name"]; ?>" class="btn btn-danger inactiveBtn">
+                          <i class="glyphicon glyphicon-remove"></i>
+                          <span>Mark Inactive</span>
+                        </a>
                         <?php if(isset($contact["phone"]) && $contact["phone"]){ ?>
                         <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                           <i class="glyphicon glyphicon-earphone"></i>

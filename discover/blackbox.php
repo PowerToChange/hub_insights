@@ -325,7 +325,7 @@
 
         if ($school["is_error"] == 1) { $succeeded = $school["error_message"]; return $succeeded; }
 
-        $returnContacts[] = array("id" => $values["contact_id_b"], "name" => $values["display_name"], "email" => $values["email"],
+        $returnContacts[] = array("id" => $values["contact_id_b"], "name" => $values["display_name"], "email" => $values["email"], "relationship" => $values["id"],
           "phone" => $values["phone"], "is_active" => $values["is_active"], "school_id" => $school_id, "school_name" => $school_name);
       }
     }

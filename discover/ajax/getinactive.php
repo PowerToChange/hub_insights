@@ -79,8 +79,3 @@
     echo "</div></div>";
   }
 ?>
-<script type="text/javascript">
-  $(".collapsable").click(function(){
-    $(this).find(".collSymbol").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
-  });
-</script>
