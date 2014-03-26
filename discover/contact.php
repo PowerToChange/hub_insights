@@ -251,6 +251,10 @@
       }
     });
 
+    $("#addContact").click(function(){
+      window.location = "/discover/new/";
+    });
+
     $('#noteModalBtn').click(function(){
       $("#noteFormTitle").html("Add Note");
       $('#noteForm')[0].reset();
@@ -607,6 +611,9 @@
             </table>
           </div>
         </div>
+      </div>
+      <div id="addContact" class="btn-success fullWidth">
+        <i class='glyphicon glyphicon-plus'></i> Add New Contact
       </div>
       <!--<?php print_r($notes); ?>
       <?php print_r($conValues); ?>

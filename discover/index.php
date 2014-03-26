@@ -146,6 +146,9 @@
   <div>
   <div class="row">
     <div class="col-sm-12">
+    <div id="addContact" class="btn-success fullWidth">
+      <i class='glyphicon glyphicon-plus'></i> Add New Contact
+    </div>
 
     <?php
       if($contacts){
@@ -235,10 +238,6 @@
         echo "</div></div>";
       }
     ?>
-    <div id="addContact" class="btn-success fullWidth">
-      <i class='glyphicon glyphicon-plus'></i> Add Contact
-    </div>
-    <br>
     <div id="inactiveContacts" data-toggle="collapse" data-target="#inactive" class="greyBack">
       <i id='inactiveSymbol' class='glyphicon glyphicon-chevron-right'></i> Inactive Contacts
     </div>
