@@ -20,10 +20,9 @@
       ?>
     </p>
     <p class="muted credit text-center">
-      Sign up for the P2C newsletter <a href="http://p2c.com/students/subscribe" target="_blank">here</a>
-    </p>
-    <p class="muted credit text-center">
-      Have questions? Find answers at <a href="https://getsatisfaction.com/powertochange" target="_blank">Get Satisfaction</a>
+      Sign up for the <a href="http://p2c.com/students/subscribe" target="_blank">P2C Newsletter</a><br>
+      Check out the <a href="http://www.facebook.com/groups/p2cpray/" target="_blank">P2C Prayer Facebook Group</a><br>
+      Questions? Find answers at <a href="https://getsatisfaction.com/powertochange" target="_blank">Get Satisfaction</a>
     </p>
   </div>
 </div>
