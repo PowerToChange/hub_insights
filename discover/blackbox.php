@@ -280,59 +280,20 @@
     return $id;
   }
 
-  function sortContacts($a, $b) {
-    if($a['is_active'] == $b['is_active']){
-      if($a['school_id'] == $b['school_id']){
-        return strcasecmp($a['display_name'], $b['display_name']);
-      } else {
-        return strcasecmp($a['school_name'], $b['school_name']);
-      }
-    }
-    else {
-      return $b['is_active'] - $a['is_active'];
-    }
-  }
-
   function all_contacts($id, $is_active){
     global $sends;
     $succeeded = 1;
 
-    $contactParams = array(
-      "contact_id" => $id,
-      "api.Relationship.get" => array("relationship_type_id" => API_REL_DISC, "is_active" => $is_active)
+    $params = array(
+      "id" => $id,
+      "is_active" => $is_active
     );
 
-    $contacts = civicrm_call("Contact", "get", $contactParams);
+    $contacts = civicrm_call("DiscoverContacts", "get", $params);
     //$sends[] = $contacts;
     if ($contacts["is_error"] == 1) { $succeeded = $contacts["error_message"]; return $succeeded; }
 
-    $returnContacts = array();
-    foreach($contacts["values"][$id]["api.Relationship.get"]["values"] as $key => $values) {
-      if($values["relationship_type_id"] == API_REL_DISC && $values["is_active"] == $is_active){
-        $schoolParams = array(
-          "contact_id" => $values["contact_id_b"],
-          "api.Relationship.get" => array("relationship_type_id" => API_REL_CAMPUS, "is_active" => 1)
-        );
-
-        $school = civicrm_call("Contact", "get", $schoolParams);
-        $school_id = -1; $school_name = "";
-        foreach($school["values"][$values["contact_id_b"]]["api.Relationship.get"]["values"] as $schoolKey => $relationship){
-          if($relationship["is_active"] == 1 && $relationship["relationship_type_id"] == API_REL_CAMPUS){
-            $school_id = $relationship["contact_id_b"];
-            $school_name = $relationship["display_name"];
-          }
-        }
-
-        if ($school["is_error"] == 1) { $succeeded = $school["error_message"]; return $succeeded; }
-
-        $returnContacts[] = array("id" => $values["contact_id_b"], "name" => $values["display_name"], "email" => $values["email"], "relationship" => $values["id"],
-          "phone" => $values["phone"], "is_active" => $values["is_active"], "school_id" => $school_id, "school_name" => $school_name);
-      }
-    }
-
-    usort($returnContacts, 'sortContacts');
-    $sends[] = $returnContacts;
-    return $returnContacts;
+    return $contacts["values"];
   }
 
   function change_status($form){
