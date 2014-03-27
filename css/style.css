@@ -198,6 +198,12 @@ html, body {
   padding-left: 10px;
   padding-right: 50px;
 }
+@media (max-width: 480px) {
+  .brand-logo {
+    padding-left: 10px;
+    padding-right: 0px;
+  }
+}
 
 #header-title {
   margin-bottom: 0px;
