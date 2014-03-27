@@ -200,8 +200,8 @@
               <td>International</td>
               <td class="infoEdit form-group">
                 <select class="selectpicker" data-width="100%" data-size="10" id="selectInter" name="selectInter">
-                  <option value="yes" <?php echo ($_POST["selectInter"] == "yes" ? "selected" : "");?>>Yes</option>
                   <option value="no" <?php echo ($_POST["selectInter"] == "no" ? "selected" : "");?>>No</option>
+                  <option value="yes" <?php echo ($_POST["selectInter"] == "yes" ? "selected" : "");?>>Yes</option>
                 </select>
               </td>
             </tr>
