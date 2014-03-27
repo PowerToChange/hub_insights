@@ -18,6 +18,9 @@
   if($_POST){
     $conReturn = new_contact($_POST);
     if(is_numeric($conReturn)){
+      if($_POST["selectCampus"]){
+        setcookie("campus", $_POST["selectCampus"], time()+60*60*24*30, COOKIE_PATH, COOKIE_DOMAIN);
+      }
       header("Location: http://" . $_SERVER['HTTP_HOST'] . "/discover/contact/" . $conReturn . "/");
       die();
     }
@@ -106,6 +109,12 @@
     else {
       $('.selectpicker').selectpicker();
     }
+
+    <?php
+      if($_COOKIE["campus"]){
+        echo "$('#selectCampus').selectpicker('val', '" . $_COOKIE["campus"] . "');\n";
+      }
+    ?>
 
     $("#inputFirst").focus();
   });
