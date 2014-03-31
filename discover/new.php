@@ -187,7 +187,7 @@
             <tr>
               <td>Email</td>
               <td class="infoEdit form-group">
-                <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="<?php echo $_POST['inputEmail'];?>">
+                <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="<?php echo $_POST['inputEmail'];?>">
               </td>
             </tr>
             <tr>

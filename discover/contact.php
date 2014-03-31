@@ -486,7 +486,7 @@
             <tr>
               <td>Email</td><td class="infoDisplay"><?php echo $contact["email"]; ?></td>
               <td class="infoEdit form-group">
-                <input type="text" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="<?php echo $contact['email'];?>">
+                <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="<?php echo $contact['email'];?>">
               </td>
             </tr>
             <tr>
