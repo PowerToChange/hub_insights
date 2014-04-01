@@ -172,7 +172,7 @@
             else if($evAddActive || $evTypeActive || $monAddActive || $msBPActive || $msBCActive || $schoolActive || $overviewActive){
               $idOpen = ""; $msOpen = "in"; $dcOpen = ""; $surveyOpen = "";
             }
-            else if($dcMonActive || $dcPersonActive || $dcThresholdActive){
+            else if($dcMonActive || $dcPersonActive || $dcThresholdActive || $dcContactActive){
               $idOpen = ""; $msOpen = ""; $dcOpen = "in"; $surveyOpen = "";
             }
             else if($surNatPriActive || $surNatFollowActive || $surResultsActive || $surBreakdownActive || $surVolunteersActive){
@@ -228,6 +228,7 @@
                 <a href="javascript:{}" data-url="/insights/discover/bymonth/" class="insightLink list-group-item <?php echo $dcMonActive; ?>">Discover Contacts - By Month</a>
                 <a href="javascript:{}" data-url="/insights/discover/byperson/" class="insightLink list-group-item <?php echo $dcPersonActive; ?>">Discover Contacts - By Person</a>
                 <a href="javascript:{}" data-url="/insights/discover/threshold/" class="insightLink list-group-item <?php echo $dcThresholdActive; ?>">Discover Contacts - Threshold Summary</a>
+                <a href="javascript:{}" data-url="/insights/discover/contact/" class="insightLink list-group-item <?php echo $dcContactActive; ?>">Discover Contacts - Contact Summary</a>
               </div>
             </div>
             <div class="panel panel-default">

@@ -581,6 +581,51 @@
     return $thresholds;
   }
 
+  function getDCContacts($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $contacts = array();
+    $schoolClause = "";
+    if($campus["id"]){
+      $schoolClause = " where school.contact_id_b = ? ";
+    }
+    $contactQuery = "select info.entity_id as 'ID', contact.display_name as 'NAME',
+      info.next_step_124 as 'THRESHOLD', info.in_prayerful_dependence_on_god_m_145 as 'NEXTSTEP',
+      group_concat(distinct school_contact.display_name SEPARATOR ', ') as 'SCHOOLS',
+      group_concat(distinct disc_contact.display_name SEPARATOR ', ') as 'DISCOVER',
+      greatest(contact.modified_date, ifnull(max(activity.activity_date_time), 0), ifnull(max(note.modified_date), 0)) as 'DATE'
+      from civicrm_value_discover_info_11 info
+      inner join civicrm_contact contact on info.entity_id = contact.id
+      inner join civicrm_relationship disc on info.entity_id = disc.contact_id_b and disc.relationship_type_id = 16 and disc.is_active = 1
+      inner join civicrm_contact disc_contact on disc.contact_id_a = disc_contact.id
+      inner join civicrm_relationship school on info.entity_id = school.contact_id_a and school.relationship_type_id = 10 and school.is_active = 1
+      inner join civicrm_contact school_contact on school.contact_id_b = school_contact.id
+      left join civicrm_activity_target on info.entity_id = civicrm_activity_target.target_contact_id
+      left join civicrm_activity activity on civicrm_activity_target.activity_id = activity.id
+      left join civicrm_note note on info.entity_id = note.entity_id " . $schoolClause . "
+      group by info.entity_id, contact.display_name, info.next_step_124, info.in_prayerful_dependence_on_god_m_145;";
+    if ($contactStmt = $mysqli->prepare($contactQuery)){
+      if($campus["id"]){
+        $contactStmt->bind_param("i", $campus["id"]);
+      }
+      $contactStmt->execute();
+      $contactStmt->bind_result($id_bind, $name_bind, $threshold_bind, $nextstep_bind,
+        $schools_bind, $discover_bind, $date_bind);
+      while ($contactStmt->fetch()) {
+        $contacts[$id_bind] = array('NAME' => $name_bind, 'THRESHOLD' => $threshold_bind, 'NEXTSTEP' => $nextstep_bind,
+          'SCHOOLS' => $schools_bind, 'DISCOVER' => $discover_bind, 'DATE' => $date_bind);
+      }
+    }
+
+    return $contacts;
+  }
+
   function getActiveDiscover(){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
