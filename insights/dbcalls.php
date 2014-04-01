@@ -542,6 +542,44 @@
     return $byPerson;
   }
 
+  function getDCThresholds($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $campus = getCampus($params);
+    $dates = getDates($params);
+
+    $thresholds = array();
+    $whereClause = " where ";
+    if($campus["id"]){
+      $whereClause = " inner join civicrm_relationship school on civicrm_value_discover_info_11.entity_id = school.contact_id_a
+        where school.relationship_type_id = 10 AND school.contact_id_b = ? AND ";
+    }
+    $thresholdQuery = "select * from civicrm_value_discover_info_11
+      inner join civicrm_relationship disc on civicrm_value_discover_info_11.entity_id = disc.contact_id_b and disc.relationship_type_id = 16
+      " . $whereClause . " disc.start_date between ? and ? or disc.end_date between ? and ? or
+      (disc.start_date < ? and disc.end_date is null) or (disc.start_date < ? and disc.end_date > ?);";
+    if ($thresholdStmt = $mysqli->prepare($thresholdQuery)){
+      if($campus["id"]){
+        $thresholdStmt->bind_param("isssssss", $campus["id"], $dates["start"], $dates["end"], $dates["start"],
+          $dates["end"], $dates["start"], $dates["start"], $dates["end"]);
+      }
+      else{
+        $thresholdStmt->bind_param("sssssss", $dates["start"], $dates["end"], $dates["start"],
+          $dates["end"], $dates["start"], $dates["start"], $dates["end"]);
+      }
+      $thresholdStmt->execute();
+      $thresholdStmt->bind_result($threshold_bind, $count_bind);
+      while ($thresholdStmt->fetch()) {
+        $thresholds[$threshold_bind] = $count_bind;
+      }
+    }
+
+    return $thresholds;
+  }
+
   function getActiveDiscover(){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {

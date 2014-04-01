@@ -79,7 +79,7 @@
              'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
              'This Year': [startThis, endThis],
              'Last Year': [startLast, endLast],
-             'All Time': [moment().subtract('years', 100), moment().add('years', 100)]
+             'All Time': [moment().subtract('years', 50), moment().add('years', 50)]
           },
           startDate: selectStart,
           endDate: selectEnd,
