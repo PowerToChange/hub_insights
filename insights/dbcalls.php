@@ -559,8 +559,8 @@
     }
     $thresholdQuery = "select next_step_124 as 'THRESHOLDS', count(distinct entity_id) as 'COUNT' from civicrm_value_discover_info_11
       inner join civicrm_relationship disc on civicrm_value_discover_info_11.entity_id = disc.contact_id_b and disc.relationship_type_id = 16
-      " . $whereClause . " disc.start_date between ? and ? or disc.end_date between ? and ? or
-      (disc.start_date < ? and disc.end_date is null) or (disc.start_date < ? and disc.end_date > ?)
+      " . $whereClause . " (disc.start_date between ? and ? or disc.end_date between ? and ? or
+      (disc.start_date < ? and disc.end_date is null) or (disc.start_date < ? and disc.end_date > ?))
       group by next_step_124;";
     if ($thresholdStmt = $mysqli->prepare($thresholdQuery)){
       if($campus["id"]){
