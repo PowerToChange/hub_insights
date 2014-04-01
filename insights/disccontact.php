@@ -37,7 +37,7 @@
 
             foreach($contacts as $id => $values){
               echo "<tr><td>" . $values["NAME"] . "</td>";
-              echo "<td>" . date('Y M D', strtotime($values["DATE"])) . "</td>";
+              echo "<td>" . date('Y-m-d', strtotime($values["DATE"])) . "</td>";
               echo "<td>" . $thresholdLabels[$values["THRESHOLD"]] . "</td>";
               echo "<td>" . $values["DISCOVER"] . "</td>";
               echo "<td>" . $values["NEXTSTEP"] . "</td>";
