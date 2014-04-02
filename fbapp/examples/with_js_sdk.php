@@ -28,6 +28,7 @@ if ($user) {
       Your user profile is
       <pre>
         <?php print htmlspecialchars(print_r($user_profile, true)) ?>
+        <?php print htmlspecialchars(print_r($user, true)) ?>
       </pre>
     <?php } else { ?>
       <fb:login-button></fb:login-button>
