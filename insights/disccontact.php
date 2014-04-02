@@ -51,6 +51,11 @@
         </tbody>
       </table>
 
+      <div class="well well-sm">
+        <h3>Help</h3>
+        <p><strong>Report Time Frame:</strong></p>
+        <p>This report contains contacts that are currently active at the campus(es) provided.</p>
+      </div>
     </div>
   <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
