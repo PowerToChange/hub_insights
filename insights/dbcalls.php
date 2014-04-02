@@ -554,14 +554,14 @@
     $thresholds = array();
     $whereClause = " where ";
     if($campus["id"]){
-      $whereClause = " inner join civicrm_relationship school on civicrm_value_discover_info_11.entity_id = school.contact_id_a
+      $whereClause = " inner join civicrm_relationship school on " . DISC . ".entity_id = school.contact_id_a
         where school.relationship_type_id = 10 AND school.contact_id_b = ? AND ";
     }
-    $thresholdQuery = "select next_step_124 as 'THRESHOLDS', count(distinct entity_id) as 'COUNT' from civicrm_value_discover_info_11
-      inner join civicrm_relationship disc on civicrm_value_discover_info_11.entity_id = disc.contact_id_b and disc.relationship_type_id = 16
+    $thresholdQuery = "select " . DISC . C_THRES . " as 'THRESHOLDS', count(distinct " . DISC . ".entity_id) as 'COUNT' from " . DISC . "
+      inner join civicrm_relationship disc on " . DISC . ".entity_id = disc.contact_id_b and disc.relationship_type_id = 16
       " . $whereClause . " (disc.start_date between ? and ? or disc.end_date between ? and ? or
       (disc.start_date < ? and disc.end_date is null) or (disc.start_date < ? and disc.end_date > ?))
-      group by next_step_124;";
+      group by " . DISC . C_THRES . ";";
     if ($thresholdStmt = $mysqli->prepare($thresholdQuery)){
       if($campus["id"]){
         $thresholdStmt->bind_param("isssssss", $campus["id"], $dates["start"], $dates["end"], $dates["start"],
@@ -596,11 +596,11 @@
       $schoolClause = " where school.contact_id_b = ? ";
     }
     $contactQuery = "select info.entity_id as 'ID', contact.display_name as 'NAME',
-      info.next_step_124 as 'THRESHOLD', info.in_prayerful_dependence_on_god_m_145 as 'NEXTSTEP',
+      info" . C_THRES . " as 'THRESHOLD', info" . C_NEXT . " as 'NEXTSTEP',
       group_concat(distinct school_contact.display_name SEPARATOR ', ') as 'SCHOOLS',
       group_concat(distinct disc_contact.display_name SEPARATOR ', ') as 'DISCOVER',
       greatest(contact.modified_date, ifnull(max(activity.activity_date_time), 0), ifnull(max(note.modified_date), 0)) as 'DATE'
-      from civicrm_value_discover_info_11 info
+      from " . DISC . " info
       inner join civicrm_contact contact on info.entity_id = contact.id
       inner join civicrm_relationship disc on info.entity_id = disc.contact_id_b and disc.relationship_type_id = 16 and disc.is_active = 1
       inner join civicrm_contact disc_contact on disc.contact_id_a = disc_contact.id
@@ -609,7 +609,7 @@
       left join civicrm_activity_target on info.entity_id = civicrm_activity_target.target_contact_id
       left join civicrm_activity activity on civicrm_activity_target.activity_id = activity.id
       left join civicrm_note note on info.entity_id = note.entity_id " . $schoolClause . "
-      group by info.entity_id, contact.display_name, info.next_step_124, info.in_prayerful_dependence_on_god_m_145;";
+      group by info.entity_id, contact.display_name, info" . C_THRES . ", info" . C_THRES . ";";
     if ($contactStmt = $mysqli->prepare($contactQuery)){
       if($campus["id"]){
         $contactStmt->bind_param("i", $campus["id"]);

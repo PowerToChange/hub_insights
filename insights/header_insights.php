@@ -137,7 +137,8 @@
             <input type="hidden" id="hiddenAdd" name="hiddenAdd" value="<?php echo $_POST["hiddenAdd"]; ?>">
             <input type="hidden" name="selectSubmitted" value="true">
 
-          <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; margin-bottom: 10px;">
+          <div id="reportrange" <?php if(isset($dcContactActive)){ echo "class='hidden'"; } ?>
+            style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; margin-bottom: 10px;">
             <i class="glyphicon glyphicon-calendar icon-calendar"></i>
             <span></span> <b class="caret"></b>
           </div>

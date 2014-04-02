@@ -4,6 +4,8 @@
   include $_SERVER['DOCUMENT_ROOT'].'/insights/dbcalls.php';
   date_default_timezone_set('America/Toronto');
 
+  $discAllCampuses = !(isset($_POST["selectCampus"]) ? $_POST["selectCampus"] : isset($_COOKIE["campus"]));
+
   $title = "Discover Contacts - Contact Summary";
   $thisFile = "/insights/discover/contact/";
   $activeInsights = "class='active'";
@@ -11,7 +13,8 @@
 
   $dcContactActive = "active";
   $tableConfig = "'aaSorting': [[ 1, 'desc' ]],\n";
-  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4, 5 ] }],\n";
+  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4 ] }],\n";
+  if($discAllCampuses){ $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4, 5 ] }],\n"; }
   include $_SERVER['DOCUMENT_ROOT'].'/header.php';
   include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
@@ -25,7 +28,7 @@
             <th>Threshold</th>
             <th>Volunteer</th>
             <th>Next Step</th>
-            <th>Campus</th>
+            <?php if($discAllCampuses){ echo "<th>Campus</th>\n"; } ?>
           </tr>
         </thead>
         <tbody>
@@ -41,7 +44,8 @@
               echo "<td>" . $thresholdLabels[$values["THRESHOLD"]] . "</td>";
               echo "<td>" . $values["DISCOVER"] . "</td>";
               echo "<td>" . $values["NEXTSTEP"] . "</td>";
-              echo "<td>" . $values["SCHOOLS"] . "</td></tr>";
+              if($discAllCampuses){ echo "<td>" . $values["SCHOOLS"] . "</td>"; }
+              echo "</tr>";
             }
           ?>
         </tbody>
