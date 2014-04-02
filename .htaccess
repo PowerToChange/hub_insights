@@ -21,4 +21,6 @@ RewriteRule ^discover/new/$ discover/new.php [QSA]
 RewriteRule ^discover/contact/([a-zA-Z0-9_-]+)$ discover/contact.php?id=$1 [QSA]
 RewriteRule ^discover/contact/([a-zA-Z0-9_-]+)/$ discover/contact.php?id=$1 [QSA]
 
+RewriteRule ^fbapp/$ fbapp/examples/with_js_sdk.php [QSA]
+
 RewriteRule ^shortener/$ shortener.php [QSA]
