@@ -75,7 +75,13 @@ else {
         FB.ui({method: 'apprequests',
           title: 'Play P2C Perspectives with me!',
           message: 'P2C Perspectives is perplexing! Check it out.',
-        }, fbCallback);
+        }, function(response) {
+          if (response && response.post_id) {
+            alert('Post was published.');
+          } else {
+            alert('Post was not published.');
+          }
+        });
       });
     });
     </script>
