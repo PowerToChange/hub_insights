@@ -44,6 +44,7 @@ else {
     <?php } else { ?>
       <fb:login-button></fb:login-button>
     <?php } ?>
+    <a href="#" id="share">Share</a>
     <div id="fb-root"></div>
     <script type="text/javascript">
     $(document).ready(function() {
@@ -70,10 +71,12 @@ else {
           }
         });
       });
-      FB.ui({method: 'apprequests',
-        title: 'Play P2C Perspectives with me!',
-        message: 'P2C Perspectives is perplexing! Check it out.',
-      }, fbCallback);
+      $("#share").click(function(){
+        FB.ui({method: 'apprequests',
+          title: 'Play P2C Perspectives with me!',
+          message: 'P2C Perspectives is perplexing! Check it out.',
+        }, fbCallback);
+      });
     });
     </script>
   </body>
