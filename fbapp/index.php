@@ -161,13 +161,11 @@ else {
         <a href="#" id="fbshare" class="btn btn-primary">Share</a>
       </div>
     </div>
-    <?php if ($user) { ?>
+    <?php if (false) { ?>
       Your user profile is
       <pre>
         <?php print htmlspecialchars(print_r($user_profile, true)) ?>
       </pre>
-    <?php } else { ?>
-      <fb:login-button></fb:login-button>
     <?php } ?>
     <div id="fb-root"></div>
     </div>
