@@ -46,6 +46,31 @@ else {
     <script src="../js/bootstrap-select.min.js"></script>
   </head>
   <body>
+    <script type="text/javascript">
+      $.ajaxSetup({ cache: true });
+      $.getScript('//connect.facebook.net/en_US/all.js', function(){
+        FB.init({
+          appId: '283493411818583',
+        });     
+        $('#loginbutton,#feedbutton').removeAttr('disabled');
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            // the user is logged in and has authenticated your
+            // app, and response.authResponse supplies
+            // the user's ID, a valid access token, a signed
+            // request, and the time the access token 
+            // and signed request each expire
+            var uid = response.authResponse.userID;
+            var accessToken = response.authResponse.accessToken;
+          } else if (response.status === 'not_authorized') {
+            // the user is logged in to Facebook, 
+            // but has not authenticated your app
+          } else {
+            // the user isn't logged in to Facebook.
+          }
+        });
+      });
+    </script>
     <div class="col-sm-12">
       <form class="form-horizontal" id="noteForm" role="form" action="" method="post">
       <div class="form-group">
@@ -77,29 +102,6 @@ else {
     <div id="fb-root"></div>
     <script type="text/javascript">
     $(document).ready(function() {
-      $.ajaxSetup({ cache: true });
-      $.getScript('//connect.facebook.net/en_US/all.js', function(){
-        FB.init({
-          appId: '283493411818583',
-        });     
-        $('#loginbutton,#feedbutton').removeAttr('disabled');
-        FB.getLoginStatus(function(response) {
-          if (response.status === 'connected') {
-            // the user is logged in and has authenticated your
-            // app, and response.authResponse supplies
-            // the user's ID, a valid access token, a signed
-            // request, and the time the access token 
-            // and signed request each expire
-            var uid = response.authResponse.userID;
-            var accessToken = response.authResponse.accessToken;
-          } else if (response.status === 'not_authorized') {
-            // the user is logged in to Facebook, 
-            // but has not authenticated your app
-          } else {
-            // the user isn't logged in to Facebook.
-          }
-        });
-      });
       $("#share").click(function(){
         FB.ui({method: 'apprequests',
           title: 'Play P2C Perspectives with me!',
