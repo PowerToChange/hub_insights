@@ -83,7 +83,7 @@ else {
             });
           });
 
-          $('#rejForm').validate({
+          $('#fbForm').validate({
             ignore: ":hidden:not(.selectpicker)",
             rules: {
               inputQ1: {
