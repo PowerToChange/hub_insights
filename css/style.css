@@ -41,7 +41,7 @@ div.schoolContacts {
   margin-bottom: 0px;
 }
 
-.hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt,
+.hiddenCampus, .hiddenID, .hiddenCID, .hiddenMethod, .hiddenInt, .hiddenElement
 .hiddenFirst, .hiddenLast, .hiddenType, .hiddenWarning, .hiddenDate, .hiddenDelete {
   display: none;
 }

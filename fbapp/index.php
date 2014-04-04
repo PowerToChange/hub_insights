@@ -25,8 +25,8 @@ else {
     'redirect_uri' => 'https://apps.facebook.com/powertochangeq/',
   ));
 
-  print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
-  exit();
+  //print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
+  //exit();
 }
 
 ?>
@@ -69,28 +69,96 @@ else {
             // the user isn't logged in to Facebook.
           }
         });
+        $(document).ready(function() {
+          $("#fbshare").click(function(){
+            FB.ui({method: 'apprequests',
+              title: 'Fill out P2C Perspectives!',
+              message: 'P2C Perspectives is perplexing! Check it out.',
+            }, function(response) {
+              if (response && response.post_id) {
+                alert('Post was published.');
+              } else {
+                alert('Post was not published.');
+              }
+            });
+          });
+
+          $('#rejForm').validate({
+            ignore: ":hidden:not(.selectpicker)",
+            rules: {
+              inputQ1: {
+                required: true
+              },
+              inputQ2: {
+                required: true
+              }
+            },
+            highlight: function(element) {
+              $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            success: function(element) {
+              $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+              $(element).removeClass('error').addClass('valid').addClass('error');
+            },
+            submitHandler: function(form) {
+              $("#formView").hide();
+              $("#resultView").show();
+              /*$("#activityTable tbody").prepend("<tr id='loading'><td><img class='img-responsive centre' src='/images/loading.gif'></td></tr>");
+              $.getJSON(
+                "/discover/ajax/submitrejoice.php", 
+                $(form).serialize(),  
+                function(json){
+                  var alert = "<div class='alert alert-danger alert-dismissable'><button type='button' class='close' " +
+                    "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> " + json.result + "</div>";
+                  if(json.result == 1){
+                    var alert = "<div class='alert alert-success alert-dismissable'><button type='button' class='close' " +
+                      "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> Rejoiceable Added</div>";
+                    var newRejoice = "<tr><td><strong><i class='glyphicon glyphicon-certificate'></i> Rejoiceable | " + json.type + 
+                      "</strong><small class='pull-right'>" + moment(json.date, "YYYY-MM-DD H:mm:ss").fromNow() + 
+                      "</small><br><span>" + json.info + "</span></td></tr>\n";
+                    $("#activityTable tbody #loading").remove();
+                    $("#activityTable tbody").prepend(newRejoice);
+                  }
+                  $("#flash").html(alert);
+                  window.setTimeout(function() { 
+                    $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+                    $(this).remove(); 
+                  })}, 4000);
+                }
+              );
+              $('#rejoiceModal').modal('hide');*/
+            }
+          });
+        });
       });
     </script>
     <div class="container">
     <div class="row">
-      <div class="col-sm-12">
-        <h1>P2C Facebook Form</h1>
+      <h1 class="text-center">P2C Facebook Form</h1>
+      <div id="formView" class="col-sm-12">
         <form class="form-horizontal" id="fbForm" role="form" action="" method="post">
         <div class="form-group">
-          <label for="inputSubject" class="col-md-3 control-label">Subject</label>
+          <label for="inputQ1" class="col-md-3 control-label">Question 1</label>
           <div class="col-md-9">
-            <input type="text" class="form-control" id="inputSubject" name="inputSubject" placeholder="">
+            <input type="text" class="form-control" id="inputQ1" name="inputQ1" placeholder="">
           </div>
         </div>
         <div class="form-group">
-          <label for="inputNote" class="col-md-3 control-label">Story</label>
+          <label for="inputQ2" class="col-md-3 control-label">Question 2</label>
           <div class="col-md-9">
-            <textarea class="form-control" id="inputNote" name="inputNote" rows="3" placeholder=""></textarea>
+            <textarea class="form-control" id="inputQ2" name="inputQ2" rows="3" placeholder=""></textarea>
           </div>
         </div>
-        <input type="hidden" id="inputSubmitted" name="inputSubmitted" value="true">
-        <button type="submit" class="btn btn-success">Submit</button>
+        <div class="text-center">
+          <input type="hidden" id="inputSubmitted" name="inputSubmitted" value="true">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
         </form>
+      </div>
+      <div id="resultView" class="col-sm-12 hiddenElement text-center">
+        <h3>Thanks for filling out the survey</h3>
+        <h5>Someone will contact you shortly</h5>
+        <a href="#" id="fbshare" class="btn btn-primary">Share</a>
       </div>
     </div>
     <?php if ($user) { ?>
@@ -101,24 +169,7 @@ else {
     <?php } else { ?>
       <fb:login-button></fb:login-button>
     <?php } ?>
-    <a href="#" id="share"><i class="pluginButtonIcon img sp_plugin-button sx_plugin-button_favblue"></i>Share</a>
     <div id="fb-root"></div>
-    <script type="text/javascript">
-    $(document).ready(function() {
-      $("#share").click(function(){
-        FB.ui({method: 'apprequests',
-          title: 'Play P2C Perspectives with me!',
-          message: 'P2C Perspectives is perplexing! Check it out.',
-        }, function(response) {
-          if (response && response.post_id) {
-            alert('Post was published.');
-          } else {
-            alert('Post was not published.');
-          }
-        });
-      });
-    });
-    </script>
     </div>
   </body>
 </html>
