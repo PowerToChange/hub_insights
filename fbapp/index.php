@@ -25,17 +25,45 @@ else {
     'redirect_uri' => 'https://apps.facebook.com/powertochangeq/',
   ));
 
-  print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
-  exit();
+  //print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
+  //exit();
 }
 
 ?>
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap-select.min.css">
+
     <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
   </head>
   <body>
+    <div class="col-sm-12">
+      <form class="form-horizontal" id="noteForm" role="form" action="" method="post">
+      <div class="form-group">
+        <label for="inputSubject" class="col-lg-3 control-label">Subject</label>
+        <div class="col-lg-9">
+          <input type="text" class="form-control" id="inputSubject" name="inputSubject" placeholder="">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputNote" class="col-lg-3 control-label">Story</label>
+        <div class="col-lg-9">
+          <textarea class="form-control" id="inputNote" name="inputNote" rows="3" placeholder=""></textarea>
+        </div>
+      </div>
+      <input type="hidden" id="inputSubmitted" name="inputSubmitted" value="true">
+      <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
     <?php if ($user) { ?>
       Your user profile is
       <pre>
@@ -45,6 +73,7 @@ else {
       <fb:login-button></fb:login-button>
     <?php } ?>
     <a href="#" id="share">Share</a>
+    <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
     <div id="fb-root"></div>
     <script type="text/javascript">
     $(document).ready(function() {
