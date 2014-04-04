@@ -71,6 +71,7 @@ else {
         });
       });
     </script>
+    <div class="container">
     <div class="row">
       <div class="col-sm-12">
         <h1>P2C Facebook Form</h1>
@@ -118,5 +119,6 @@ else {
       });
     });
     </script>
+    </div>
   </body>
 </html>
