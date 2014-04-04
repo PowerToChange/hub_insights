@@ -21,12 +21,12 @@ if ($user) {
 }
 else {
   $loginUrl = $facebook->getLoginUrl(array(
-    'scope' => 'email',
+    'scope' => 'email,publish_actions',
     'redirect_uri' => 'https://apps.facebook.com/powertochangeq/',
   ));
 
-  //print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
-  //exit();
+  print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
+  exit();
 }
 
 ?>
@@ -71,23 +71,26 @@ else {
         });
       });
     </script>
-    <div class="col-sm-12">
-      <form class="form-horizontal" id="noteForm" role="form" action="" method="post">
-      <div class="form-group">
-        <label for="inputSubject" class="col-lg-3 control-label">Subject</label>
-        <div class="col-lg-9">
-          <input type="text" class="form-control" id="inputSubject" name="inputSubject" placeholder="">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>P2C Facebook Form</h1>
+        <form class="form-horizontal" id="fbForm" role="form" action="" method="post">
+        <div class="form-group">
+          <label for="inputSubject" class="col-md-3 control-label">Subject</label>
+          <div class="col-md-9">
+            <input type="text" class="form-control" id="inputSubject" name="inputSubject" placeholder="">
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="inputNote" class="col-lg-3 control-label">Story</label>
-        <div class="col-lg-9">
-          <textarea class="form-control" id="inputNote" name="inputNote" rows="3" placeholder=""></textarea>
+        <div class="form-group">
+          <label for="inputNote" class="col-md-3 control-label">Story</label>
+          <div class="col-md-9">
+            <textarea class="form-control" id="inputNote" name="inputNote" rows="3" placeholder=""></textarea>
+          </div>
         </div>
+        <input type="hidden" id="inputSubmitted" name="inputSubmitted" value="true">
+        <button type="submit" class="btn btn-success">Submit</button>
+        </form>
       </div>
-      <input type="hidden" id="inputSubmitted" name="inputSubmitted" value="true">
-      <button type="submit" class="btn btn-success">Submit</button>
-      </form>
     </div>
     <?php if ($user) { ?>
       Your user profile is
@@ -97,8 +100,7 @@ else {
     <?php } else { ?>
       <fb:login-button></fb:login-button>
     <?php } ?>
-    <a href="#" id="share">Share</a>
-    <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+    <a href="#" id="share"><i class="pluginButtonIcon img sp_plugin-button sx_plugin-button_favblue"></i>Share</a>
     <div id="fb-root"></div>
     <script type="text/javascript">
     $(document).ready(function() {
