@@ -30,7 +30,8 @@
     cim_hrdb_person.person_lname as 'LNAME', contacts.created_at as 'DATE' from contacts
     inner join contacts_people on contacts.`id` = contacts_people.`contact_id`
     inner join cim_hrdb_person on contacts_people.`person_id` = cim_hrdb_person.`person_id`
-    inner join connect_powertochange_org.civicrm_contact on contacts.campus_id = connect_powertochange_org.civicrm_contact.external_identifier;";
+    inner join connect_powertochange_org.civicrm_contact on contacts.campus_id = connect_powertochange_org.civicrm_contact.external_identifier
+    order by cim_hrdb_person.civicrm_id;";
   if ($result = $mysqli->query($discQuery)) {
     while ($row = mysqli_fetch_assoc($result)) {
       $userName = $row["FNAME"] . " " . $row["LNAME"] . " (" . $row["ID"] . ")";
