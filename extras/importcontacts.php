@@ -21,6 +21,7 @@
   }
   $mysqli->set_charset("utf8");
 
+  echo "STARTING DISCOVER CONTACT IMPORT\n";
   $discQuery = "select contacts.id as 'CONTACTID', contacts.first_name as 'FIRST', contacts.last_name as 'LAST',
     contacts.email as 'EMAIL', contacts.mobile_phone as 'PHONE', contacts.gender_id as 'GENDER',
     contacts.next_step_id as 'LEVEL', contacts.what_i_am_trusting_god_to_do_next as 'NEXT',
@@ -32,7 +33,7 @@
     inner join connect_powertochange_org.civicrm_contact on contacts.campus_id = connect_powertochange_org.civicrm_contact.external_identifier;";
   if ($result = $mysqli->query($discQuery)) {
     while ($row = mysqli_fetch_assoc($result)) {
-      $userName = $row["FNAME"] . " " . $row["LNAME"];
+      $userName = $row["FNAME"] . " " . $row["LNAME"] . " (" . $row["ID"] . ")";
       $newContact = array(
         "inputFirst" => $row["FIRST"],
         "inputLast" => $row["LAST"],
@@ -111,5 +112,6 @@
       }
     }
   }
+  echo "ENDING DISCOVER CONTACT IMPORT\n";
 
 ?>
