@@ -222,7 +222,7 @@
     return $succeeded;
   }
 
-  function new_contact($form){
+  function new_contact($form, $import = false){
     global $sends;
     $succeeded = 1;
 
@@ -274,6 +274,10 @@
       "is_active" => 1,
       "start_date" => $now
     );
+    if($import){
+      $relParams["is_active"] = 0;
+      $relParams["end_date"] = date('Y-m-d H:i:s');
+    }
     $relReturn = civicrm_call("Relationship", "create", $relParams);
     if ($relReturn["is_error"] == 1) { $succeeded = $relReturn["error_message"]; return $succeeded; }
     

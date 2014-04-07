@@ -4,11 +4,6 @@
   include '../config/dbconstants.php';
   include '../config/columnnames.php';
 
-  $importForContact = 11392;
-  if($argv[1]){
-    $importForContact = $argv[1];
-  }
-
   function getInter($value){
     return ($value ? "yes" : "no");
   }
@@ -34,8 +29,7 @@
     cim_hrdb_person.person_lname as 'LNAME', contacts.created_at as 'DATE' from contacts
     inner join contacts_people on contacts.`id` = contacts_people.`contact_id`
     inner join cim_hrdb_person on contacts_people.`person_id` = cim_hrdb_person.`person_id`
-    inner join connect_powertochange_org.civicrm_contact on contacts.campus_id = connect_powertochange_org.civicrm_contact.external_identifier
-    where cim_hrdb_person.person_id = " . $importForContact . ";";
+    inner join connect_powertochange_org.civicrm_contact on contacts.campus_id = connect_powertochange_org.civicrm_contact.external_identifier;";
   if ($result = $mysqli->query($discQuery)) {
     while ($row = mysqli_fetch_assoc($result)) {
       $userName = $row["FNAME"] . " " . $row["LNAME"];
@@ -54,9 +48,9 @@
       );
       //print_r($newContact);
 
-      $cid = new_contact($newContact);
+      $cid = new_contact($newContact, true);
       if(is_numeric($cid)){
-        echo "Successful Contact Added ID: " . $cid . "\n";
+        echo "SUCCESS: Contact Added ID: " . $cid . " for " . $userName . "\n";
       //$cid = "1";
       //if(true){
         $noteQuery = "select content as 'NOTE', created_at as 'DATE' from notes
@@ -72,10 +66,10 @@
             //print_r($newNote);
             $noteReturn = add_note($newNote);
             if($noteReturn["result"] == 1){
-              echo "Successful Note Added for " . $cid . "\n";
+              echo "SUCCESS: Note Added for " . $cid . "\n";
             }
             else {
-              echo "Note Failed for " . $cid . ": " . $noteReturn["result"];
+              echo "FAILED: Note error for " . $cid . " (Msg: " . $note["NOTE"] . "): " . $noteReturn["result"];
             }
           }
         }
@@ -104,10 +98,10 @@
             //print_r($newRej);
             $rejReturn = add_rejoiceable($newRej);
             if($rejReturn["result"] == 1){
-              echo "Successful Rejoice for " . $cid . "\n";
+              echo "SUCCESS: Rejoice for " . $cid . "\n";
             }
             else {
-              echo "Rejoice Failed for " . $cid . ": " . $rejReturn["result"];
+              echo "FAILED: Rejoice error for " . $cid . ": " . $rejReturn["result"];
             }
           }
         }
