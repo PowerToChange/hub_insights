@@ -25,6 +25,11 @@
                   <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
                   <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
                   <div class="btn-group contactBtns">
+                    <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>" data-active="0"
+                      data-name="<?php echo $contact["name"]; ?>" class="btn btn-success inactiveBtn">
+                      <i class="glyphicon glyphicon-ok"></i>
+                      <span>Mark Inactive</span>
+                    </a>
                     <?php if(isset($contact["phone"]) && $contact["phone"]){ ?>
                     <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-earphone"></i>
@@ -52,6 +57,11 @@
                   <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
                   <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
                   <div class="btn-group contactBtns">
+                    <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>" data-active="0"
+                      data-name="<?php echo $contact["name"]; ?>" class="btn btn-success inactiveBtn">
+                      <i class="glyphicon glyphicon-ok"></i>
+                      <span>Mark Inactive</span>
+                    </a>
                     <?php if(isset($contact["phone"]) && $contact["phone"]){ ?>
                     <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-earphone"></i>

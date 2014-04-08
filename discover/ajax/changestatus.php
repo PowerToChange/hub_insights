@@ -3,5 +3,5 @@
 
   $result = change_status($_GET);
   //$result = 1;
-  echo json_encode(array("result" => $result));
+  echo json_encode(array("result" => $result, "active" => $_GET["inputActive"]));
 ?>

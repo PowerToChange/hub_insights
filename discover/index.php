@@ -60,19 +60,24 @@
       return true;
     });
 
-    $(".inactiveBtn").click(function(event){
+    $("#wrap").on("click", ".inactiveBtn", function(event){
       event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);
       var inactiveBtn = $(this);
       $(this).closest(".contactLink").remove();
       $.getJSON(
         "/discover/ajax/changestatus.php",
-        "inputActive=1&inputRelID="+$(this).data("relid"),
+        "inputActive="+$(this).data("active")+"&inputRelID="+$(this).data("relid"),
         function(json){
           var alert = "<div class='alert alert-danger alert-dismissable'><button type='button' class='close' " +
             "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> " + json.result + "</div>";
           if(json.result == 1){
+            var label = " inactive.";
+            if(json.active == 0){
+               label = " active. Reload the page to see changes.";
+            }
             var alert = "<div class='alert alert-success alert-dismissable'><button type='button' class='close' " +
-              "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> " + inactiveBtn.data("name") + " marked as inactive.</div>";
+              "data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Success!</strong> " + 
+              inactiveBtn.data("name") + " marked as " + label + "</div>";
           }
           $("#flash").html(alert);
           window.setTimeout(function() {
@@ -174,7 +179,7 @@
                       <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
                       <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
                       <div class="btn-group contactBtns">
-                        <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>"
+                        <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>" data-active="1"
                           data-name="<?php echo $contact["name"]; ?>" class="btn btn-danger inactiveBtn">
                           <i class="glyphicon glyphicon-remove"></i>
                           <span>Mark Inactive</span>
@@ -206,7 +211,7 @@
                       <h3 class="list-group-item-heading"><?php echo $contact["name"]; ?></h3>
                       <span class="contactID hidden"><?php echo $contact["id"]; ?></span>
                       <div class="btn-group contactBtns">
-                        <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>"
+                        <a href="javascript:{}" data-relid="<?php echo $contact['relationship']; ?>" data-active="1"
                           data-name="<?php echo $contact["name"]; ?>" class="btn btn-danger inactiveBtn">
                           <i class="glyphicon glyphicon-remove"></i>
                           <span>Mark Inactive</span>
