@@ -1,9 +1,0 @@
-pulse_beta
-==========
-
-== Setup
-=== Server Reqs
-  php mysqli
-  apache2 mod_rewrite
-  
-=== 
