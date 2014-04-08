@@ -135,20 +135,6 @@
   <div id="flash"></div>
 
   <div>
-    <?php
-      if(!$contacts){
-        ?>
-        <div class='alert alert-info alert-dismissable'>
-          <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-          <strong>Note:</strong> If you are not currently a Discover beta tester and would like your contacts moved over, contact
-            <a href="mailto:paul.hildebrand@p2c.com">Paul Hildebrand</a>.
-        </div>
-        <?php
-      }
-    ?>
-  </div>
-
-  <div>
   <div class="row">
     <div class="col-sm-12">
     <div id="addContact" class="btn-success fullWidth">
@@ -248,6 +234,11 @@
     </div>
 
     <div id="inactive" class="collapse">
+    </div>
+    <div class='alert alert-info alert-dismissable'>
+      <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+      <strong>Note:</strong> P2C will under no circumstances send any communication to your contacts.
+      This is a personal tool for you to use to see how God is working in your friends' lives.
     </div>
     </div>
 
