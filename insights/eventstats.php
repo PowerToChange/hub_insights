@@ -216,7 +216,6 @@
         </tfoot>
       </table>
     </div>
-    <?php print_r($_POST); ?>
   <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
 
   <!-- Modal -->
