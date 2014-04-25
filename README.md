@@ -1,11 +1,11 @@
-= pulse_beta
+# pulse_beta
 
-== Setup
-=== Server Reqs
+## Setup
+### Server Reqs
 php mysqli
 apache2 mod_rewrite
   
-=== Configuration
+### Configuration
 Four config files are required
   config/civi_constants.php
   config/columnnames.php
