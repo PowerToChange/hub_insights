@@ -22,7 +22,7 @@
     <p class="muted credit text-center">
       Sign up for the <a href="http://p2c.com/students/subscribe" target="_blank">P2C Newsletter</a><br>
       Check out the <a href="http://www.facebook.com/groups/p2cpray/" target="_blank">P2C Prayer Facebook Group</a><br>
-      Questions? Find answers at <a href="https://getsatisfaction.com/powertochange" target="_blank">Get Satisfaction</a>
+      Have questions? <a href="https://groups.google.com/a/p2c.com/forum/#!forum/p2c-s-help-desk" target="_blank">Find help here</a>
     </p>
   </div>
 </div>

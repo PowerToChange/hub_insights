@@ -62,7 +62,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="https://connect.p2c.com/connections">My Connections</a></li>
+              <li><a href="https://connect.p2c.com/sessions">My Connections</a></li>
               <li><a href="https://hub.p2c.com/node/10">Data Input</a></li>
             </ul>
           </li><?php } ?>
