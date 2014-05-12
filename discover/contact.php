@@ -399,7 +399,7 @@
           <?php } if(isset($contact["phone"]) && $contact["phone"]){ ?>
           <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
             <i class="glyphicon glyphicon-earphone"></i>
-            <span><?php echo $contact["phone"]; ?></span>
+            <span class="hidden-xs"><?php echo $contact["phone"]; ?></span>
           </a>
           <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
             <i class="glyphicon glyphicon-comment"></i>
@@ -407,7 +407,7 @@
           <?php } if(isset($contact["email"]) && $contact["email"]){ ?>
           <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
             <i class="glyphicon glyphicon-envelope"></i>
-            <span><?php echo $contact["email"]; ?></span>
+            <span class="hidden-xs"><?php echo $contact["email"]; ?></span>
           </a>
           <?php } ?>
         </div>
@@ -534,7 +534,19 @@
       </div>
 
       <div id="activities" class="well square">
-        <div class="pull-right">
+        <div class="pull-right hidden-xs">
+          <div class="btn-group">
+            <a id="rejModalBtn" data-toggle="modal" href="#rejoiceModal" class="btn btn-primary">
+              <i class="glyphicon glyphicon-certificate"></i>
+              <span>Add Rejoiceable</span>
+            </a>
+            <a id="noteModalBtn" data-toggle="modal" href="#noteModal" class="btn btn-warning">
+              <i class="glyphicon glyphicon-pencil"></i>
+              <span>Add Note</span>
+            </a>
+          </div>
+        </div>
+        <div class="col-xs-12 text-center visible-xs padding-xs">
           <div class="btn-group">
             <a id="rejModalBtn" data-toggle="modal" href="#rejoiceModal" class="btn btn-primary">
               <i class="glyphicon glyphicon-certificate"></i>

@@ -244,3 +244,17 @@ html, body {
   opacity: 1;
 }
 
+.padding-xs {
+  padding-bottom: 10px;
+}
+
+.btn .hidden-xs {
+    display: inline-block !important;
+}
+
+@media (max-width: 767px) {
+.btn .hidden-xs {
+  display: none!important;
+ }
+}
+

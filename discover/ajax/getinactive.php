@@ -33,7 +33,7 @@
                     <?php if(isset($contact["phone"]) && $contact["phone"]){ ?>
                     <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-earphone"></i>
-                      <span><?php echo $contact["phone"]; ?></span>
+                      <span class="hidden-xs"><?php echo $contact["phone"]; ?></span>
                     </a>
                     <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-comment"></i>
@@ -41,7 +41,7 @@
                     <?php } if(isset($contact["email"]) && $contact["email"]){ ?>
                     <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-envelope"></i>
-                      <span><?php echo $contact["email"]; ?></span>
+                      <span class="hidden-xs"><?php echo $contact["email"]; ?></span>
                     </a>
                     <?php } ?>
                   </div>
@@ -65,7 +65,7 @@
                     <?php if(isset($contact["phone"]) && $contact["phone"]){ ?>
                     <a href="tel:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-earphone"></i>
-                      <span><?php echo $contact["phone"]; ?></span>
+                      <span class="hidden-xs"><?php echo $contact["phone"]; ?></span>
                     </a>
                     <a href="sms:<?php echo $contact["phone"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-comment"></i>
@@ -73,7 +73,7 @@
                     <?php } if(isset($contact["email"]) && $contact["email"]){ ?>
                     <a href="mailto:<?php echo $contact["email"]; ?>" target="_blank" class="btn btn-default msgAction">
                       <i class="glyphicon glyphicon-envelope"></i>
-                      <span><?php echo $contact["email"]; ?></span>
+                      <span class="hidden-xs"><?php echo $contact["email"]; ?></span>
                     </a>
                     <?php } ?>
                   </div>
