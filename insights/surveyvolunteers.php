@@ -5,7 +5,7 @@
 
   $title = "Surveys - Volunteers Report";
   $thisFile = "/insights/survey/volunteers/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $surveyOptions = true;

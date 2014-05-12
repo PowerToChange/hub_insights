@@ -52,12 +52,23 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="https://pulse.p2c.com">Dashboard</a></li>
-          <?php if(userAccess(STUDENT_VIS)){ ?><li><a href="https://pulse.p2c.com/people/<?php echo $pulse_id; ?>">Profile</a></li><?php } ?>
-          <?php if(userAccess(LEADER_VIS)){ ?><li><a href="https://pulse.p2c.com/groups">Groups</a></li><?php } ?>
-          <?php if(userAccess(STUDENT_VIS)){ ?><li <?php echo $activeDiscover; ?>><a href="/discover/">Discover</a></li><?php } ?>
-          <?php if(userAccess(LEADER_VIS)){ ?><li><a href="https://pulse.p2c.com/campus_discipleship">Discipleship</a></li><?php } ?>
-          <?php if(userAccess(STUDENT_VIS)){ ?><li <?php echo $activeInsights; ?>><a href="/insights/">Insights</a></li><?php } ?>
+          <li class="dropdown visible-md visible-sm">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pulse <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="https://pulse.p2c.com">Dashboard</a></li>
+              <?php if(userAccess(STUDENT_VIS)){ ?><li><a href="https://pulse.p2c.com/people/<?php echo $pulse_id; ?>">Profile</a></li><?php } ?>
+              <?php if(userAccess(LEADER_VIS)){ ?><li><a href="https://pulse.p2c.com/groups">Groups</a></li><?php } ?>
+              <?php if(userAccess(STUDENT_VIS)){ ?><li class="<?php echo $activeDiscover; ?>"><a href="/discover/">Discover</a></li><?php } ?>
+              <?php if(userAccess(LEADER_VIS)){ ?><li><a href="https://pulse.p2c.com/campus_discipleship">Discipleship</a></li><?php } ?>
+              <?php if(userAccess(STUDENT_VIS)){ ?><li class="<?php echo $activeInsights; ?>"><a href="/insights/">Insights</a></li><?php } ?>
+            </ul>
+          </li>
+          <li class="visible-lg visible-xs"><a href="https://pulse.p2c.com">Dashboard</a></li>
+          <?php if(userAccess(STUDENT_VIS)){ ?><li class="visible-lg visible-xs"><a href="https://pulse.p2c.com/people/<?php echo $pulse_id; ?>">Profile</a></li><?php } ?>
+          <?php if(userAccess(LEADER_VIS)){ ?><li class="visible-lg visible-xs"><a href="https://pulse.p2c.com/groups">Groups</a></li><?php } ?>
+          <?php if(userAccess(STUDENT_VIS)){ ?><li class="visible-lg visible-xs <?php echo $activeDiscover; ?>"><a href="/discover/">Discover</a></li><?php } ?>
+          <?php if(userAccess(LEADER_VIS)){ ?><li class="visible-lg visible-xs"><a href="https://pulse.p2c.com/campus_discipleship">Discipleship</a></li><?php } ?>
+          <?php if(userAccess(STUDENT_VIS)){ ?><li class="visible-lg visible-xs <?php echo $activeInsights; ?>"><a href="/insights/">Insights</a></li><?php } ?>
           <?php if(userAccess(LEADER_VIS)){ ?>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect <b class="caret"></b></a>

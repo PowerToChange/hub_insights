@@ -11,7 +11,7 @@
 
   $title = "Indicated Decisions - By Method";
   $thisFile = "/insights/decisions/bymethod/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $idBMActive = "active";

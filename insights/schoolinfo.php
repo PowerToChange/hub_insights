@@ -34,7 +34,7 @@
 
   $title = $school["display_name"] . " Info";
   $thisFile = "/insights/schoolinfo/" . $_GET["id"];
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", "Schools" => "/insights/schools/", $title => $thisFile);
 
   $schoolActive = "active";

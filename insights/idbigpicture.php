@@ -5,7 +5,7 @@
 
   $title = "Indicated Decisions - Big Picture";
   $thisFile = "/insights/decisions/bigpicture/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $idBPActive = "active";

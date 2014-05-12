@@ -6,7 +6,7 @@
   $access = STUDENT_VIS; //Student permissions
   $title = "National Overview";
   $thisFile = "/insights/map/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
   $overviewActive = "active";
 

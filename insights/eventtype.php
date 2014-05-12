@@ -8,7 +8,7 @@
 
   $title = "Event Stats - By Type";
   $thisFile = "/insights/eventtype/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $evTypeActive = "active";

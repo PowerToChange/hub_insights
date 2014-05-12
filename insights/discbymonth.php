@@ -5,7 +5,7 @@
 
   $title = "Discover Contacts - By Month";
   $thisFile = "/insights/discover/bymonth/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $dcMonActive = "active";

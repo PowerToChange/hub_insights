@@ -6,7 +6,7 @@
 
   $title = "Discover Contacts - Threshold Summary";
   $thisFile = "/insights/discover/threshold/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $dcThresholdActive = "active";

@@ -5,7 +5,7 @@
 
   $title = "Movement Snapshot - Evangelism Big Picture";
   $thisFile = "/insights/monthlystats/bigpicture/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $msBPActive = "active";

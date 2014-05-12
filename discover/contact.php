@@ -42,7 +42,7 @@
 
   $title = "Discover Contact";
   $thisFile = "/discover/contact/" . $contactID . "/";
-  $activeDiscover = "class='active'";
+  $activeDiscover = "active";
   $crumbs = array("Home" => "/", "Discover" => "/discover/", "Contact" => $thisFile);
 
   $discoverRel = array();
@@ -382,7 +382,7 @@
     <div class="col-sm-12">
 
       <div class="contact">
-        <h2 id="headerName"><?php echo $contact["display_name"]; ?></h2>
+        <h3 id="headerName"><?php echo $contact["display_name"]; ?></h3>
         <div class="btn-group">
           <?php
             if($discoverRel["is_active"]){

@@ -7,7 +7,7 @@
 
   $access = STUDENT_VIS; //Student permissions
   $title = "Discover Contacts";
-  $activeDiscover = "class='active'";
+  $activeDiscover = "active";
   $crumbs = array("Home" => "/", "Discover" => "/discover/");
 
   $contacts = all_contacts($civicrm_id, 1);

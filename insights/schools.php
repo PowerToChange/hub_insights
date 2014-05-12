@@ -8,7 +8,7 @@
   $access = STAFF_VIS;
   $title = "School Report";
   $thisFile = "/insights/schools/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $schoolActive = "active";

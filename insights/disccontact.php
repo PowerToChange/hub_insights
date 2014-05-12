@@ -8,7 +8,7 @@
 
   $title = "Discover Contacts - Contact Summary";
   $thisFile = "/insights/discover/contact/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $dcContactActive = "active";

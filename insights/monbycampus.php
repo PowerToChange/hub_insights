@@ -6,7 +6,7 @@
 
   $title = "Movement Snapshot - Monthly Breakdown";
   $thisFile = "/insights/monthlystats/bycampus/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $msBCActive = "active";

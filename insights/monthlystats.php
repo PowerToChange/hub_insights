@@ -12,7 +12,7 @@
 
   $title = "Monthly Stats";
   $thisFile = "/insights/monthlystats/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $monAddActive = "active";

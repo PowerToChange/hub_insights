@@ -5,7 +5,7 @@
 
   $title = "Surveys - Priority Breakdown";
   $thisFile = "/insights/survey/breakdown/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $surveyOptions = true;

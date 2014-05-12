@@ -6,7 +6,7 @@
 
   $title = "Discover Contacts - By Person";
   $thisFile = "/insights/discover/byperson/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $dcPersonActive = "active";

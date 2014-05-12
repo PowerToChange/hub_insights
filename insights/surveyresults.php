@@ -5,7 +5,7 @@
 
   $title = "Surveys - Results and Rejoiceables";
   $thisFile = "/insights/survey/results/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $surveyOptions = true;

@@ -20,7 +20,7 @@
 
   $title = "Event Stats";
   $thisFile = "/insights/eventstats/";
-  $activeInsights = "class='active'";
+  $activeInsights = "active";
   $crumbs = array("Home" => "/", "Insights" => "/insights/", $title => $thisFile);
 
   $evAddActive = "active";

@@ -249,12 +249,16 @@ html, body {
 }
 
 .btn .hidden-xs {
-    display: inline-block !important;
+  display: inline-block !important;
 }
 
 @media (max-width: 767px) {
-.btn .hidden-xs {
-  display: none!important;
- }
+  .btn .hidden-xs {
+    display: none!important;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
 }
 
