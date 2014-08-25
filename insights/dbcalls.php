@@ -768,6 +768,10 @@
     if($params["selectSurvey"]){
       $surveyAddon = " and civicrm_activity.source_record_id = ? ";
     }
+    $campusAddon = "";
+    if($campus["id"]){
+      $campusAddon = " and b.id = ? ";
+    }
     $breakdownQuery = "select civicrm_activity.`priority_id` as PRIORITY, 
       count(CASE civicrm_activity.status_id WHEN 4 then 1 ELSE NULL END) as 'UNCONTACTED', 
       count(CASE civicrm_activity.status_id WHEN 3 then 1 ELSE NULL END) as 'IN PROGRESS',
@@ -778,7 +782,7 @@
       inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
       inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
       activity_date_time between ? and ? and activity_type_id = 32 and civicrm_relationship.`relationship_type_id` = 10
-      " . $campus["query"] . $survyAddon . " group by civicrm_activity.`priority_id`";
+      " . $campusAddon . $survyAddon . " group by civicrm_activity.`priority_id`";
     if ($breakdownStmt = $mysqli->prepare($breakdownQuery)){
       if($surveyAddon && $campus["id"]){
         $breakdownStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
@@ -932,7 +936,7 @@
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
       inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
-      inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
+      inner join civicrm_contact b on civicrm_relationship.contact_id_b = b.id " . $whereClause . "
       activity_date_time between ? and ? and activity_type_id = 32
       and civicrm_activity.engagement_level is not null " . $campus["query"] . $survyAddon . " group by civicrm_activity.engagement_level";
     if ($resultStmt = $mysqli->prepare($resultQuery)){
