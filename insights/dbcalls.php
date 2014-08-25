@@ -782,7 +782,7 @@
       inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
       inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
       activity_date_time between ? and ? and activity_type_id = 32 and civicrm_relationship.`relationship_type_id` = 10
-      " . $campusAddon . $survyAddon . " group by civicrm_activity.`priority_id`";
+      " . $campusAddon . $surveyAddon . " group by civicrm_activity.`priority_id`";
     if ($breakdownStmt = $mysqli->prepare($breakdownQuery)){
       if($surveyAddon && $campus["id"]){
         $breakdownStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
@@ -826,6 +826,10 @@
     if($params["selectSurvey"]){
       $surveyAddon = " and civicrm_activity.source_record_id = ? ";
     }
+    $campusAddon = "";
+    if($campus["id"]){
+      $campusAddon = " and b.id = ? ";
+    }
     $volunteerQuery = "select v.sort_name as 'NAME', 
       count(CASE civicrm_activity.status_id WHEN 4 then 1 ELSE NULL END) as 'UNCONTACTED', 
       count(CASE civicrm_activity.status_id WHEN 3 then 1 ELSE NULL END) as 'IN PROGRESS',
@@ -838,7 +842,7 @@
       inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
       inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
       activity_date_time between ? and ? and activity_type_id = 32 and civicrm_relationship.`relationship_type_id` = 10
-      " . $campus["query"] . $survyAddon . " group by v.sort_name";
+      " . $campusAddon . $surveyAddon . " group by v.sort_name";
     if ($volunteerStmt = $mysqli->prepare($volunteerQuery)){
       if($surveyAddon && $campus["id"]){
         $volunteerStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
@@ -882,6 +886,10 @@
     if($params["selectSurvey"]){
       $surveyAddon = " and civicrm_activity.source_record_id = ? ";
     }
+    $campusAddon = "";
+    if($campus["id"]){
+      $campusAddon = " and b.id = ? ";
+    }
     $rejoiceQuery = "select civicrm_value_rejoiceable_16.rejoiceable_143 as 'TYPE', count(*) as 'COUNT' from civicrm_activity
       inner join civicrm_value_rejoiceable_16 on civicrm_activity.id = civicrm_value_rejoiceable_16.entity_id
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
@@ -889,7 +897,7 @@
       inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
       inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
       activity_date_time between ? and ? and activity_type_id = 47 and " . REJOICEABLE . R_SURVEY . " is not null
-      and civicrm_value_rejoiceable_16.rejoiceable_143 is not null " . $campus["query"] . $survyAddon . " group by " . REJOICEABLE . R_TYPE;
+      and civicrm_value_rejoiceable_16.rejoiceable_143 is not null " . $campusAddon . $surveyAddon . " group by " . REJOICEABLE . R_TYPE;
     if ($rejoiceStmt = $mysqli->prepare($rejoiceQuery)){
       if($surveyAddon && $campus["id"]){
         $rejoiceStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
@@ -932,13 +940,17 @@
     if($params["selectSurvey"]){
       $surveyAddon = " and civicrm_activity.source_record_id = ? ";
     }
+    $campusAddon = "";
+    if($campus["id"]){
+      $campusAddon = " and b.id = ? ";
+    }
     $resultQuery = "select civicrm_activity.engagement_level as TYPE, count(*) as COUNT from civicrm_activity
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact a on civicrm_activity_target.target_contact_id = a.id
       inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
       inner join civicrm_contact b on civicrm_relationship.contact_id_b = b.id " . $whereClause . "
       activity_date_time between ? and ? and activity_type_id = 32
-      and civicrm_activity.engagement_level is not null " . $campus["query"] . $survyAddon . " group by civicrm_activity.engagement_level";
+      and civicrm_activity.engagement_level is not null " . $campusAddon . $surveyAddon . " group by civicrm_activity.engagement_level";
     if ($resultStmt = $mysqli->prepare($resultQuery)){
       if($surveyAddon && $campus["id"]){
         $resultStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
@@ -981,6 +993,10 @@
     if($params["selectSurvey"]){
       $surveyAddon = " and civicrm_activity.source_record_id = ? ";
     }
+    $campusAddon = "";
+    if($campus["id"]){
+      $campusAddon = " and b.id = ? ";
+    }
     $highlightQuery = "select count(distinct a.id) as 'TOTAL', count(CASE civicrm_activity.status_id WHEN 2 then 1 ELSE NULL END) as 'COMPLETED',
       count(CASE civicrm_activity.status_id WHEN 3 then 1 ELSE NULL END) as 'IN PROGRESS',
       count(distinct v.id) as 'VOLUNTEERS' from civicrm_activity
@@ -990,7 +1006,7 @@
       left join civicrm_contact v on civicrm_activity_assignment.assignee_contact_id = v.id 
       inner join civicrm_relationship on a.id = civicrm_relationship.contact_id_a
       inner join civicrm_contact b on civicrm_relationship.`contact_id_b` = b.id " . $whereClause . "
-      activity_date_time between ? and ? and activity_type_id = 32 " . $campus["query"] . $survyAddon . " and priority_id <> 4";
+      activity_date_time between ? and ? and activity_type_id = 32 " . $campusAddon . $surveyAddon . " and priority_id <> 4";
     if ($highlightStmt = $mysqli->prepare($highlightQuery)){
       if($surveyAddon && $campus["id"]){
         $highlightStmt->bind_param("ssii", $dates["start"], $dates["end"], $campus["id"], $params["selectSurvey"]);
