@@ -45,7 +45,7 @@
         <?php
           $results = getSurveyResults($_POST);
 
-          $badLabels = array(0 => "Bad Info", 1 => "No Response", 2 => "No Longer Interested");
+          $badLabels = array(0 => "Bad Info", 1 => "No Response", 2 => "No Longer Interested", 4 => "Expired");
           $badTotal = 0;
           foreach($badLabels as $id => $label){ 
             if(isset($results[$id])){
@@ -124,6 +124,8 @@
         <br><strong>Contacts In Motion:</strong> This number represents all contacts who have been assigned for follow up. 
           It is both those who are “In Progress” and “Completed”.
         <br><strong>Volunteers:</strong> Total number of people who have a minimum of 1 contact assigned for follow-up.</p>
+        <p><strong>Expired Results</strong> An expired result is set when a contact has been assigned to someone for follow up
+          but the followup was not marked as completed before the next school year.</p>
       </div>
 
     </div>

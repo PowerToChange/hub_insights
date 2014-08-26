@@ -96,7 +96,6 @@
           either face-to-face or digitally. (ex. we know their name, something about them and can contact them again).
           For online conversations, a person could be counted as an engagement if they are interacting (not just a random comment)
           and the conversation is gospel centred.</p>
-        <p><i>Note:</i> Discover Tool Engagements will soon be summarized in this report.</p>
       </div>
     </div>
   <?php include $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
