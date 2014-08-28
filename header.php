@@ -77,6 +77,13 @@
               <li><a href="https://hub.p2c.com/node/10">Data Input</a></li>
             </ul>
           </li><?php } ?>
+          <?php if(userAccess(STUDENT_VIS) && !userAccess(LEADER_VIS)){ ?>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Connect <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="https://hub.p2c.com/node/10">Data Input</a></li>
+            </ul>
+          </li><?php } ?>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="?logout="> Logout of <?php echo $user["firstName"] . " " . $user["lastName"]; ?></a></li>
