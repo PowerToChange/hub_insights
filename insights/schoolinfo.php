@@ -293,6 +293,8 @@
                 <td class="text-center">2011/12</td>
                 <td class="text-center">2012/13</td>
                 <td class="text-center">2013/14</td>
+                <td class="text-center">2014/15</td>
+                <td class="text-center">2015/16</td>
               </tr>
             </thead>
             <tbody>
@@ -304,6 +306,8 @@
                 <td class="text-center"><input type="checkbox" value="1" name="custom_102"  <?php getCheck(102); ?>></td>
                 <td class="text-center"><input type="checkbox" value="1" name="custom_103"  <?php getCheck(103); ?>></td>
                 <td class="text-center"><input type="checkbox" value="1" name="custom_<?php echo API_SCHOOL_MP_13; ?>"  <?php getCheck(API_SCHOOL_MP_13); ?>></td>
+                <td class="text-center"><input type="checkbox" value="1" name="custom_276"  <?php getCheck(276); ?>></td>
+                <td class="text-center"><input type="checkbox" value="1" name="custom_277"  <?php getCheck(277); ?>></td>
               </tr>              
             </tbody>
           </table>
@@ -323,6 +327,8 @@
                 <td class="text-center">2011/12</td>
                 <td class="text-center">2012/13</td>
                 <td class="text-center">2013/14</td>
+                <td class="text-center">2014/15</td>
+                <td class="text-center">2015/16</td>
               </tr>
             </thead>
             <tbody>
@@ -334,6 +340,8 @@
                 <td class="text-center"><input type="checkbox" value="1" name="custom_108" <?php getCheck(108); ?>></td>
                 <td class="text-center"><input type="checkbox" value="1" name="custom_109" <?php getCheck(109); ?>></td>
                 <td class="text-center"><input type="checkbox" value="1" name="custom_<?php echo API_SCHOOL_SLM_13; ?>" <?php getCheck(API_SCHOOL_SLM_13); ?>></td>
+                <td class="text-center"><input type="checkbox" value="1" name="custom_274" <?php getCheck(274); ?>></td>
+                <td class="text-center"><input type="checkbox" value="1" name="custom_275" <?php getCheck(275); ?>></td>
               </tr>              
             </tbody>
           </table>
