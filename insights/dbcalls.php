@@ -370,9 +370,11 @@
       from civicrm_activity
       inner join civicrm_activity_target on civicrm_activity.id = civicrm_activity_target.activity_id
       inner join civicrm_contact b on civicrm_activity_target.target_contact_id = b.id
+      inner join civicrm_value_school_info_10 on civicrm_value_school_info_10.entity_id = b.id
       left join " . EVENT . " on civicrm_activity.id = " . EVENT . ".entity_id
       left join " . MONTH . " on civicrm_activity.id = " . MONTH . ".entity_id
       where" . $campus["query"] . " b.contact_sub_type = 'School' and civicrm_activity.activity_date_time between ? and ?
+      and civicrm_value_school_info_10.do_we_have_a_ministry_presence_h_73 = 'Yes'
       group by YEAR(civicrm_activity.activity_date_time), MONTH(civicrm_activity.activity_date_time)";
     if ($msStmt = $mysqli->prepare($msQuery)){
       if($campus["query"]){
