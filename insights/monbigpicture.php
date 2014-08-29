@@ -10,7 +10,7 @@
 
   $msBPActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'asc' ]],\n";
-  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 1, 2, 3, 4 ] }],\n";
+  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 1, 2, 3, 4, 5 ] }],\n";
   include $_SERVER['DOCUMENT_ROOT'].'/header.php';
   include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
@@ -26,7 +26,7 @@
           <tr>
             <th></th>
             <th colspan="2">Exposures</th>
-            <th colspan="2">Engagements</th>
+            <th colspan="3">Engagements</th>
           </tr>
           <tr>
             <th>Campus</th>
@@ -34,11 +34,13 @@
             <th>Non-Christian Event Attendance</th>
             <th rel="tooltip" title="# who desired further engagement after survey">Positive Survey Results</th>
             <th rel="tooltip" title="# who engaged with us, but we don't know their name">Unrecorded</th>
+            <th>New Discover Relationships</th>
           </tr>
         </thead>
         <tbody>
           <?php
             $bigPicture = getMSBigPicture($_POST);
+            $disc = getDCByCampus($_POST);
             $campuses = getSchools();
 
             $surveyTotal = 0; $eventTotal = 0; 
@@ -50,12 +52,18 @@
               $unrecTotal += intval($row["UNREC"]);
             }
 
+            $discTotal = 0;
+            foreach ($disc as $key => $value) {
+              $discTotal += $value;
+            }
+
             foreach($campuses as $id => $label){
               echo "<tr><td>" . $label . "</td>";
               echo "<td>" . ($bigPicture[$id]["SURVEY"] ?: 0) . "</td>";
               echo "<td>" . ($bigPicture[$id]["EVENT"] ?: 0) . "</td>";
               echo "<td>" . ($bigPicture[$id]["RESULT"] ?: 0) . "</td>";
-              echo "<td>" . ($bigPicture[$id]["UNREC"] ?: 0) . "</td></tr>";
+              echo "<td>" . ($bigPicture[$id]["UNREC"] ?: 0) . "</td>";
+              echo "<td>" . ($disc[$id] ?: 0) . "</td></tr>";
             }
           ?>
         </tbody>
@@ -67,6 +75,7 @@
               echo "<th>" . $eventTotal . "</th>";
               echo "<th>" . $resultTotal . "</th>";
               echo "<th>" . $unrecTotal . "</th>";
+              echo "<th>" . $discTotal . "</th>";
             ?>
           </tr>
         </tfoot>

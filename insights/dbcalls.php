@@ -473,6 +473,32 @@
     return $byMonth;
   }
 
+  function getDCByCampus($params){
+    $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
+    if (mysqli_connect_errno()) {
+      throw new Exception($mysqli->connect_error);
+    }
+    $mysqli->set_charset("utf8");
+    $dates = getDates($params);
+
+    $newDisc = array();
+    $discQuery = "select c.contact_id_b as 'SCHOOL', count(r.contact_id_b) as 'NEW' from civicrm_relationship r
+      inner join civicrm_relationship c on r.contact_id_b = c.contact_id_a
+      where c.relationship_type_id = 10 AND c.is_active = 1 AND r.relationship_type_id = 16 and r.start_date between ? and ? AND
+      r.start_date = (select min(start_date) from civicrm_relationship where contact_id_b = r.contact_id_b)
+      GROUP BY c.contact_id_b;";
+    if ($discStmt = $mysqli->prepare($discQuery)){
+      $discStmt->bind_param("ss", $dates["start"], $dates["end"]);
+      $discStmt->execute();
+      $discStmt->bind_result($school_bind, $new_bind);
+      while ($discStmt->fetch()) {
+        $newDisc[$school_bind] = $new_bind;
+      }
+    }
+
+    return $newDisc;
+  }
+
   function getDCByPerson($params){
     $mysqli = new mysqli(CONNECT_HOST, CONNECT_USER, CONNECT_PASSWD, CONNECT_DB);
     if (mysqli_connect_errno()) {
