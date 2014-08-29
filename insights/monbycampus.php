@@ -11,8 +11,8 @@
 
   $msBCActive = "active";
   $tableConfig = "'aaSorting': [[ 0, 'desc' ]],\n";
-  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4, 5, 6, 7 ] },
-    {'iDataSort':8, 'aTargets':[0]}, {'bVisible':false, 'aTargets': [ 8 ]}],\n";
+  $tableSorting = "'aoColumnDefs': [{'asSorting':['desc','asc'], 'aTargets': [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] },
+    {'iDataSort':9, 'aTargets':[0]}, {'bVisible':false, 'aTargets': [ 9 ]}],\n";
   include $_SERVER['DOCUMENT_ROOT'].'/header.php';
   include $_SERVER['DOCUMENT_ROOT'].'/insights/header_insights.php';
 ?>
@@ -23,7 +23,7 @@
           <tr>
             <th></th>
             <th colspan="2">Exposures</th>
-            <th colspan="2">Engagements</th>
+            <th colspan="3">Engagements</th>
             <th colspan="3">Involvement Thresholds</th>
           </tr>
           <tr>
@@ -32,6 +32,7 @@
             <th>Non-Christian Event Attendance</th>
             <th rel="tooltip" title="# who desired further engagement after survey">Positive Survey Results</th>
             <th rel="tooltip" title="# who engaged with us, but we don't know their name">Unrecorded</th>
+            <th>New Discover Relationships</th>
             <th>Growing</th>
             <th>Ministering</th>
             <th>Multiplying</th>
@@ -40,6 +41,7 @@
         <tbody>
           <?php
             $byCampus = getMSByCampus($_POST);
+            $disc = getDCByMonth($_POST);
 
             $surveyTotal = 0; $eventTotal = 0; $resultTotal = 0; $unrecTotal = 0;
             foreach($byCampus as $row){
@@ -49,12 +51,18 @@
               $unrecTotal += intval($row["UNREC"]);
             }
 
+            $discTotal = 0;
+            foreach ($disc as $row) {
+              $discTotal += intval($row["NEW"]);
+            }
+
             foreach($byCampus as $date => $info){
               echo "<tr><td>" . date("M Y", strtotime($date)) . "</td>";
               echo "<td>" . ($info["SURVEY"] ?: 0) . "</td>";
               echo "<td>" . ($info["EVENT"] ?: 0) . "</td>";
               echo "<td>" . ($info["RESULT"] ?: 0) . "</td>";
               echo "<td>" . ($info["UNREC"] ?: 0) . "</td>";
+              echo "<td>" . ($disc[$date]["NEW"] ?: 0) . "</td>";
               echo "<td>" . ($info["GROW"] ?: 0) . "</td>";
               echo "<td>" . ($info["MIN"] ?: 0) . "</td>";
               echo "<td>" . ($info["MULT"] ?: 0) . "</td>";
@@ -70,6 +78,7 @@
               echo "<th>" . $eventTotal . "</th>";
               echo "<th>" . $resultTotal . "</th>";
               echo "<th>" . $unrecTotal . "</th>";
+              echo "<th>" . $discTotal . "</th>";
             ?>
             <th>N/A</th>
             <th>N/A</th>
